@@ -1,0 +1,268 @@
+perfil_id,segmento,etapa_cliente,region,dispositivo
+1,B2B Services,known_lead,AR,desktop
+2,B2B Services,known_lead,AR,mobile
+3,B2B Services,known_lead,AR,tablet
+4,B2B Services,known_lead,CL,desktop
+5,B2B Services,known_lead,CL,mobile
+6,B2B Services,known_lead,CL,tablet
+7,B2B Services,known_lead,CO,desktop
+8,B2B Services,known_lead,CO,mobile
+9,B2B Services,known_lead,CO,tablet
+10,B2B Services,known_lead,ES,desktop
+11,B2B Services,known_lead,ES,mobile
+12,B2B Services,known_lead,ES,tablet
+13,B2B Services,known_lead,MX,desktop
+14,B2B Services,known_lead,MX,mobile
+15,B2B Services,known_lead,MX,tablet
+16,B2B Services,known_lead,US Hispanic,desktop
+17,B2B Services,known_lead,US Hispanic,mobile
+18,B2B Services,known_lead,US Hispanic,tablet
+19,B2B Services,new_visitor,AR,desktop
+20,B2B Services,new_visitor,AR,mobile
+21,B2B Services,new_visitor,AR,tablet
+22,B2B Services,new_visitor,CL,desktop
+23,B2B Services,new_visitor,CL,mobile
+24,B2B Services,new_visitor,CL,tablet
+25,B2B Services,new_visitor,CO,desktop
+26,B2B Services,new_visitor,CO,mobile
+27,B2B Services,new_visitor,CO,tablet
+28,B2B Services,new_visitor,ES,desktop
+29,B2B Services,new_visitor,ES,mobile
+30,B2B Services,new_visitor,ES,tablet
+31,B2B Services,new_visitor,MX,desktop
+32,B2B Services,new_visitor,MX,mobile
+33,B2B Services,new_visitor,MX,tablet
+34,B2B Services,new_visitor,US Hispanic,desktop
+35,B2B Services,new_visitor,US Hispanic,mobile
+36,B2B Services,new_visitor,US Hispanic,tablet
+37,B2B Services,returning_customer,AR,desktop
+38,B2B Services,returning_customer,AR,mobile
+39,B2B Services,returning_customer,AR,tablet
+40,B2B Services,returning_customer,CL,desktop
+41,B2B Services,returning_customer,CL,mobile
+42,B2B Services,returning_customer,CL,tablet
+43,B2B Services,returning_customer,CO,desktop
+44,B2B Services,returning_customer,CO,mobile
+45,B2B Services,returning_customer,CO,tablet
+46,B2B Services,returning_customer,ES,desktop
+47,B2B Services,returning_customer,ES,mobile
+48,B2B Services,returning_customer,ES,tablet
+49,B2B Services,returning_customer,MX,desktop
+50,B2B Services,returning_customer,MX,mobile
+51,B2B Services,returning_customer,MX,tablet
+52,B2B Services,returning_customer,US Hispanic,desktop
+53,B2B Services,returning_customer,US Hispanic,mobile
+54,B2B Services,returning_customer,US Hispanic,tablet
+55,Creator,known_lead,AR,desktop
+56,Creator,known_lead,AR,mobile
+57,Creator,known_lead,AR,tablet
+58,Creator,known_lead,CL,desktop
+59,Creator,known_lead,CL,mobile
+60,Creator,known_lead,CL,tablet
+61,Creator,known_lead,CO,desktop
+62,Creator,known_lead,CO,mobile
+63,Creator,known_lead,CO,tablet
+64,Creator,known_lead,ES,desktop
+65,Creator,known_lead,ES,mobile
+66,Creator,known_lead,ES,tablet
+67,Creator,known_lead,MX,desktop
+68,Creator,known_lead,MX,mobile
+69,Creator,known_lead,MX,tablet
+70,Creator,known_lead,US Hispanic,desktop
+71,Creator,known_lead,US Hispanic,mobile
+72,Creator,known_lead,US Hispanic,tablet
+73,Creator,new_visitor,AR,desktop
+74,Creator,new_visitor,AR,mobile
+75,Creator,new_visitor,AR,tablet
+76,Creator,new_visitor,CL,desktop
+77,Creator,new_visitor,CL,mobile
+78,Creator,new_visitor,CL,tablet
+79,Creator,new_visitor,CO,desktop
+80,Creator,new_visitor,CO,mobile
+81,Creator,new_visitor,CO,tablet
+82,Creator,new_visitor,ES,desktop
+83,Creator,new_visitor,ES,mobile
+84,Creator,new_visitor,ES,tablet
+85,Creator,new_visitor,MX,desktop
+86,Creator,new_visitor,MX,mobile
+87,Creator,new_visitor,MX,tablet
+88,Creator,new_visitor,US Hispanic,desktop
+89,Creator,new_visitor,US Hispanic,mobile
+90,Creator,new_visitor,US Hispanic,tablet
+91,Creator,returning_customer,AR,desktop
+92,Creator,returning_customer,AR,mobile
+93,Creator,returning_customer,AR,tablet
+94,Creator,returning_customer,CL,desktop
+95,Creator,returning_customer,CL,mobile
+96,Creator,returning_customer,CL,tablet
+97,Creator,returning_customer,CO,desktop
+98,Creator,returning_customer,CO,mobile
+99,Creator,returning_customer,CO,tablet
+100,Creator,returning_customer,ES,desktop
+101,Creator,returning_customer,ES,mobile
+102,Creator,returning_customer,ES,tablet
+103,Creator,returning_customer,MX,desktop
+104,Creator,returning_customer,MX,mobile
+105,Creator,returning_customer,MX,tablet
+106,Creator,returning_customer,US Hispanic,desktop
+107,Creator,returning_customer,US Hispanic,mobile
+108,Creator,returning_customer,US Hispanic,tablet
+109,Ecommerce,known_lead,AR,desktop
+110,Ecommerce,known_lead,AR,mobile
+111,Ecommerce,known_lead,AR,tablet
+112,Ecommerce,known_lead,CL,desktop
+113,Ecommerce,known_lead,CL,mobile
+114,Ecommerce,known_lead,CL,tablet
+115,Ecommerce,known_lead,CO,desktop
+116,Ecommerce,known_lead,CO,mobile
+117,Ecommerce,known_lead,CO,tablet
+118,Ecommerce,known_lead,ES,desktop
+119,Ecommerce,known_lead,ES,mobile
+120,Ecommerce,known_lead,ES,tablet
+121,Ecommerce,known_lead,MX,desktop
+122,Ecommerce,known_lead,MX,mobile
+123,Ecommerce,known_lead,MX,tablet
+124,Ecommerce,known_lead,US Hispanic,desktop
+125,Ecommerce,known_lead,US Hispanic,mobile
+126,Ecommerce,known_lead,US Hispanic,tablet
+127,Ecommerce,new_visitor,AR,desktop
+128,Ecommerce,new_visitor,AR,mobile
+129,Ecommerce,new_visitor,AR,tablet
+130,Ecommerce,new_visitor,CL,desktop
+131,Ecommerce,new_visitor,CL,mobile
+132,Ecommerce,new_visitor,CL,tablet
+133,Ecommerce,new_visitor,CO,desktop
+134,Ecommerce,new_visitor,CO,mobile
+135,Ecommerce,new_visitor,CO,tablet
+136,Ecommerce,new_visitor,ES,desktop
+137,Ecommerce,new_visitor,ES,mobile
+138,Ecommerce,new_visitor,ES,tablet
+139,Ecommerce,new_visitor,MX,desktop
+140,Ecommerce,new_visitor,MX,mobile
+141,Ecommerce,new_visitor,MX,tablet
+142,Ecommerce,new_visitor,US Hispanic,desktop
+143,Ecommerce,new_visitor,US Hispanic,mobile
+144,Ecommerce,new_visitor,US Hispanic,tablet
+145,Ecommerce,returning_customer,AR,desktop
+146,Ecommerce,returning_customer,AR,mobile
+147,Ecommerce,returning_customer,AR,tablet
+148,Ecommerce,returning_customer,CL,desktop
+149,Ecommerce,returning_customer,CL,mobile
+150,Ecommerce,returning_customer,CL,tablet
+151,Ecommerce,returning_customer,CO,desktop
+152,Ecommerce,returning_customer,CO,mobile
+153,Ecommerce,returning_customer,CO,tablet
+154,Ecommerce,returning_customer,ES,desktop
+155,Ecommerce,returning_customer,ES,mobile
+156,Ecommerce,returning_customer,ES,tablet
+157,Ecommerce,returning_customer,MX,desktop
+158,Ecommerce,returning_customer,MX,mobile
+159,Ecommerce,returning_customer,MX,tablet
+160,Ecommerce,returning_customer,US Hispanic,desktop
+161,Ecommerce,returning_customer,US Hispanic,mobile
+162,Ecommerce,returning_customer,US Hispanic,tablet
+163,Enterprise,known_lead,AR,desktop
+164,Enterprise,known_lead,AR,mobile
+165,Enterprise,known_lead,AR,tablet
+166,Enterprise,known_lead,CL,desktop
+167,Enterprise,known_lead,CL,mobile
+168,Enterprise,known_lead,CL,tablet
+169,Enterprise,known_lead,CO,desktop
+170,Enterprise,known_lead,CO,mobile
+171,Enterprise,known_lead,CO,tablet
+172,Enterprise,known_lead,ES,desktop
+173,Enterprise,known_lead,ES,mobile
+174,Enterprise,known_lead,ES,tablet
+175,Enterprise,known_lead,MX,desktop
+176,Enterprise,known_lead,MX,mobile
+177,Enterprise,known_lead,MX,tablet
+178,Enterprise,known_lead,US Hispanic,desktop
+179,Enterprise,known_lead,US Hispanic,mobile
+180,Enterprise,known_lead,US Hispanic,tablet
+181,Enterprise,new_visitor,AR,desktop
+182,Enterprise,new_visitor,AR,mobile
+183,Enterprise,new_visitor,AR,tablet
+184,Enterprise,new_visitor,CL,desktop
+185,Enterprise,new_visitor,CL,mobile
+186,Enterprise,new_visitor,CL,tablet
+187,Enterprise,new_visitor,CO,desktop
+188,Enterprise,new_visitor,CO,mobile
+189,Enterprise,new_visitor,CO,tablet
+190,Enterprise,new_visitor,ES,desktop
+191,Enterprise,new_visitor,ES,mobile
+192,Enterprise,new_visitor,ES,tablet
+193,Enterprise,new_visitor,MX,desktop
+194,Enterprise,new_visitor,MX,mobile
+195,Enterprise,new_visitor,MX,tablet
+196,Enterprise,new_visitor,US Hispanic,desktop
+197,Enterprise,new_visitor,US Hispanic,mobile
+198,Enterprise,new_visitor,US Hispanic,tablet
+199,Enterprise,returning_customer,AR,desktop
+200,Enterprise,returning_customer,AR,mobile
+201,Enterprise,returning_customer,AR,tablet
+202,Enterprise,returning_customer,CL,desktop
+203,Enterprise,returning_customer,CL,mobile
+204,Enterprise,returning_customer,CO,desktop
+205,Enterprise,returning_customer,CO,mobile
+206,Enterprise,returning_customer,CO,tablet
+207,Enterprise,returning_customer,ES,desktop
+208,Enterprise,returning_customer,ES,mobile
+209,Enterprise,returning_customer,ES,tablet
+210,Enterprise,returning_customer,MX,desktop
+211,Enterprise,returning_customer,MX,mobile
+212,Enterprise,returning_customer,MX,tablet
+213,Enterprise,returning_customer,US Hispanic,desktop
+214,Enterprise,returning_customer,US Hispanic,mobile
+215,SMB,known_lead,AR,desktop
+216,SMB,known_lead,AR,mobile
+217,SMB,known_lead,AR,tablet
+218,SMB,known_lead,CL,desktop
+219,SMB,known_lead,CL,mobile
+220,SMB,known_lead,CL,tablet
+221,SMB,known_lead,CO,desktop
+222,SMB,known_lead,CO,mobile
+223,SMB,known_lead,CO,tablet
+224,SMB,known_lead,ES,desktop
+225,SMB,known_lead,ES,mobile
+226,SMB,known_lead,ES,tablet
+227,SMB,known_lead,MX,desktop
+228,SMB,known_lead,MX,mobile
+229,SMB,known_lead,MX,tablet
+230,SMB,known_lead,US Hispanic,desktop
+231,SMB,known_lead,US Hispanic,mobile
+232,SMB,known_lead,US Hispanic,tablet
+233,SMB,new_visitor,AR,desktop
+234,SMB,new_visitor,AR,mobile
+235,SMB,new_visitor,AR,tablet
+236,SMB,new_visitor,CL,desktop
+237,SMB,new_visitor,CL,mobile
+238,SMB,new_visitor,CL,tablet
+239,SMB,new_visitor,CO,desktop
+240,SMB,new_visitor,CO,mobile
+241,SMB,new_visitor,CO,tablet
+242,SMB,new_visitor,ES,desktop
+243,SMB,new_visitor,ES,mobile
+244,SMB,new_visitor,ES,tablet
+245,SMB,new_visitor,MX,desktop
+246,SMB,new_visitor,MX,mobile
+247,SMB,new_visitor,MX,tablet
+248,SMB,new_visitor,US Hispanic,desktop
+249,SMB,new_visitor,US Hispanic,mobile
+250,SMB,new_visitor,US Hispanic,tablet
+251,SMB,returning_customer,AR,desktop
+252,SMB,returning_customer,AR,mobile
+253,SMB,returning_customer,AR,tablet
+254,SMB,returning_customer,CL,desktop
+255,SMB,returning_customer,CL,mobile
+256,SMB,returning_customer,CL,tablet
+257,SMB,returning_customer,CO,desktop
+258,SMB,returning_customer,CO,mobile
+259,SMB,returning_customer,CO,tablet
+260,SMB,returning_customer,ES,desktop
+261,SMB,returning_customer,ES,mobile
+262,SMB,returning_customer,ES,tablet
+263,SMB,returning_customer,MX,desktop
+264,SMB,returning_customer,MX,mobile
+265,SMB,returning_customer,MX,tablet
+266,SMB,returning_customer,US Hispanic,desktop
+267,SMB,returning_customer,US Hispanic,mobile

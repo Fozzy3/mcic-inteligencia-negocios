@@ -1,0 +1,8 @@
+parameter,sample_size,baseline_conversion,scenario_conversion,conversion_lift_pct,profit_lift_per_opportunity_eur,source
+funnel_full_optimized,20000,0.1053,0.1492,0.4173,33.84,Estimado con contrafactual ML sobre historico sintetico
+paid_budget_low,787,0.0635,0.0548,,29.07,Historico por nivel de inversion en ads
+paid_budget_medium,3290,0.0669,0.0692,,38.85,Historico por nivel de inversion en ads
+paid_budget_high,2029,0.0527,0.0566,,28.31,Historico por nivel de inversion en ads
+paid_budget_saturated,1762,0.0255,0.0226,,-5.03,Historico por nivel de inversion en ads
+webinar_attendance,13555,0.1343,0.1809,0.3471,44.51,Estimado con contrafactual ML sobre historico sintetico
+new_product_offer,11615,0.1197,0.0897,-0.2504,64.38,Estimado con contrafactual ML sobre historico sintetico
