@@ -197,6 +197,11 @@ controla (variantes de página y botón, material descargable, pago simplificado
 nuevo), resultado (compra y días hasta el cierre) y valor (ingreso, margen, costo atribuido y contribución). El
 diccionario completo está en el anexo~\ref{anx:diccionario}.
 
+\textbf{Una fila, como ejemplo.} La oportunidad TX-000104 (6 de enero de 2024) es un cliente Enterprise de
+España que llegó por Google Ads. Vio la página y el botón de siempre y no fue invitado a ningún webinar. Compró a
+los dos días por €1.554,86; la publicidad atribuida fue de €9,05 y la contribución, de €1.076,01. Así son las
+20.000 filas.
+
 Sobre esa base la vista \texttt{ventas} agrega tres columnas derivadas: si la oportunidad vio el embudo
 mejorado completo (las cuatro mejoras a la vez), si llegó por publicidad pagada y su estado frente al webinar
 (no invitada, invitada o asistente).
@@ -256,6 +261,36 @@ El modelo controla por trimestre; las figuras marcan el trimestre incompleto \\
 \end{tabularx}
 \end{table}
 
+\subsection{Tres hallazgos con filas reales}
+
+\textbf{Costo fijo oculto.} En la misma fila TX-000104 las cuentas no cierran sin el costo de despacho:
+
+\begin{table}[!htbp]
+\centering
+\caption{Contribución de la oportunidad TX-000104.}
+\begin{tabular}{l r}
+\toprule
+Concepto & Valor \\
+\midrule
+Utilidad bruta (€1.554,86 × 71,2 \% de margen) & €1.107,06 \\
+$-$ Publicidad atribuida & €9,05 \\
+Contribución esperada & €1.098,01 \\
+Contribución en el archivo & €1.076,01 \\
+\textbf{Diferencia} & \textbf{€22,00} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La diferencia es la misma en las 2.096 ventas y no aparece en ninguna fila sin venta: es un costo fijo por venta.
+
+\textbf{Gasto diario que no se puede sumar.} El 23 de junio de 2025 llegaron 14 oportunidades por Facebook Ads.
+Cada fila trae un gasto diario de campaña distinto, entre €993 y €1.164. Sumarlas da €15.071, que no corresponde
+a ningún pago; lo único que se puede sumar ese día es el costo atribuido, €328.
+
+\textbf{Ceros estructurales.} El ticket promedio sobre todas las filas es €116; sobre las ventas, €1.110. El
+primero mezcla las 17.904 oportunidades sin venta, que tienen ticket cero porque no compraron, no porque el dato
+falte.
+
 % ================================================================== 3
 \section{Modelo dimensional e indicadores}
 
@@ -297,19 +332,23 @@ las tablas a \texttt{data/modelo\_dimensional/}.
 \begin{table}[!htbp]
 \centering
 \caption{Indicadores del proyecto.}
-\begin{tabularx}{\linewidth}{l L l}
+\begin{tabularx}{\linewidth}{l L l r}
 \toprule
-Indicador & Pregunta & Cálculo \\
+Indicador & Pregunta & Cálculo & Último año \\
 \midrule
-Conversión & ¿Qué proporción compra? & ventas / oportunidades \\
-Ticket medio & ¿Cuánto vale una venta? & ingresos / ventas \\
-Costo por venta (CAC) & ¿Cuánto cuesta en publicidad cada venta? & costo atribuido / ventas \\
-ROAS & ¿Cuánto ingreso deja cada euro de pauta? & ingresos / costo atribuido \\
-Contribución por oportunidad & ¿Cuánto vale cada interesado que llega? & contribución / oportunidades \\
-Adopción del embudo & ¿Qué tan extendida está la mejora? & oportunidades con las 4 mejoras / total \\
+Conversión & ¿Qué proporción compra? & ventas / oportunidades & 12,2 \% \\
+Ticket medio & ¿Cuánto vale una venta? & ingresos / ventas & €1.142 \\
+Costo por venta (CAC) & ¿Cuánto cuesta en publicidad cada venta? & costo atribuido / ventas & €66 \\
+ROAS & ¿Cuánto ingreso deja cada euro de pauta? & ingresos / costo atribuido & 17,2 \\
+Contribución por oportunidad & ¿Cuánto vale cada interesado que llega? & contribución / oportunidades & €93 \\
+Adopción del embudo & ¿Qué tan extendida está la mejora? & oportunidades con las 4 mejoras / total & 19 \% \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+El último año va de mayo de 2025 a abril de 2026. Las cinco primeras cifras salen de
+\texttt{salidas/crecimiento.csv}; la adopción del embudo se cuenta sobre la vista \texttt{ventas} en el mismo
+periodo (en enero--abril de 2026 ya es 24 \%).
 
 Dos aclaraciones. El CAC se calcula con el costo atribuido, el único que se puede sumar; si el
 gasto real de pauta es mayor, el CAC verdadero también lo es, así que debe leerse como una cota inferior. Y lo calculamos sobre todas las ventas, incluidas las de clientes que
@@ -470,6 +509,8 @@ sube 44 \%, y no sabemos si ese costo atribuido recoge todo lo que realmente se 
 \caption{Ingresos y contribución por mes (vista \texttt{kpi}, dimensión mes).}
 \end{figure}
 
+\textbf{Decisión:} el negocio funciona; conviene invertir en lo que hace vender mejor, no en traer más tráfico.
+
 \subsection{P2. Dónde está el valor}
 
 Facebook y Google traen el 39 \% de las oportunidades pero solo el 13 \% de la contribución. Email, SEO y
@@ -483,6 +524,8 @@ pero la rentabilidad por oportunidad es parecida en todos los países, así que 
 \includegraphics[width=0.8\linewidth]{fig/1_canales.png}
 \caption{Contribución por oportunidad y conversión por canal (vista \texttt{kpi}, dimensión canal).}
 \end{figure}
+
+\textbf{Decisión:} no poner más dinero en Facebook y Google; el valor está en los canales propios y en Enterprise.
 
 \subsection{P3. Qué explica la mejora}
 
@@ -504,6 +547,8 @@ datos. Confirmarlo requiere revisar cuándo se activó cada componente por separ
 \caption{Conversión y adopción del embudo completo por trimestre (vista \texttt{kpi}, dimensión trimestre).}
 \end{figure}
 
+\textbf{Decisión:} extender el embudo, pero con un grupo de control que mida su efecto real.
+
 \subsection{P4. Publicidad}
 
 Pasar del nivel medio de gasto (el vigente) al saturado multiplica el gasto diario por 2,5 pero las
@@ -521,6 +566,8 @@ Una salvedad: los niveles de gasto funcionaron como épocas, no como un experime
 solo existió antes de que llegara el embudo. La dirección del resultado es muy clara, pero su magnitud mezcla el
 efecto del gasto con el del momento.
 
+\textbf{Decisión:} no duplicar la publicidad.
+
 \subsection{P5. Qué hace que alguien compre}
 
 El puntaje previo es, de lejos, el factor más fuerte, seguido por la asistencia al webinar y las mejoras del
@@ -528,6 +575,8 @@ embudo (tabla~\ref{tab:drivers}). Fuera de muestra, el modelo ordena bien a los 
 servir para comparar iniciativas puede usarse para que el equipo comercial priorice a quién llamar. Para ese uso
 conviene reentrenarlo sin la variable de trimestre, que no aporta nada al puntuar periodos futuros, y revisar su
 calibración.
+
+\textbf{Decisión:} usar el puntaje para ordenar la atención comercial y, en los webinars, medir asistentes y no invitados.
 
 \subsection{P6. Qué iniciativa conviene}
 \label{sec:p6}
@@ -560,6 +609,8 @@ Duplicar la publicidad pierde dinero en prácticamente todas las simulaciones.
 Los umbrales que cambiarían la recomendación son dos. Si lanzar el producto costara más de €84 mil, el embudo
 pasaría a tener el mayor valor esperado. Y los webinars solo compensan si el programa cuesta menos de €48 mil al
 año.
+
+\textbf{Decisión:} embudo ahora, por ser la apuesta más segura; producto en piloto, por ser la más incierta.
 
 % ================================================================== 7
 \section{Limitaciones}

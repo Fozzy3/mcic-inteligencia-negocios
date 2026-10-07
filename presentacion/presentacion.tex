@@ -69,6 +69,7 @@
   \end{tikzpicture}%
 }
 \newcommand{\cardtitle}[2]{{\cambriafont\bfseries\color{#1}#2}\par\vspace{0.08cm}}
+\newcommand{\decision}[1]{\UDCard{UDRed!6}{UDRed!60}{\footnotesize{\cambriafont\bfseries\color{UDRed}Decisión:} #1}}
 
 \tikzset{
   paso/.style={draw=UDBorder, fill=white, rounded corners=2.5pt, line width=0.6pt, align=center,
@@ -132,6 +133,37 @@
   y con qué riesgo.}
 \end{frame}
 
+% ------------------------------------------------------------------ datos
+\begin{frame}{Qué datos tenemos}{20.000 filas: cada fila es una persona interesada en comprar (una oportunidad)}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \footnotesize\setlength{\tabcolsep}{3pt}
+      \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}l@{}}
+        \toprule
+        Pregunta & Columnas \\
+        \midrule
+        ¿Quién es? & segmento, país, dispositivo \\
+        ¿Por dónde llegó? & canal, campaña, nivel de pauta \\
+        ¿Qué vio? & página, botón, webinar, oferta \\
+        ¿Qué pasó? & compró o no, días al cierre \\
+        ¿Cuánto valió? & ingreso, costo, contribución \\
+        \bottomrule
+      \end{tabular*}
+      \vspace{0.15cm}
+
+      {\footnotesize\color{UDSilver} 28 columnas, enero de 2024 a abril de 2026.}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \UDCard{UDLightGray}{UDBlue!60}{\cardtitle{UDBlue}{Una fila, como ejemplo: TX-000104}
+        {\footnotesize 6 de enero de 2024. Cliente \textbf{Enterprise} de \textbf{España} que llegó por
+        \textbf{Google Ads}. Vio la web de siempre y no fue a ningún webinar.\par\vspace{0.1cm}
+        \textbf{Compró} a los 2 días por \textbf{€1.554,86}. Su publicidad costó €9,05.
+        Contribución: \textbf{€1.076,01}.}}
+    \end{column}
+  \end{columns}
+  \note{Aterrizar el dato: cuando hablemos de oportunidades, es esto. Usamos esta misma fila en la limpieza.}
+\end{frame}
+
 % ------------------------------------------------------------------ 3
 \begin{frame}{Cómo trabajamos}{20.000 oportunidades, enero de 2024 a abril de 2026, datos sintéticos}
   \vspace{0.3cm}
@@ -189,6 +221,121 @@
   \note{Si ignoramos estos puntos llegamos a conclusiones equivocadas, aunque las validaciones den cero.}
 \end{frame}
 
+% ------------------------------------------------------------------ limpieza 1
+\begin{frame}{Limpieza con un ejemplo: el costo oculto}{La misma fila TX-000104}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \footnotesize\setlength{\tabcolsep}{3pt}
+      \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \toprule
+        Utilidad bruta (€1.554,86 × 71,2 \%) & €1.107,06 \\
+        $-$ Publicidad atribuida & €9,05 \\
+        \midrule
+        Debería quedar & €1.098,01 \\
+        El archivo dice & €1.076,01 \\
+        \midrule
+        \textbf{Diferencia} & \textbf{€22,00} \\
+        \bottomrule
+      \end{tabular*}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \UDCard{white}{UDBorder}{\footnotesize Pasa en las \textbf{2.096 ventas}, siempre €22, y nunca en las filas
+        sin venta. No es un error: es un \textbf{costo fijo por venta} (despacho).}
+      \vspace{0.15cm}
+      \decision{lo volvimos regla de validación y lo descontamos en todos los escenarios.}
+    \end{column}
+  \end{columns}
+  \note{Lo encontramos porque la regla de contribución fallaba. Al entenderlo, se convirtió en regla.}
+\end{frame}
+
+% ------------------------------------------------------------------ limpieza 2
+\begin{frame}{Limpieza con un ejemplo: el gasto que no se suma}{Facebook Ads, 23 de junio de 2025: llegaron 14 personas}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \UDCard{white}{UDBorder}{\footnotesize Cada una de las 14 filas trae un ``gasto diario'' \textbf{distinto},
+        entre €993 y €1.164. Indica qué tan fuerte era la pauta, no cuánto se pagó.}
+      \vspace{0.15cm}
+      \UDCard{UDRed!6}{UDRed!60}{\footnotesize Sumar las 14 filas: \textbf{€15.071}, una cifra sin sentido.\par
+        En todo el archivo daría \textbf{€4,55 M}.}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \UDCard{UDLightGray}{UDDarkGreen!60}{\footnotesize Lo único que se puede sumar ese día es el
+        \textbf{costo atribuido}: \textbf{€328}.}
+      \vspace{0.15cm}
+      \decision{el gasto diario solo se promedia (tabla aparte en la estrella); el gasto real se le pide a
+        finanzas.}
+    \end{column}
+  \end{columns}
+  \note{Probamos la regla ``un gasto por canal y día'' y falló en 7.764 de 7.868 filas pagadas: por eso no es un
+  pago repetido.}
+\end{frame}
+
+% ------------------------------------------------------------------ limpieza 3
+\begin{frame}{Limpieza con un ejemplo: ceros que no son errores}{El 90 \% de las oportunidades no compró}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \footnotesize\setlength{\tabcolsep}{3pt}
+      \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+        \toprule
+        Ticket promedio & \\
+        \midrule
+        Sobre todas las filas & €116 \\
+        Sobre las ventas & \textbf{€1.110} \\
+        \bottomrule
+      \end{tabular*}
+      \vspace{0.2cm}
+
+      {\footnotesize Sin venta, el ticket es 0 porque no compró, no porque falte el dato.}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \UDCard{white}{UDBorder}{\cardtitle{UDGold!90!black}{Datos del futuro}{\footnotesize Ingreso, margen y días
+        de cierre solo se conocen \textbf{después} de comprar. Usarlos para predecir la compra sería hacer trampa.}}
+      \vspace{0.15cm}
+      \decision{el ticket se calcula solo sobre ventas, y esas columnas quedan fuera del modelo.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------ procesos
+\begin{frame}{Para qué sirvió cada proceso}{Cada paso responde una pregunta y alimenta una decisión}
+  \footnotesize\setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\linewidth}{@{}>{\bfseries}l@{\extracolsep{\fill}}p{3.6cm}p{3.4cm}p{3.6cm}@{}}
+    \toprule
+    \normalfont Proceso & Qué es & Pregunta & Decisión que permitió \\
+    \midrule
+    Limpiar & Vista SQL y 15 reglas & ¿Podemos confiar en el dato? & Corregir costos y no sumar el gasto diario \\
+    Organizar & Esquema estrella: hechos y dimensiones & ¿Cómo cortar sin errores? & Comparar canales, meses y clientes \\
+    Medir & Indicadores (KPI) & ¿Cómo va el negocio? & Dejar de crecer con pauta \\
+    Predecir & Regresión logística & ¿Qué hace que alguien compre? & Medir asistentes; priorizar por puntaje \\
+    Simular & \textit{Bootstrap} + Monte Carlo & ¿Cuánto gana y arriesga cada opción? & Embudo ahora, producto en piloto \\
+    \bottomrule
+  \end{tabular*}
+  \note{Los siguientes slides muestran cada decisión con su evidencia.}
+\end{frame}
+
+% ------------------------------------------------------------------ kpi
+\begin{frame}{Los indicadores que usamos}{Último año: mayo de 2025 a abril de 2026}
+  \footnotesize\setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}llr@{}}
+    \toprule
+    Indicador & Pregunta & Cálculo & Último año \\
+    \midrule
+    Conversión & ¿Cuántos compran? & ventas ÷ oportunidades & 12,2 \% \\
+    Ticket medio & ¿Cuánto vale una venta? & ingresos ÷ ventas & €1.142 \\
+    Costo por venta & ¿Cuánto cuesta conseguirla? & costo atribuido ÷ ventas & €66 \\
+    ROAS & ¿Cuánto deja cada euro de pauta? & ingresos ÷ costo atribuido & 17,2 \\
+    \textbf{Contribución por oportunidad} & ¿Cuánto vale cada interesado? & contribución ÷ oportunidades & \textbf{€93} \\
+    Adopción del embudo & ¿Cuántos ven la web nueva? & con las 4 mejoras ÷ total & 19 \% \\
+    \bottomrule
+  \end{tabular*}
+  \vspace{0.25cm}
+
+  {\footnotesize\color{UDSilver} Fuente: \texttt{salidas/crecimiento.csv}; adopción contada sobre la vista
+  \texttt{ventas} (24 \% en 2026).}
+  \note{El más útil es la contribución por oportunidad: junta en un número si compran, cuánto pagan y cuánto
+  costó traerlos.}
+\end{frame}
+
 % ------------------------------------------------------------------ 5
 \begin{frame}{El negocio crece vendiendo mejor}{Últimos 12 meses frente a los 12 anteriores}
   \begin{columns}[c,onlytextwidth]
@@ -208,6 +355,8 @@
 
       \UDCard{UDLightGray}{UDGold!80}{\footnotesize El embudo explica parte del salto, no todo: en julio de 2025 la
       conversión ya había subido sin embudo completo, justo cuando terminó la pauta saturada.}
+      \vspace{0.12cm}
+      \decision{extender el embudo (hoy lo ve una de cada cuatro), con grupo de control.}
     \end{column}
     \begin{column}{0.54\textwidth}
       \includegraphics[width=\linewidth]{../informe/fig/2_tendencia_funnel.png}
@@ -220,11 +369,14 @@
 % ------------------------------------------------------------------ 6
 \begin{frame}{Más publicidad, peor resultado}{Facebook y Google: 39 \% de las oportunidades, 13 \% de la contribución}
   \begin{center}
-    \includegraphics[width=0.92\linewidth]{../informe/fig/3_ads_saturacion.png}
+    \includegraphics[width=0.80\linewidth]{../informe/fig/3_ads_saturacion.png}
   \end{center}
   \vspace{-0.1cm}
   {\small Con gasto saturado, cada venta cuesta casi cinco veces más y cada oportunidad pierde dinero: llegan más
   interesados, pero de peor calidad (puntaje 52,5 → 37,8).}
+  \vspace{0.1cm}
+
+  \decision{no duplicar la publicidad.}
 \end{frame}
 
 % ------------------------------------------------------------------ 7
@@ -250,6 +402,9 @@
         Oferta de producto nuevo & $-$38 \% \\
         \bottomrule
       \end{tabular*}
+      \vspace{0.15cm}
+
+      \decision{llamar primero a los de mayor puntaje; en webinars, medir asistentes y no invitados.}
     \end{column}
   \end{columns}
   \note{Elegimos un modelo explicable porque lo usamos para comparar escenarios, no para ganar en precisión.}
@@ -260,9 +415,30 @@
   \begin{center}
     \includegraphics[width=0.88\linewidth]{../informe/fig/5_montecarlo.png}
   \end{center}
-  {\small El producto tiene el mayor valor esperado y el rango más ancho; el embudo deja algo menos, con menos
-  dispersión y el mejor retorno por euro.}
-  \note{Duplicar la publicidad pierde en el 99,5 \% de los escenarios.}
+  {\small Ninguna iniciativa sale como se planea: costo y alcance varían. Por eso probamos cada una 10.000 veces
+  con supuestos distintos. El punto es el valor esperado; la barra va del escenario pesimista (P10) al optimista
+  (P90).}
+  \note{Es como lanzar el dado muchas veces para ver todos los resultados posibles, no solo uno.}
+\end{frame}
+
+% ------------------------------------------------------------------ simulación -> decisión
+\begin{frame}{De la simulación a la decisión}{Contribución adicional a doce meses}
+  \footnotesize\setlength{\tabcolsep}{4pt}
+  \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}rrl@{}}
+    \toprule
+    Iniciativa & Esperado & P(pérdida) & Lectura \\
+    \midrule
+    Producto nuevo & €175 mil & 0,1 \% & Gana más, pero con solo 55 ventas de evidencia \\
+    Embudo mejorado & €120 mil & 0,0 \% & Gana bien, rango estrecho, mejor retorno por euro \\
+    Webinars & €32 mil & 3,9 \% & Gana poco; solo si cuesta menos de €48 mil al año \\
+    Duplicar publicidad & $-$€101 mil & 99,5 \% & Pierde casi siempre \\
+    \bottomrule
+  \end{tabular*}
+  \vspace{0.3cm}
+
+  \decision{embudo ahora, por ser la apuesta más segura; producto en piloto, por ser la más incierta.}
+  \note{Fuente: salidas/montecarlo\_resumen.csv. El embudo y el producto no compiten: uno sube la conversión y el
+  otro el valor por venta.}
 \end{frame}
 
 % ------------------------------------------------------------------ 9
