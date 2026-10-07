@@ -1,0 +1,13 @@
+regla,fallas
+id_duplicado,0
+nulos_en_campos_clave,0
+mes_distinto_a_fecha,0
+binarios_fuera_de_0_1,0
+lead_score_fuera_de_1_99,0
+margen_fuera_de_0_1,0
+asistio_sin_invitacion,0
+dias_cierre_solo_si_hay_venta,0
+ingreso_igual_ticket_por_venta,0
+utilidad_bruta_igual_ingreso_por_margen,0
+contribucion_igual_bruta_menos_costo_menos_22,0
+canal_organico_con_presupuesto_ads,0
