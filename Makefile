@@ -1,7 +1,7 @@
-.PHONY: install test run pdf
+.PHONY: install test run fuentes informe presentacion pdf clean
 
-PDF_OPTS = --pdf-engine=weasyprint --css=informe/pdf.css --embed-resources --standalone \
-	--resource-path=informe --shift-heading-level-by=-1 --toc --toc-depth=2
+# Carpeta del manual de marca UD (Times New Roman y Cambria). Las fuentes no se versionan.
+MARCA ?= $(HOME)/repos/ud/maestria/mcic/.UniversidadDistrital-manual-marca
 
 install:
 	uv sync
@@ -12,8 +12,20 @@ test:
 run:
 	uv run python -m bi.pipeline
 
-# Report + appendix with every SQL step, in one PDF.
-pdf:
-	{ printf '\n## Anexo: código SQL del proceso\n'; \
-	  for f in sql/*.sql; do printf '\n### `%s`\n\n```sql\n' "$$f"; cat "$$f"; printf '\n```\n'; done; } \
-	| pandoc informe/INFORME.md - $(PDF_OPTS) -M date="$$(date +%Y-%m-%d)" -o informe/proceso.pdf
+fuentes/times.ttf:
+	mkdir -p fuentes
+	cp "$(MARCA)"/fuentes/times*.ttf "$(MARCA)"/fuentes/cambria* fuentes/
+
+fuentes: fuentes/times.ttf
+
+informe: fuentes
+	cd informe && tectonic -Z search-path=.. informe.tex
+
+presentacion: fuentes
+	cd presentacion && tectonic -Z search-path=.. presentacion.tex
+
+pdf: informe presentacion
+
+clean:
+	rm -f informe/*.aux informe/*.log informe/*.toc informe/*.out presentacion/*.aux presentacion/*.log \
+	      presentacion/*.nav presentacion/*.snm presentacion/*.toc presentacion/*.out

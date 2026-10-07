@@ -18,7 +18,15 @@ select 'id_duplicado' as regla, count(*) - count(distinct transaction_id) as fal
 union all select 'nulos_en_campos_clave', count(*) filter (
     where transaction_id is null or date is null or channel is null
        or converted_to_sale is null or contribution_profit_eur is null) from ventas
+union all select 'nulos_en_atributos', count(*) filter (
+    where customer_segment is null or lifecycle_stage is null or device is null or geo_region is null
+       or campaign_objective is null or ad_budget_level is null or landing_variant is null or cta_variant is null
+       or lead_score is null or lead_magnet is null or checkout_simplified is null or webinar_invited is null
+       or webinar_attended is null or new_product_offer is null or revenue_eur is null
+       or cost_attributed_eur is null or gross_profit_eur is null) from ventas
 union all select 'mes_distinto_a_fecha', count(*) filter (where month <> strftime(date, '%Y-%m')) from ventas
+union all select 'trimestre_distinto_a_fecha', count(*) filter (
+    where quarter <> year(date)::varchar || 'Q' || quarter(date)::varchar) from ventas
 union all select 'binarios_fuera_de_0_1', count(*) filter (
     where lead_magnet not in (0, 1) or checkout_simplified not in (0, 1) or webinar_invited not in (0, 1)
        or webinar_attended not in (0, 1) or new_product_offer not in (0, 1) or converted_to_sale not in (0, 1)) from ventas
@@ -35,4 +43,6 @@ union all select 'utilidad_bruta_igual_ingreso_por_margen', count(*) filter (
 union all select 'contribucion_igual_bruta_menos_costo_menos_22', count(*) filter (
     where abs(contribution_profit_eur - (gross_profit_eur - cost_attributed_eur - 22 * converted_to_sale)) > 0.02) from ventas
 union all select 'canal_organico_con_presupuesto_ads', count(*) filter (
-    where channel not in ('Facebook Ads', 'Google Ads') and es_pago) from ventas;
+    where channel not in ('Facebook Ads', 'Google Ads') and es_pago) from ventas
+union all select 'canal_pagado_sin_presupuesto_ads', count(*) filter (
+    where channel in ('Facebook Ads', 'Google Ads') and not es_pago) from ventas;

@@ -56,7 +56,10 @@ def expected_profit(m, df: pd.DataFrame, unit: pd.Series) -> float:
         return 0.0
     p = m.predict_proba(df[FEATURES])[:, 1]
     u = unit.reindex(pd.MultiIndex.from_arrays([df.customer_segment, df.new_product_offer])).to_numpy()
-    return float((p * u - df.cost_attributed_eur).sum())
+    if np.isnan(u).any():  # pandas' sum would silently drop these rows
+        missing = df.loc[np.isnan(u), ["customer_segment", "new_product_offer"]].drop_duplicates()
+        raise ValueError(f"Sin valor por venta para:\n{missing.to_string(index=False)}")
+    return float((p * u - df.cost_attributed_eur.to_numpy()).sum())
 
 
 def deltas(m, pop: pd.DataFrame, unit: pd.Series, attendance: float, eligible) -> dict:
@@ -146,8 +149,38 @@ def temporal_check(df: pd.DataFrame, cutoff: str = "2026-01-01") -> dict:
             "ventas_en_top20": top2, "n_test": len(test)}
 
 
+# Reference level per categorical for reading the coefficients (status quo of each lever).
+REFERENCE = {"ad_budget_level": "medium", "landing_variant": "baseline", "cta_variant": "standard",
+             "lifecycle_stage": "known_lead", "channel": "Email", "customer_segment": "SMB",
+             "campaign_objective": "nurture", "device": "desktop", "geo_region": "ES"}
+
+
 def drivers(m) -> pd.DataFrame:
-    names = m[0].get_feature_names_out()
-    coef = m[-1].coef_[0]
-    d = pd.DataFrame({"variable": names, "coef": coef, "odds_ratio": np.exp(coef)})
+    raw = pd.DataFrame({"variable": m[0].get_feature_names_out(), "coef": m[-1].coef_[0]})
+    return contrasts(raw)
+
+
+def contrasts(raw: pd.DataFrame) -> pd.DataFrame:
+    """Coefficients as effects against a reference level.
+    The one-hot keeps every level, so a single dummy's coefficient is not interpretable on its
+    own; the difference with the reference level is (and is what the report quotes)."""
+    rows = []
+    for var, coef in zip(raw.variable, raw.coef):
+        kind, name = var.split("__", 1)
+        if kind != "cat":
+            rows.append((name, "1", "0", coef) if kind == "bin" else (name, "+1 desv. estándar", "media", coef))
+            continue
+        feat = next(c for c in CAT if name.startswith(c + "_"))
+        rows.append((feat, name[len(feat) + 1:], None, coef))
+    d = pd.DataFrame(rows, columns=["variable", "nivel", "referencia", "coef"])
+    for feat in CAT:
+        sel = d.variable == feat
+        if not sel.any():
+            continue
+        levels = d.loc[sel, "nivel"]
+        ref = REFERENCE.get(feat, levels.min())
+        d.loc[sel, "coef"] -= d.loc[sel & (d.nivel == ref), "coef"].item()
+        d.loc[sel, "referencia"] = ref
+    d = d[d.coef != 0].copy()
+    d["odds_ratio"] = np.exp(d.coef)
     return d.reindex(d.coef.abs().sort_values(ascending=False).index).reset_index(drop=True)

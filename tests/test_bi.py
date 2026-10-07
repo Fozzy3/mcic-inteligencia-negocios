@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from bi import model, pipeline
 
@@ -34,6 +35,30 @@ def test_validation_flags_each_broken_rule():
     assert v["id_duplicado"] == 1
     assert v["ingreso_igual_ticket_por_venta"] == 1
     assert v["asistio_sin_invitacion"] == 1
+
+
+def test_validation_flags_quarter_null_and_paid_channel_rules():
+    bad = [
+        ROW,
+        {**ROW, "transaction_id": "TX-2", "quarter": "2019Q4"},
+        {**ROW, "transaction_id": "TX-3", "channel": "Google Ads"},          # paid channel, organic level
+        {**ROW, "transaction_id": "TX-4", "lead_score": None},
+    ]
+    v = con_from(bad).sql("select * from validacion").df().set_index("regla").fallas
+    assert v["trimestre_distinto_a_fecha"] == 1
+    assert v["canal_pagado_sin_presupuesto_ads"] == 1
+    assert v["nulos_en_atributos"] == 1
+
+
+def test_star_controls_catch_duplicated_date_key():
+    ok = con_from([ROW]).sql("select * from control_estrella").df()
+    assert ok.fallas.sum() == 0, ok
+    bad = con_from([ROW, {**ROW, "transaction_id": "TX-2", "quarter": "2019Q4"}])
+    c = bad.sql("select * from control_estrella").df().set_index("regla").fallas
+    assert c["dim_fecha_clave_unica"] == 1
+    assert c["hechos_filas_distintas_a_ventas"] == 2    # each fact row now joins two dates
+    with pytest.raises(ValueError):
+        pipeline.check_zero(c.reset_index(), "esquema estrella")
 
 
 def test_kpi_channel():
@@ -105,6 +130,25 @@ def test_uplift_recovers_direction_of_planted_effect():
     # the new product was never offered to SMB in this history: no extrapolation there
     d = model.deltas(m, df, unit, attendance=0.25, eligible=["Enterprise"])
     assert d["product"] == 0
+
+
+def test_expected_profit_fails_when_a_unit_value_is_missing():
+    df = pd.DataFrame([ROW] * 40)
+    df["transaction_id"] = range(len(df))
+    df.loc[:9, "converted_to_sale"] = 0
+    m = model.fit(df)
+    with pytest.raises(ValueError):
+        model.expected_profit(m, df.assign(customer_segment="Enterprise"), pd.Series({("SMB", 0): 100.0}))
+
+
+def test_drivers_are_contrasts_against_the_reference_level():
+    raw = pd.DataFrame({"variable": ["cat__landing_variant_baseline", "cat__landing_variant_landing_v2",
+                                     "bin__lead_magnet", "num__lead_score"],
+                        "coef": [-0.4, -0.25, 0.15, 0.6]})
+    d = model.contrasts(raw).set_index("variable")
+    assert d.loc["landing_variant", "nivel"] == "landing_v2"
+    assert d.loc["landing_variant", "coef"] == pytest.approx(0.15)   # -0.25 - (-0.4)
+    assert len(d) == 3                                                # the reference row is dropped
 
 
 def test_unit_value_is_per_segment_and_offer():

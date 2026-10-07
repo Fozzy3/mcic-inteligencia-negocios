@@ -11,9 +11,13 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "original" / "dataset_ventas_transaccional_sintetico_es.csv"
 OUT = ROOT / "salidas"
 FIG = ROOT / "informe" / "fig"
-STAR = ROOT / "data" / "modelo_estrella"  # row-level: stays out of git
+STAR = ROOT / "data" / "modelo_dimensional"  # star-schema tables for Power BI
 STAR_TABLES = ["dim_fecha", "dim_canal", "dim_campana", "dim_perfil", "dim_experiencia",
                "fact_oportunidad", "fact_gasto_campana_dia"]
+
+
+def _sql_path(path: Path) -> str:
+    return "'" + str(path).replace("'", "''") + "'"
 
 
 def connect(source: pd.DataFrame | Path = DATA) -> duckdb.DuckDBPyConnection:
@@ -21,10 +25,19 @@ def connect(source: pd.DataFrame | Path = DATA) -> duckdb.DuckDBPyConnection:
     if isinstance(source, pd.DataFrame):
         con.register("raw", source)
     else:
-        con.execute(f"create view raw as select * from read_csv_auto('{source}')")
+        if not Path(source).exists():
+            raise FileNotFoundError(f"No está el archivo original: {source}. Cópielo ahí (ver README, sección Datos).")
+        con.execute(f"create view raw as select * from read_csv_auto({_sql_path(source)})")
     for f in sorted((ROOT / "sql").glob("*.sql")):
         con.execute(f.read_text())
     return con
+
+
+def check_zero(checks: pd.DataFrame, what: str) -> None:
+    """Stop the run if any rule has failures (explicit raise: survives python -O)."""
+    bad = checks[checks.fallas > 0]
+    if not bad.empty:
+        raise ValueError(f"Reglas con fallas ({what}):\n{bad.to_string(index=False)}")
 
 
 def main() -> None:
@@ -34,7 +47,7 @@ def main() -> None:
     con = connect()
     val = con.sql("select * from validacion").df()
     val.to_csv(OUT / "validacion.csv", index=False)
-    assert val.fallas.sum() == 0, val[val.fallas > 0]
+    check_zero(val, "validación de datos")
 
     kpi = con.sql("select * from kpi").df()
     ads = con.sql("select * from ads_niveles").df()
@@ -44,9 +57,10 @@ def main() -> None:
     con.sql("""pivot (select geo_region as region, customer_segment, revenue_eur from ventas)
                on customer_segment using round(sum(revenue_eur)) group by region order by region""") \
         .df().to_csv(OUT / "pivote_ingresos_region_segmento.csv", index=False)
+    check_zero(con.sql("select * from control_estrella").df(), "esquema estrella")
     STAR.mkdir(parents=True, exist_ok=True)
     for t in STAR_TABLES:
-        con.execute(f"copy {t} to '{STAR / t}.csv' (header)")
+        con.execute(f"copy {t} to {_sql_path(STAR / f'{t}.csv')} (header)")
 
     df = con.sql("select * from ventas").df()
     check = model.temporal_check(df)
