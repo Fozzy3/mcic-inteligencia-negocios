@@ -13,6 +13,7 @@ indicadores, un modelo de conversión, escenarios contrafactuales y simulación 
 |---|---|
 | [`informe/informe.pdf`](informe/informe.pdf) | Informe completo, con el SQL en el anexo |
 | [`presentacion/presentacion.pdf`](presentacion/presentacion.pdf) | Diapositivas de la sustentación (plantilla institucional UD) |
+| [`web/`](web/README.md) | Presentación interactiva tipo Prezi: animaciones, 3D y arquitectura en AWS (`make web`) |
 
 Las fuentes están en `informe/informe.tex` y `presentacion/presentacion.tex`.
 

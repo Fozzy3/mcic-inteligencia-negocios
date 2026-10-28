@@ -1,0 +1,19 @@
+{
+  "name": "bi-presentacion-interactiva",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node anatomy/build.mjs && vite build",
+    "preview": "vite preview",
+    "figura": "node anatomy/build.mjs"
+  },
+  "devDependencies": {
+    "vite": "^6.4.5"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "three": "^0.170.0"
+  }
+}
