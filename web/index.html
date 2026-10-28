@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>¿En qué invertir para crecer? · BI</title>
+  <meta name="description" content="Proyecto integrador de Inteligencia de Negocios: de 20.000 oportunidades comerciales a una decisión de inversión, paso a paso." />
+  <link rel="icon" href="/img/EscudoUD.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <canvas id="fondo" aria-hidden="true"></canvas>
+  <div id="parallax" aria-hidden="true"></div>
+
+  <main id="stage" aria-live="polite">
+    <div id="world">
+      <svg id="ruta" aria-hidden="true"></svg>
+
+      <!-- ============================== 0 · INICIO ============================== -->
+      <section class="frame portada" id="portada" data-x="0" data-y="0" data-cap="0" data-titulo="Portada">
+        <div class="frame-in">
+          <div class="portada-logos">
+            <img src="/img/EscudoUD.png" alt="Escudo Universidad Distrital" />
+            <img src="/img/LogoMCIC.png" alt="Logo MCIC" class="mcic" />
+          </div>
+          <p class="kicker">Proyecto integrador · Inteligencia de Negocios</p>
+          <h1 class="titulo-grande"><span class="linea">¿En qué invertir</span> <span class="linea">para <em>crecer</em></span> <span class="linea">el próximo año?</span></h1>
+          <p class="autores">Juan Felipe Rodríguez Galindo <small>20261595004</small> · Carlos Stiven Mora Hoyos <small>20261595003</small></p>
+          <p class="muted">Maestría en Ciencias de la Información y las Comunicaciones · Universidad Distrital Francisco José de Caldas · 2026</p>
+          <div class="como-navegar">
+            <span><kbd>→</kbd><kbd>espacio</kbd> o rueda del mouse: avanzar</span>
+            <span><kbd>←</kbd> retroceder</span>
+            <span><kbd>O</kbd> vista general</span>
+            <span><kbd>N</kbd> notas</span>
+          </div>
+        </div>
+        <aside class="nota">Bienvenida. Esta página es la presentación: avanza como un Prezi, de marco en marco. Cada marco explica una decisión, un concepto del curso o un resultado, con los números reales del proyecto.</aside>
+      </section>
+
+      <section class="frame" id="pregunta" data-x="0" data-y="1250" data-r="-2" data-cap="0" data-titulo="La pregunta">
+        <div class="frame-in">
+          <p class="kicker">El caso</p>
+          <h2>Una empresa que vende en línea registró a <span class="num" data-cuenta="20000">20.000</span> personas interesadas en comprar.</h2>
+          <p class="lead">Enero 2024 → abril 2026. La gerencia pregunta: <strong>¿en qué conviene invertir el próximo año?</strong></p>
+          <div class="pasos4">
+            <div class="paso4 paso" data-paso="1"><b>1</b><span>Los datos</span><small>¿qué tenemos?</small></div>
+            <div class="flecha paso" data-paso="1"></div>
+            <div class="paso4 paso" data-paso="2"><b>2</b><span>Limpieza</span><small>¿podemos confiar?</small></div>
+            <div class="flecha paso" data-paso="2"></div>
+            <div class="paso4 paso" data-paso="3"><b>3</b><span>KPI</span><small>¿cómo va el negocio?</small></div>
+            <div class="flecha paso" data-paso="3"></div>
+            <div class="paso4 paso destacado" data-paso="4"><b>4</b><span>Decisión</span><small>¿en qué invertir?</small></div>
+          </div>
+          <div class="concepto paso" data-paso="5">
+            <span class="etq">Concepto del curso</span>
+            <p><b>Inteligencia de negocios</b> es el ciclo que convierte <em>datos</em> en <em>información</em> (limpia y organizada), luego en <em>conocimiento</em> (indicadores y modelos) y por último en una <em>decisión</em> que se puede defender. Los cuatro pasos de esta presentación son ese ciclo.</p>
+          </div>
+          <p class="pie">Datos sintéticos (inventados para el ejercicio), en euros. Cada número de esta página sale de <code>salidas/*.csv</code>.</p>
+        </div>
+        <aside class="nota">Contamos el proyecto en cuatro pasos, en el orden en que lo hicimos. Pulsa → para revelar cada paso. Al final hay un quinto: cómo llevarlo a la nube.</aside>
+      </section>
+
+      <!-- ============================== 1 · DATOS ============================== -->
+      <section class="frame capitulo" id="c1" data-x="3000" data-y="0" data-r="-3" data-cap="1" data-titulo="Paso 1 · Los datos">
+        <div class="frame-in">
+          <p class="cap-num">01</p>
+          <h2 class="cap-titulo">Los datos</h2>
+          <p class="lead">¿Qué tenemos?</p>
+          <div class="cifras">
+            <div><b data-cuenta="20000">20.000</b><span>filas</span></div>
+            <div><b data-cuenta="28">28</b><span>columnas</span></div>
+            <div><b data-cuenta="28">28</b><span>meses</span></div>
+            <div><b data-cuenta="2096">2.096</b><span>ventas</span></div>
+          </div>
+          <p class="pie">Archivo: <code>data/original/dataset_ventas_transaccional_sintetico_es.csv</code> · sha256 <code>b51f235e…ef12e5</code></p>
+        </div>
+        <aside class="nota">Primero entendemos qué hay en el archivo antes de calcular nada.</aside>
+      </section>
+
+      <section class="frame" id="nube" data-x="4950" data-y="0" data-cap="1" data-titulo="20.000 puntos" data-tres="nube">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 1 · Los datos</p>
+            <h2>Cada punto es una persona</h2>
+            <p>Las 20.000 filas del archivo, dibujadas en 3D:</p>
+            <ul class="leyenda-3d">
+              <li><i class="eje">x</i> fecha en que llegó (ene 2024 → abr 2026)</li>
+              <li><i class="eje">y</i> puntaje de interés (<code>lead_score</code>, 1–99)</li>
+              <li><i class="eje">z</i> canal por el que llegó (7 canales)</li>
+              <li><i class="dot compro"></i> compró (2.096) · <i class="dot nocompro"></i> no compró</li>
+            </ul>
+            <p class="muted">Arrastra para girar. Los puntos claros se concentran arriba: quien tiene mejor puntaje compra más.</p>
+          </div>
+          <div class="lienzo"><canvas data-canvas></canvas><div class="canal-etiquetas"></div></div>
+        </div>
+        <aside class="nota">Este gráfico no se ve en un informe impreso: sirve para sentir el tamaño del dato. 9 de cada 10 personas no compran.</aside>
+      </section>
+
+      <section class="frame" id="columnas" data-x="6900" data-y="0" data-r="3" data-cap="1" data-titulo="28 columnas, 6 preguntas" data-grafico="columnas">
+        <div class="frame-in">
+          <p class="kicker">Paso 1 · Los datos</p>
+          <h2>28 columnas que responden 6 preguntas</h2>
+          <p class="lead paso" data-paso="1">No hace falta memorizarlas: cada columna contesta una pregunta sobre la persona.</p>
+          <div class="chips-zona" data-columnas></div>
+          <p class="pie paso" data-paso="2"><span class="reloj">⏱</span> = columna que solo se conoce <b>después</b> de la venta. Las volveremos a ver en la trampa 3.</p>
+        </div>
+        <aside class="nota">Primero aparecen desordenadas, como llegan en el CSV. Al avanzar se agrupan por la pregunta que responden.</aside>
+      </section>
+
+      <section class="frame" id="fila" data-x="6900" data-y="1250" data-cap="1" data-titulo="Así se ve una fila" data-grafico="cascada">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 1 · Los datos</p>
+            <h2>Así se ve una fila</h2>
+            <div class="tarjeta fila-tx">
+              <p class="tx">TX-000104</p>
+              <p>El <b>6 de enero de 2024</b> llegó por <b>Google Ads</b> un cliente <b>Enterprise</b> de <b>España</b>. <b>Compró</b> dos días después por <b>€1.554,86</b>.</p>
+            </div>
+            <div class="concepto paso" data-paso="1">
+              <span class="etq">La medida que usamos para todo</span>
+              <p>Lo que queda después de pagar producto, publicidad y envío es la <b>ganancia</b> de la venta (en el informe, <em>contribución</em>). Vender más no sirve si cada venta cuesta más de lo que deja.</p>
+            </div>
+          </div>
+          <div class="grafico" data-svg></div>
+        </div>
+        <aside class="nota">Usaremos esta misma fila para explicar la limpieza: aquí ya hay una trampa escondida (€22).</aside>
+      </section>
+
+      <section class="frame" id="grano" data-x="4950" data-y="1250" data-r="-2" data-cap="1" data-titulo="Concepto: OLTP, OLAP y grano">
+        <div class="frame-in">
+          <p class="kicker">Concepto del curso</p>
+          <h2>De registrar a analizar</h2>
+          <div class="dos-col">
+            <div class="tarjeta">
+              <h3>OLTP · el sistema que registra</h3>
+              <p>Guarda cada evento al momento: una persona llega, ve una página, compra. Muchas escrituras pequeñas. Nuestro CSV es una foto de ese sistema.</p>
+            </div>
+            <div class="tarjeta acento paso" data-paso="1">
+              <h3>OLAP · el sistema que analiza</h3>
+              <p>Reorganiza los datos para responder preguntas: ¿cuánto ganamos por canal y mes? Pocas escrituras, lecturas enormes. Es lo que construimos en el paso 2.</p>
+            </div>
+          </div>
+          <div class="concepto paso" data-paso="2">
+            <span class="etq">Grano</span>
+            <p>Antes de sumar nada hay que decir qué es <b>una fila</b>. Aquí: <b>una oportunidad comercial</b> (una persona interesada). Por eso el gasto diario de campaña, que es de un <em>día</em>, no puede sumarse fila por fila. Ese error lo veremos en la trampa 2.</p>
+          </div>
+        </div>
+        <aside class="nota">El grano es la pregunta más importante del modelado dimensional: si se equivoca, todos los totales salen mal.</aside>
+      </section>
+
+      <!-- ============================== 2 · LIMPIEZA ============================== -->
+      <section class="frame capitulo" id="c2" data-x="3000" data-y="3200" data-r="3" data-cap="2" data-titulo="Paso 2 · Limpieza">
+        <div class="frame-in">
+          <p class="cap-num">02</p>
+          <h2 class="cap-titulo">Limpieza</h2>
+          <p class="lead">¿Podemos confiar en los datos?</p>
+          <div class="tarjeta oro paso" data-paso="1">
+            <h3>Regla de oro</h3>
+            <p>El archivo original <b>nunca se modifica</b>. Toda la limpieza es una <b>vista SQL</b> encima, que cualquiera puede leer y volver a correr. Si una regla falla, el proceso se detiene.</p>
+          </div>
+        </div>
+        <aside class="nota">Esta regla hace que el trabajo sea auditable: la profesora puede volver a correr make run y obtener los mismos números.</aside>
+      </section>
+
+      <section class="frame" id="reglas" data-x="4950" data-y="3200" data-cap="2" data-titulo="15 reglas, 0 errores" data-grafico="reglas">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 2 · Limpieza</p>
+            <h2>15 reglas de validación</h2>
+            <p>Cada regla es una consulta que cuenta las filas que la rompen. Las 15 deben dar <b>0</b> antes de analizar.</p>
+            <pre class="codigo"><code><span class="c">-- sql/01_preparacion.sql</span>
+<span class="k">select</span> 'asistio_sin_invitacion',
+  <span class="k">count</span>(*) <span class="k">filter</span> (
+    <span class="k">where</span> webinar_attended
+        &gt; webinar_invited)
+<span class="k">from</span> ventas</code></pre>
+            <div class="tarjeta rojo paso" data-paso="1"><p>Cero errores <b>no</b> significa que los datos estén listos. Al revisarlos encontramos <b>tres trampas</b>.</p></div>
+          </div>
+          <div class="lista-reglas" data-reglas></div>
+        </div>
+        <aside class="nota">Valor imposible: un puntaje de 150 en una escala de 1 a 99. Dato que se contradice: alguien que asistió a un webinar sin haber sido invitado. Cuenta que no cuadra: venta menos costos distinto de la ganancia.</aside>
+      </section>
+
+      <section class="frame" id="trampa1" data-x="6900" data-y="3200" data-r="-3" data-cap="2" data-titulo="Trampa 1: €22" data-grafico="trampa1">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 2 · Trampa 1</p>
+            <h2>Un costo que no aparece</h2>
+            <p>Con la fila TX-000104 hacemos la cuenta a mano…</p>
+            <div class="tarjeta paso" data-paso="2"><p>Faltan <b>€22</b> en <b>todas</b> las 2.096 ventas y en ninguna fila sin venta. No es un error: es un <b>costo fijo por venta</b>, como el envío.</p></div>
+            <div class="tarjeta verde paso" data-paso="3"><p><b>Tratamiento:</b> lo convertimos en la regla 13 (<code>contribucion = bruta − costo − 22·venta</code>) y lo descontamos en todos los cálculos.</p></div>
+          </div>
+          <div class="cuenta" data-cuenta-trampa>
+            <div class="fila-c"><span>Venta menos costo del producto</span><b>€1.107,06</b></div>
+            <div class="fila-c"><span>− Publicidad</span><b>€9,05</b></div>
+            <div class="fila-c total"><span>Debería quedar</span><b>€1.098,01</b></div>
+            <div class="fila-c"><span>El archivo dice</span><b>€1.076,01</b></div>
+            <div class="fila-c falta paso" data-paso="1"><span>Faltan</span><b>€22,00</b></div>
+          </div>
+        </div>
+        <aside class="nota">Este hallazgo salió de perfilar los datos, no de una regla escrita de antemano. Por eso la regla 13 tiene un comentario en el SQL.</aside>
+      </section>
+
+      <section class="frame" id="trampa2" data-x="6900" data-y="4450" data-cap="2" data-titulo="Trampa 2: lo que no se suma" data-grafico="trampa2">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 2 · Trampa 2</p>
+            <h2>Un gasto que no se puede sumar</h2>
+            <p>El <b>23 de junio de 2025</b> llegaron <b>14 personas</b> por Facebook. Cada fila trae un "gasto diario de campaña" distinto, entre €993 y €1.164.</p>
+            <div class="tarjeta rojo paso" data-paso="1"><p>Si los sumamos: <b>€15.071</b> en un solo día. No tiene sentido: esa columna dice qué tan fuerte era la publicidad, no cuánto se pagó.</p></div>
+            <div class="tarjeta verde paso" data-paso="2"><p><b>Tratamiento:</b> esa columna nunca se suma, solo se promedia (tabla aparte <code>fact_gasto_campana_dia</code>). Para costos usamos el costo de cada persona: ese día, <b>€328</b>.</p></div>
+            <div class="concepto paso" data-paso="3"><span class="etq">Concepto del curso</span><p>Medidas <b>aditivas</b> (se suman por todo: ventas, costo), <b>semiaditivas</b> (no en el tiempo: saldos) y <b>no aditivas</b> (nunca: tasas, este gasto de referencia). Sumar la columna en todo el archivo daría €4,55 millones.</p></div>
+          </div>
+          <div class="grafico" data-svg></div>
+        </div>
+        <aside class="nota">Las 14 barras se apilan hasta €15.071 y luego se colapsan al costo real del día.</aside>
+      </section>
+
+      <section class="frame" id="trampa3" data-x="4950" data-y="4450" data-r="2" data-cap="2" data-titulo="Trampa 3: ceros y futuro" data-grafico="trampa3">
+        <div class="frame-in">
+          <p class="kicker">Paso 2 · Trampa 3</p>
+          <h2>Ceros que no son errores y datos del futuro</h2>
+          <div class="dos-col">
+            <div class="tarjeta">
+              <h3>Ceros que no son errores</h3>
+              <p>El 90 % no compró, y en esas filas la venta vale €0. Valor promedio de una venta:</p>
+              <div class="barras-ceros" data-ceros></div>
+            </div>
+            <div class="tarjeta">
+              <h3>Datos del futuro <span class="reloj">⏱</span></h3>
+              <p>El valor de la venta y los días que tardó solo se conocen <b>después</b> de que alguien compra. Usarlos para predecir quién compra sería hacer trampa (<b>fuga de información</b>).</p>
+              <div class="linea-tiempo" data-tiempo>
+                <div class="lt-antes"><b>Antes de la venta</b><span>canal · segmento · página · webinar · puntaje</span></div>
+                <div class="lt-hito">compra</div>
+                <div class="lt-despues"><b>Después</b><span>venta · días · margen · costo atribuido</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="tarjeta verde paso" data-paso="1"><p><b>Tratamiento:</b> los promedios de venta se calculan solo sobre ventas, y las columnas ⏱ no entran al modelo (lista explícita en <code>src/bi/model.py</code>).</p></div>
+        </div>
+        <aside class="nota">Un modelo con fuga de información parece excelente en el laboratorio y falla en producción.</aside>
+      </section>
+
+      <section class="frame" id="estrella" data-x="3000" data-y="4450" data-r="-2" data-cap="2" data-titulo="Esquema estrella 3D" data-tres="estrella">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 2 · Con los datos limpios, los organizamos</p>
+            <h2>Esquema estrella</h2>
+            <p>En el centro, <b>lo que se mide</b> (hechos). Alrededor, <b>por dónde se puede cortar</b> (dimensiones).</p>
+            <div class="info-estrella" data-info><p class="muted">Pasa el cursor por una tabla para ver qué guarda.</p></div>
+            <ul class="mini-conceptos">
+              <li><b>Dos hechos</b> con granos distintos: oportunidad y día de campaña.</li>
+              <li><b>Dimensiones compartidas</b> (fecha, canal): unen ambos hechos.</li>
+              <li><b>Dimensión basura</b> (perfil): atributos chicos juntos.</li>
+              <li><b>Control:</b> al volver a unir las tablas salen los mismos totales.</li>
+            </ul>
+          </div>
+          <div class="lienzo"><canvas data-canvas></canvas><div class="etiquetas-3d"></div></div>
+        </div>
+        <aside class="nota">Es el formato que usan Power BI o una tabla dinámica. Las tablas están en data/modelo_dimensional/.</aside>
+      </section>
+
+      <section class="frame" id="flujo" data-x="3000" data-y="5700" data-cap="2" data-titulo="El flujo completo" data-grafico="flujo">
+        <div class="frame-in">
+          <p class="kicker">Paso 2 · Cómo está construido</p>
+          <h2>Un solo comando corre todo: <code>make run</code></h2>
+          <div class="grafico ancho" data-svg></div>
+          <p class="pie">Si una de las 15 reglas o el control de la estrella falla, <code>pipeline.py</code> se detiene (<code>check_zero</code>). Las pruebas automáticas están en <code>tests/test_bi.py</code>.</p>
+        </div>
+        <aside class="nota">Esto es ELT: primero cargamos el dato tal cual (vista raw) y transformamos con SQL dentro del motor (DuckDB).</aside>
+      </section>
+
+      <!-- ============================== 3 · KPI ============================== -->
+      <section class="frame capitulo" id="c3" data-x="9900" data-y="5700" data-r="-3" data-cap="3" data-titulo="Paso 3 · KPI">
+        <div class="frame-in">
+          <p class="cap-num">03</p>
+          <h2 class="cap-titulo">KPI</h2>
+          <p class="lead">¿Cómo va el negocio?</p>
+          <div class="concepto paso" data-paso="1"><span class="etq">Concepto del curso</span><p>Una <b>métrica</b> es cualquier número. Un <b>KPI</b> es una métrica atada a un objetivo y a una decisión: si cambia, alguien hace algo distinto.</p></div>
+        </div>
+        <aside class="nota">Último año: mayo 2025 a abril 2026, comparado con los 12 meses anteriores.</aside>
+      </section>
+
+      <section class="frame" id="formulas" data-x="11850" data-y="5700" data-cap="3" data-titulo="Cómo se calcula cada KPI" data-grafico="formulas">
+        <div class="frame-in">
+          <p class="kicker">Paso 3 · KPI · Último año: mayo 2025 a abril 2026</p>
+          <h2>Cómo se calcula cada KPI</h2>
+          <div class="kpis">
+            <div class="kpi paso" data-paso="1"><span class="q">¿Cuántos compran?</span><h3>Conversión</h3><p class="formula">1.224 ventas ÷ 10.073 interesados</p><b data-valor="12.2" data-fmt="pct1">12,2 %</b></div>
+            <div class="kpi paso" data-paso="2"><span class="q">¿Cuánto vale una venta?</span><h3>Venta promedio</h3><p class="formula">€1.397.868 ÷ 1.224 ventas</p><b data-valor="1142" data-fmt="eur">€1.142</b></div>
+            <div class="kpi paso" data-paso="3"><span class="q">¿Cuánta publicidad cuesta?</span><h3>Costo por venta</h3><p class="formula">€81.156 ÷ 1.224 ventas</p><b data-valor="66" data-fmt="eur">€66</b></div>
+            <div class="kpi estrella-kpi paso" data-paso="4"><span class="q">¿Cuánto vale cada uno?</span><h3>Ganancia por interesado</h3><p class="formula">€933.999 ÷ 10.073 interesados</p><b data-valor="93" data-fmt="eur">€93</b></div>
+          </div>
+          <p class="lead paso" data-paso="5">El más útil es la <b>ganancia por interesado</b>: junta en un número si compran, cuánto pagan y cuánto costó atraerlos.</p>
+        </div>
+        <aside class="nota">Los mismos KPI se calcularon por canal, mes, país y tipo de cliente (salidas/kpi.csv): es un cubo en formato largo.</aside>
+      </section>
+
+      <section class="frame" id="crecimiento" data-x="13800" data-y="5700" data-r="2" data-cap="3" data-titulo="KPI 1: el negocio crece" data-grafico="crecimiento">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 3 · KPI 1</p>
+            <h2>El negocio crece</h2>
+            <p>Último año contra el anterior.</p>
+            <div class="tarjeta azul paso" data-paso="1"><p><b>Lectura:</b> los interesados suben 31 %, pero las ventas 76 %. El negocio crece porque <b>convence mejor</b> a quien llega, no porque llegue más gente.</p></div>
+          </div>
+          <div class="grafico" data-svg></div>
+        </div>
+        <aside class="nota">La conversión pasa de 9,0 % a 12,2 % y el costo por venta baja 18 %.</aside>
+      </section>
+
+      <section class="frame" id="canales" data-x="13800" data-y="6950" data-cap="3" data-titulo="KPI 2: canales en 3D" data-tres="canales">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 3 · KPI 2</p>
+            <h2>La publicidad pagada trae gente, no ganancia</h2>
+            <p>Por canal: <span class="sw gris"></span> parte de los interesados y <span class="sw rojo"></span><span class="sw azul"></span> parte de la ganancia total.</p>
+            <div class="tarjeta rojo"><p><b>Facebook y Google</b> traen el <b>39 %</b> de los interesados, pero solo el <b>13 %</b> de la ganancia.</p></div>
+            <p class="muted">Arrastra para girar el gráfico.</p>
+          </div>
+          <div class="lienzo"><canvas data-canvas></canvas><div class="etiquetas-3d"></div></div>
+        </div>
+        <aside class="nota">Email y Webinar son pequeños en volumen pero concentran la ganancia.</aside>
+      </section>
+
+      <section class="frame" id="saturacion" data-x="11850" data-y="6950" data-r="-2" data-cap="3" data-titulo="KPI 2: saturación de Ads" data-grafico="saturacion">
+        <div class="frame-in">
+          <p class="kicker">Paso 3 · KPI 2 · Por nivel de gasto en publicidad</p>
+          <h2>Más gasto trae más gente, pero de peor calidad</h2>
+          <div class="dos-graficos">
+            <div><h3>Costo por venta</h3><div class="grafico" data-svg="cac"></div></div>
+            <div><h3>Ganancia por interesado</h3><div class="grafico" data-svg="cpo"></div></div>
+          </div>
+          <p class="lead">Al máximo gasto (<i>saturated</i>), cada venta cuesta <b>€853</b> en vez de €178 y cada interesado <b>pierde €3</b>.</p>
+        </div>
+        <aside class="nota">Dos gráficos y no uno con dos ejes: son medidas distintas y mezclarlas engaña.</aside>
+      </section>
+
+      <section class="frame" id="tendencia" data-x="9900" data-y="6950" data-cap="3" data-titulo="KPI 3: la conversión subió" data-grafico="tendencia">
+        <div class="frame-in">
+          <p class="kicker">Paso 3 · KPI 3 · Por mes</p>
+          <h2>La conversión subió en julio de 2025</h2>
+          <div class="grafico ancho" data-svg></div>
+          <div class="dos-col">
+            <div class="tarjeta"><p>Pasa de <b>9 %</b> a <b>13 %</b>. Coincide con dos cosas: se empezó a usar una <b>página de compra mejorada</b> y bajó el gasto excesivo en publicidad.</p></div>
+            <div class="tarjeta"><p class="muted">Con estos datos no podemos separar del todo una causa de la otra: no fue un experimento.</p></div>
+          </div>
+        </div>
+        <aside class="nota">Pasa el cursor por la línea para ver cada mes.</aside>
+      </section>
+
+      <section class="frame" id="cubo" data-x="11850" data-y="8200" data-r="2" data-cap="3" data-titulo="Concepto: el cubo" data-tres="cubo">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Concepto del curso</p>
+            <h2>El cubo: cortar, rebanar, profundizar</h2>
+            <p>Ingresos por <b>país</b> × <b>tipo de cliente</b>, como una tabla dinámica en 3D.</p>
+            <ul class="mini-conceptos">
+              <li><b>Slice</b>: fijar un país y ver solo esa fila.</li>
+              <li><b>Dice</b>: quedarse con un sub-bloque (ES y MX, B2B y Enterprise).</li>
+              <li><b>Drill-down</b>: bajar de trimestre a mes a día (dim_fecha).</li>
+              <li><b>Roll-up</b>: lo contrario, subir de nivel.</li>
+            </ul>
+            <div class="botones" data-cubo-botones>
+              <button data-modo="todo" class="activo">Todo</button>
+              <button data-modo="slice">Slice: España</button>
+              <button data-modo="dice">Dice</button>
+            </div>
+          </div>
+          <div class="lienzo"><canvas data-canvas></canvas><div class="etiquetas-3d"></div></div>
+        </div>
+        <aside class="nota">Datos: salidas/pivote_ingresos_region_segmento.csv. España concentra casi la mitad de los ingresos.</aside>
+      </section>
+
+      <!-- ============================== 4 · DECISIÓN ============================== -->
+      <section class="frame capitulo" id="c4" data-x="9900" data-y="1250" data-r="3" data-cap="4" data-titulo="Paso 4 · Decisión">
+        <div class="frame-in">
+          <p class="cap-num">04</p>
+          <h2 class="cap-titulo">Decisión</h2>
+          <p class="lead">Cuatro opciones sobre la mesa. ¿Cuál deja <b>más ganancia</b> con <b>menos riesgo</b>?</p>
+          <div class="opciones">
+            <div class="opcion paso" data-paso="1" style="--c:var(--funnel)"><h3>Mejorar la página de compra</h3><p>Llevar a todos la versión nueva que hoy ve 1 de cada 4: página nueva, botón que explica el beneficio, regalo descargable y pago simplificado.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--webinar)"><h3>Webinars</h3><p>Invitar a charlas en línea a quienes ya conocen la marca.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--ads)"><h3>Duplicar publicidad</h3><p>Gastar el doble en Facebook y Google.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--product)"><h3>Producto nuevo</h3><p>Ofrecer un producto premium, más caro.</p></div>
+          </div>
+          <p class="pie paso" data-paso="2">Lo respondemos en dos pasos: <b>(1)</b> un modelo aprende qué hace que alguien compre; <b>(2)</b> simulamos cada opción 10.000 veces.</p>
+        </div>
+        <aside class="nota">Las cuatro opciones vienen del enunciado del caso.</aside>
+      </section>
+
+      <section class="frame" id="modelo" data-x="11850" data-y="1250" data-cap="4" data-titulo="¿Qué hace que alguien compre?" data-grafico="modelo">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 4 · Decisión · Un modelo aprende de los datos</p>
+            <h2>¿Qué hace que alguien compre?</h2>
+            <div class="concepto"><span class="etq">Regresión logística</span><p>Suma el efecto de cada característica en un puntaje <i>z</i> y lo convierte en probabilidad con la curva en S: <code>p = 1 / (1 + e<sup>−z</sup>)</code>. Cada efecto se lee como <b>razón de odds</b>: cuánto multiplica las chances de comprar.</p></div>
+            <div class="grafico sigmoide" data-svg="sigmoide"></div>
+          </div>
+          <div><h3 class="sub">Si la persona…</h3><div class="grafico" data-svg="drivers"></div><p class="pie">Efecto sobre las odds frente a la referencia (Email, página base, gasto medio…). Fuente: <code>salidas/drivers.csv</code>.</p></div>
+        </div>
+        <aside class="nota">El producto nuevo baja la conversión, pero cada venta vale más del doble. Por eso no basta el modelo: hace falta simular.</aside>
+      </section>
+
+      <section class="frame" id="validacion" data-x="13800" data-y="1250" data-r="-2" data-cap="4" data-titulo="¿Funciona el modelo?" data-grafico="lift">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 4 · Validación temporal</p>
+            <h2>¿Funciona con datos que nunca vio?</h2>
+            <div class="linea-entreno">
+              <div class="le-train">Aprende: 2024 – 2025</div>
+              <div class="le-test">Prueba: 2026 · 3.632 personas</div>
+            </div>
+            <div class="cifras pequeñas">
+              <div><b data-valor="0.745" data-fmt="dec3">0,745</b><span>AUC</span></div>
+              <div><b data-valor="43" data-fmt="pct0">43 %</b><span>de las compras en el 20 % mejor puntuado</span></div>
+            </div>
+            <div class="concepto"><span class="etq">Concepto</span><p>Probar con el <b>futuro</b> y no con filas al azar evita que el modelo "vea" el período que debe predecir. El <b>lift</b> ordena a las personas por puntaje y mide cuánto compra cada décimo.</p></div>
+          </div>
+          <div><h3 class="sub">Conversión real en 2026 por décimo de puntaje</h3><div class="grafico" data-svg></div></div>
+        </div>
+        <aside class="nota">El primer décimo convierte 33,5 %, el último 1,4 %: el puntaje sirve para decidir a quién llamar primero.</aside>
+      </section>
+
+      <section class="frame" id="montecarlo" data-x="13800" data-y="0" data-cap="4" data-titulo="10.000 escenarios" data-tres="montecarlo">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 4 · Simular cada opción</p>
+            <h2>10.000 futuros posibles por opción</h2>
+            <p>Aplicamos cada opción a las personas del último año y el modelo calcula cuánta ganancia extra dejaría.</p>
+            <div class="concepto"><span class="etq">Monte Carlo + bootstrap</span><p>El costo y el alcance reales no se conocen: se sortean de un rango (mínimo, probable, máximo). La incertidumbre del modelo se suma volviendo a entrenarlo 200 veces con datos remuestreados.</p></div>
+            <div class="tabla-mc" data-tabla-mc></div>
+          </div>
+          <div class="lienzo"><canvas data-canvas></canvas><div class="etiquetas-3d"></div></div>
+        </div>
+        <aside class="nota">Cada partícula que cae es un escenario. La montaña de cada opción es su distribución de ganancia extra en 12 meses.</aside>
+      </section>
+
+      <section class="frame" id="comparador" data-x="11850" data-y="0" data-r="2" data-cap="4" data-titulo="Comparador de opciones" data-grafico="comparador">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 4 · Una figura para recordarlo</p>
+            <h2>Medir contra un patrón</h2>
+            <p>En un taller, un <b>reloj comparador</b> no mide alturas absolutas: mide la diferencia con un <b>bloque patrón</b>. Igual que la simulación: cada opción se compara con <b>no hacer nada</b>.</p>
+            <div class="botones verticales" data-comparador-botones>
+              <button data-i="0">Patrón: no hacer nada</button>
+              <button data-i="1" style="--c:var(--product)">Producto nuevo</button>
+              <button data-i="2" style="--c:var(--funnel)">Mejorar la página</button>
+              <button data-i="3" style="--c:var(--webinar)">Webinars</button>
+              <button data-i="4" style="--c:var(--ads)">Duplicar publicidad</button>
+            </div>
+            <p class="pie">Figura isométrica construida con la skill <a href="https://github.com/wheresryan22/anatomy" target="_blank" rel="noopener">Anatomy</a>.</p>
+          </div>
+          <iframe class="figura-anatomy" data-src="/anatomy/comparador.html" title="Comparador de opciones" loading="lazy"></iframe>
+        </div>
+        <aside class="nota">El bloque de publicidad es más bajo que el patrón: duplicarla pierde dinero.</aside>
+      </section>
+
+      <section class="frame" id="matriz" data-x="9900" data-y="0" data-cap="4" data-titulo="De los números a la decisión" data-grafico="matriz">
+        <div class="frame-in dividido">
+          <div><div class="grafico" data-svg></div></div>
+          <div class="texto">
+            <p class="kicker">Paso 4 · Resultado</p>
+            <h2>Ganancia contra riesgo</h2>
+            <p>Punto: ganancia extra esperada en 12 meses. Barra: del escenario malo (p10) al bueno (p90). A la derecha, la probabilidad de perder dinero.</p>
+            <div class="decisiones">
+              <p class="paso" data-paso="1"><span class="sello hacer">Hacer ahora</span> Página mejorada: €120 mil, riesgo 0 %.</p>
+              <p class="paso" data-paso="2"><span class="sello probar">Probar primero</span> Producto nuevo: €175 mil, pero solo 55 ventas de evidencia.</p>
+              <p class="paso" data-paso="3"><span class="sello probar">Probar primero</span> Webinars: €32 mil, solo si cuestan menos de €48 mil al año.</p>
+              <p class="paso" data-paso="4"><span class="sello no">No hacer</span> Duplicar publicidad: pierde €101 mil en el 99,5 % de los escenarios.</p>
+            </div>
+          </div>
+        </div>
+        <aside class="nota">No compiten entre sí: la página mejorada sube cuántos compran, y el producto, cuánto vale cada venta.</aside>
+      </section>
+
+      <section class="frame" id="sensibilidad" data-x="9900" data-y="-1250" data-r="-2" data-cap="4" data-titulo="¿Y si cuesta más?" data-grafico="sensibilidad">
+        <div class="frame-in dividido">
+          <div class="texto">
+            <p class="kicker">Paso 4 · Análisis de sensibilidad</p>
+            <h2>¿Y si lanzar el producto cuesta más?</h2>
+            <p>Mueve el costo de lanzamiento. La ganancia bruta esperada del producto (antes de su costo) es <b>€204 mil</b>; la de la página mejorada, después de su costo, <b>€120 mil</b>.</p>
+            <label class="deslizador">Costo de lanzar el producto: <b data-costo>€28 mil</b>
+              <input type="range" min="10" max="150" value="28" step="1" data-rango />
+            </label>
+            <div class="tarjeta oro" data-veredicto></div>
+          </div>
+          <div class="grafico" data-svg></div>
+        </div>
+        <aside class="nota">Umbral: si lanzar el producto cuesta más de €84 mil, la página mejorada pasa a ser la mejor opción.</aside>
+      </section>
+
+      <section class="frame" id="recomendacion" data-x="11850" data-y="-1250" data-cap="4" data-titulo="Recomendación">
+        <div class="frame-in">
+          <p class="kicker">Lo que le decimos a la gerencia</p>
+          <h2>Recomendación</h2>
+          <div class="tres-col">
+            <div class="tarjeta azul paso" data-paso="1"><h3>Hacer ahora</h3><ol><li>Llevar la página de compra mejorada a todos, dejando un grupo de comparación.</li><li>Usar el puntaje del modelo para decidir a quién llamar primero.</li></ol></div>
+            <div class="tarjeta oro paso" data-paso="2"><h3>Probar primero</h3><ol><li>Producto nuevo: un trimestre de piloto con pocos clientes.</li><li>Webinars: solo si cuestan menos de €48 mil al año.</li></ol></div>
+            <div class="tarjeta rojo paso" data-paso="3"><h3>No hacer</h3><p>Duplicar la publicidad.</p></div>
+          </div>
+        </div>
+        <aside class="nota">El grupo de comparación convierte la decisión en un experimento: el año que viene sabremos el efecto real.</aside>
+      </section>
+
+      <section class="frame" id="limites" data-x="13800" data-y="-1250" data-r="2" data-cap="4" data-titulo="¿Qué tan firmes son?">
+        <div class="frame-in">
+          <p class="kicker">Lo que podría cambiar la conclusión</p>
+          <h2>¿Qué tan firmes son estos números?</h2>
+          <div class="dos-col">
+            <div class="tarjeta"><h3>Poca evidencia del producto</h3><p>Solo se vendió 55 veces. Sus €175 mil son el escenario optimista.</p></div>
+            <div class="tarjeta"><h3>No fueron experimentos</h3><p>Al webinar va quien quiere; su efecto real puede ser menor.</p></div>
+            <div class="tarjeta oro"><h3>Umbral</h3><p>Si lanzar el producto cuesta más de €84 mil, la página mejorada pasa a ser la mejor opción.</p></div>
+            <div class="tarjeta"><h3>Datos sintéticos</h3><p>El método sirve para datos reales; las cifras no describen una empresa real.</p></div>
+          </div>
+        </div>
+        <aside class="nota">Una recomendación que no dice cuándo deja de valer no se puede defender.</aside>
+      </section>
+
+      <!-- ============================== 5 · NUBE ============================== -->
+      <section class="frame capitulo" id="c5" data-x="16600" data-y="-1250" data-r="-3" data-cap="5" data-titulo="Paso 5 · A la nube">
+        <div class="frame-in">
+          <p class="cap-num">05</p>
+          <h2 class="cap-titulo">A la nube</h2>
+          <p class="lead">Hoy todo corre en un portátil con <code>make run</code>. ¿Cómo se vería en producción, cada mes, sin que nadie lo ejecute a mano?</p>
+          <div class="concepto"><span class="etq">Concepto</span><p>Un <b>data lake</b> guarda el dato crudo tal cual (zona <i>raw</i>) y versiones limpias (zona <i>curada</i>); un <b>data warehouse</b> sirve el esquema estrella a los tableros; un <b>orquestador</b> encadena los pasos y se detiene si algo falla.</p></div>
+        </div>
+        <aside class="nota">Propuesta de arquitectura, no implementada: muestra cómo cada pieza del proyecto tiene un equivalente administrado en AWS.</aside>
+      </section>
+
+      <section class="frame grande" id="aws" data-x="16600" data-y="400" data-s="1.25" data-cap="5" data-titulo="Arquitectura en AWS" data-grafico="aws">
+        <div class="frame-in">
+          <div class="aws-cabecera">
+            <div>
+              <p class="kicker">Paso 5 · Arquitectura propuesta</p>
+              <h2>El mismo flujo, en AWS</h2>
+            </div>
+            <div class="aws-paso" data-aws-texto><b>Pulsa → para recorrer el flujo</b><span>Cada paso enciende los servicios que intervienen.</span></div>
+          </div>
+          <div class="aws-diagrama" data-aws></div>
+          <p class="pie">Diagrama editable: <a href="/arquitectura-bi-aws.drawio" download>arquitectura-bi-aws.drawio</a> · íconos oficiales de AWS · generado con la skill <a href="https://github.com/vidanov/aws-architecture-diagram-skill" target="_blank" rel="noopener">aws-architecture-diagram</a>.</p>
+        </div>
+        <aside class="nota">Los números ①–⑥ del diagrama siguen el recorrido del dato. Las líneas punteadas son de control (quién ordena qué), la roja es la alerta.</aside>
+      </section>
+
+      <section class="frame" id="equivalencias" data-x="16600" data-y="1900" data-r="2" data-cap="5" data-titulo="Del portátil a la nube">
+        <div class="frame-in">
+          <p class="kicker">Paso 5 · Equivalencias</p>
+          <h2>Del portátil a la nube</h2>
+          <table class="equiv">
+            <thead><tr><th>Hoy en el proyecto</th><th>En AWS</th><th>Por qué</th></tr></thead>
+            <tbody>
+              <tr class="paso" data-paso="1"><td><code>data/original/*.csv</code>, nunca se modifica</td><td>S3 zona raw con versionado y Object Lock</td><td>La regla de oro, garantizada por el almacenamiento</td></tr>
+              <tr class="paso" data-paso="1"><td>Vistas DuckDB + 15 reglas</td><td>Glue Data Catalog + Athena</td><td>Mismo SQL sobre archivos, sin servidor</td></tr>
+              <tr class="paso" data-paso="2"><td><code>check_zero</code> detiene el proceso</td><td>Step Functions + SNS</td><td>Si una regla falla, nadie ve números malos y el equipo recibe la alerta</td></tr>
+              <tr class="paso" data-paso="2"><td><code>data/modelo_dimensional/</code></td><td>Redshift Serverless</td><td>El esquema estrella servido a muchos usuarios</td></tr>
+              <tr class="paso" data-paso="3"><td><code>src/bi/model.py</code></td><td>SageMaker (trabajo de procesamiento)</td><td>Modelo, bootstrap y Monte Carlo con más CPU</td></tr>
+              <tr class="paso" data-paso="3"><td>Power BI / informe</td><td>QuickSight (o Power BI con conector a Redshift)</td><td>Tableros que se actualizan solos</td></tr>
+              <tr class="paso" data-paso="4"><td><code>make run</code> a mano</td><td>EventBridge, una vez al mes</td><td>El dato nuevo entra sin intervención</td></tr>
+              <tr class="paso" data-paso="4"><td>—</td><td>Lake Formation, KMS, CloudWatch</td><td>Permisos por columna, cifrado y monitoreo</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="nota">Cada fila de la tabla es una pieza del proyecto que ya existe; la nube solo la automatiza.</aside>
+      </section>
+
+      <!-- ============================== CIERRE ============================== -->
+      <section class="frame" id="glosario" data-x="18550" data-y="1900" data-cap="6" data-titulo="Conceptos aplicados">
+        <div class="frame-in">
+          <p class="kicker">Repaso</p>
+          <h2>Conceptos del curso aplicados</h2>
+          <p class="muted">Haz clic en un concepto para viajar al marco donde se usa.</p>
+          <div class="glosario" data-glosario></div>
+        </div>
+        <aside class="nota">Un mapa para volver a cualquier parte de la presentación.</aside>
+      </section>
+
+      <section class="frame portada cierre" id="cierre" data-x="18550" data-y="3150" data-r="-2" data-cap="6" data-titulo="Gracias">
+        <div class="frame-in">
+          <img src="/img/EscudoUD.png" alt="" class="escudo-cierre" />
+          <h1 class="titulo-grande"><span class="linea"><em>Gracias</em></span></h1>
+          <p class="lead">Preguntas y discusión</p>
+          <p class="autores">Juan Felipe Rodríguez Galindo · Carlos Stiven Mora Hoyos</p>
+          <p class="muted">Maestría en Ciencias de la Información y las Comunicaciones · Inteligencia de Negocios</p>
+          <div class="botones"><button data-ir="mapa">Ver el mapa completo</button><button data-ir="portada">Volver al inicio</button></div>
+        </div>
+        <aside class="nota">Fin. Pulsa O para ver todo el recorrido.</aside>
+      </section>
+    </div>
+  </main>
+
+  <header id="hud-top">
+    <button class="marca" data-ir="portada" aria-label="Ir al inicio"><img src="/img/EscudoUD.png" alt="" /> <span>BI · Proyecto integrador</span></button>
+    <div class="hud-centro"><span data-hud-cap></span><b data-hud-titulo></b></div>
+    <div class="hud-acciones">
+      <button data-accion="mapa" title="Vista general (O)">◎ Mapa</button>
+      <button data-accion="notas" title="Notas (N)">✎ Notas</button>
+      <button data-accion="pantalla" title="Pantalla completa (F)">⛶</button>
+      <button data-accion="ayuda" title="Ayuda (?)">?</button>
+    </div>
+  </header>
+
+  <nav id="hud-bottom" aria-label="Progreso">
+    <button class="nav-btn" data-accion="anterior" aria-label="Anterior">←</button>
+    <div class="pista" data-pista></div>
+    <span class="contador" data-contador></span>
+    <button class="nav-btn" data-accion="siguiente" aria-label="Siguiente">→</button>
+  </nav>
+
+  <div id="notas" hidden><p class="etq">Notas del presentador</p><p data-nota></p></div>
+
+  <div id="ayuda" hidden>
+    <div class="ayuda-caja">
+      <h3>Cómo navegar</h3>
+      <ul>
+        <li><kbd>→</kbd> <kbd>espacio</kbd> <kbd>rueda ↓</kbd> siguiente (primero revela los pasos del marco)</li>
+        <li><kbd>←</kbd> <kbd>rueda ↑</kbd> anterior</li>
+        <li><kbd>O</kbd> vista general del recorrido · clic en un marco para ir</li>
+        <li><kbd>N</kbd> notas del presentador · <kbd>F</kbd> pantalla completa</li>
+        <li><kbd>1</kbd>…<kbd>5</kbd> saltar a cada paso</li>
+        <li>En los gráficos 3D: arrastra para girar</li>
+      </ul>
+      <button data-accion="ayuda">Entendido</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
