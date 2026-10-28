@@ -553,7 +553,7 @@ const aws = {
   pasos: PASOS_AWS.length,
   async montar(el) {
     const caja = el.querySelector("[data-aws]");
-    const txt = await fetch("/aws-arquitectura.svg").then((r) => r.text());
+    const txt = await fetch(import.meta.env.BASE_URL + "aws-arquitectura.svg").then((r) => r.text());
     caja.innerHTML = txt.slice(txt.indexOf("<svg"));
     const s = caja.querySelector("svg");
     s.removeAttribute("width");
