@@ -100,7 +100,7 @@ function nube() {
       geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(posInicio.slice(), 3));
       geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
-      const mat = new THREE.PointsMaterial({ size: 0.075, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.NormalBlending });
+      const mat = new THREE.PointsMaterial({ size: 0.12, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.NormalBlending });
       s.scene.add(new THREE.Points(geo, mat));
       // Axes and a floor grid.
       const grid = new THREE.GridHelper(14, 14, 0x94a3b8, 0xd5dbe3);
