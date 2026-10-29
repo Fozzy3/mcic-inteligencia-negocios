@@ -296,8 +296,8 @@ const body = k.plateHtml({
 });
 
 // Embedded in the site: transparent page and no outer margin.
-const EMBED_CSS = `<style>body{background:transparent}.iso{--anatomy-page:transparent}.iso-page{margin:8px auto}</style>`;
+const EMBED_CSS = `<style>html{color-scheme:light}body{background:transparent}.iso{--anatomy-page:transparent}.iso-page{margin:8px auto}</style>`;
 mkdirSync(OUT, { recursive: true });
-const page = k.pageHtml({ title: "Comparador de opciones", theme: "dark", body, script: kitScript() + live, width: 760 }).replace('<html lang="en">', '<html lang="es">').replace("</head>", `${EMBED_CSS}</head>`);
+const page = k.pageHtml({ title: "Comparador de opciones", theme: "light", body, script: kitScript() + live, width: 760 }).replace('<html lang="en">', '<html lang="es">').replace("</head>", `${EMBED_CSS}</head>`);
 writeFileSync(join(OUT, "comparador.html"), page);
 console.log("wrote public/anatomy/comparador.html", BLOCKS.map((b) => b.toFixed(2)).join(" "));

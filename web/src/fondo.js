@@ -7,9 +7,9 @@ const ESCALA = 0.012; // world px -> background units
 export function iniciarFondo(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-  renderer.setClearColor(0x0b0e13);
+  renderer.setClearColor(0xf4f3ef);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0b0e13, 0.006);
+  scene.fog = new THREE.FogExp2(0xf4f3ef, 0.006);
   const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 600);
 
   // Particles spread over the whole route, at several depths.

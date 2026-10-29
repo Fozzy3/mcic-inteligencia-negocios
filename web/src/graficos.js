@@ -258,7 +258,7 @@ const flujo = {
     let cuerpo = `<defs><marker id="pf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ud-rojo)"/></marker></defs>`;
     rutas.forEach((d, i) => {
       cuerpo += `<path class="ruta" d="${d}" fill="none" stroke="rgba(237,50,55,.7)" stroke-width="2.5" marker-end="url(#pf)"/>`;
-      cuerpo += `<circle r="6" fill="#f4d27a"><animateMotion dur="${2 + (i % 3) * 0.4}s" repeatCount="indefinite" path="${d}" begin="${i * 0.3}s"/></circle>`;
+      cuerpo += `<circle r="6" fill="#d19a12"><animateMotion dur="${2 + (i % 3) * 0.4}s" repeatCount="indefinite" path="${d}" begin="${i * 0.3}s"/></circle>`;
     });
     cuerpo += `<path d="M${por.g.x + 60},${por.g.y + 88} L${por.g.x + 60},${por.g.y + 160}" stroke="var(--ads)" stroke-width="2" stroke-dasharray="5 5" fill="none"/><text x="${por.g.x + 60}" y="${por.g.y + 182}" text-anchor="middle" font-size="16" style="fill:var(--ads)">si falla: se detiene</text>`;
     for (const n of nodos) {
@@ -268,7 +268,7 @@ const flujo = {
         cuerpo += `<g class="nodo"><path d="M${cx},${cy - 50} L${cx + 60},${cy + 0} L${cx},${cy + 50} L${cx - 60},${cy} Z" transform="translate(0,12)" fill="rgba(184,138,34,.15)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte" x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="16">${n.t}</text></g>`;
         continue;
       }
-      cuerpo += `<g class="nodo"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${alto}" rx="14" fill="rgba(20,25,34,.95)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte ${n.t.includes(".") ? "t-mono" : ""}" x="${n.x + n.w / 2}" y="${n.y + (n.s ? 44 : alto / 2 + 6)}" text-anchor="middle" font-size="18">${n.t}</text>${n.s ? `<text x="${n.x + n.w / 2}" y="${n.y + 72}" text-anchor="middle" font-size="15">${n.s}</text>` : ""}</g>`;
+      cuerpo += `<g class="nodo"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${alto}" rx="14" fill="var(--panel-solid)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte ${n.t.includes(".") ? "t-mono" : ""}" x="${n.x + n.w / 2}" y="${n.y + (n.s ? 44 : alto / 2 + 6)}" text-anchor="middle" font-size="18">${n.t}</text>${n.s ? `<text x="${n.x + n.w / 2}" y="${n.y + 72}" text-anchor="middle" font-size="15">${n.s}</text>` : ""}</g>`;
     }
     cuerpo += `<text x="${por.ent.x + 190}" y="${por.ent.y + 95}" text-anchor="middle" font-size="15">las figuras y estas cifras salen de aquí</text>`;
     lienzo(el).innerHTML = svg(w, h, cuerpo);

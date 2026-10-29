@@ -88,7 +88,7 @@ function nube() {
       posFinal = new Float32Array(n * 3);
       posInicio = new Float32Array(n * 3);
       const col = new Float32Array(n * 3);
-      const oro = new THREE.Color(0xf4d27a), azul = new THREE.Color(0x3b5578);
+      const oro = new THREE.Color(0xd19a12), azul = new THREE.Color(0x9fb3cc);
       for (let i = 0; i < n; i++) {
         const [dia, score, canal, compro] = filas.slice(i * 4, i * 4 + 4);
         posFinal.set([(dia / maxDia) * 12 - 6, (score / 99) * 6, (canal - 3) * 1.1 + (Math.random() - 0.5) * 0.7], i * 3);
@@ -100,10 +100,10 @@ function nube() {
       geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(posInicio.slice(), 3));
       geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
-      const mat = new THREE.PointsMaterial({ size: 0.075, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+      const mat = new THREE.PointsMaterial({ size: 0.075, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.NormalBlending });
       s.scene.add(new THREE.Points(geo, mat));
       // Axes and a floor grid.
-      const grid = new THREE.GridHelper(14, 14, 0x334155, 0x1e293b);
+      const grid = new THREE.GridHelper(14, 14, 0x94a3b8, 0xd5dbe3);
       grid.position.y = -0.05;
       s.scene.add(grid);
       const ejes = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-6, 0, 4.5), new THREE.Vector3(6.4, 0, 4.5), new THREE.Vector3(-6, 0, 4.5), new THREE.Vector3(-6, 6.4, 4.5)]);
@@ -175,7 +175,7 @@ function estrella() {
         m.position.set(...p);
         m.userData = { nombre, filas, r };
         s.scene.add(m);
-        const alambre = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25 }));
+        const alambre = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0x0f172a, transparent: true, opacity: 0.2 }));
         m.add(alambre);
         nodos.push(m);
         s.etiqueta(`${nombre}<small>${fmt(filas)} filas</small>`, [p[0], p[1] + r + 0.6, p[2]], "tabla" + (t.tipo === "hecho" ? " hecho" : ""));
@@ -185,7 +185,7 @@ function estrella() {
         const va = new THREE.Vector3(...pos[a]), vb = new THREE.Vector3(...pos[b]);
         const linea = new THREE.Line(new THREE.BufferGeometry().setFromPoints([va, vb]), new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.45 }));
         s.scene.add(linea);
-        const p = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), new THREE.MeshBasicMaterial({ color: 0xf4d27a }));
+        const p = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), new THREE.MeshBasicMaterial({ color: 0xd19a12 }));
         p.userData = { va, vb, fase: Math.random() };
         s.scene.add(p);
         pulsos.push(p);
@@ -229,7 +229,7 @@ function canales() {
       const totO = filas.reduce((a, k) => a + k.oportunidades, 0);
       const totC = filas.reduce((a, k) => a + k.contribucion_eur, 0);
       filas.sort((a, b) => b.contribucion_eur / totC - a.contribucion_eur / totC);
-      const grid = new THREE.GridHelper(16, 16, 0x334155, 0x1e293b);
+      const grid = new THREE.GridHelper(16, 16, 0x94a3b8, 0xd5dbe3);
       s.scene.add(grid);
       filas.forEach((k, i) => {
         const x = (i - (filas.length - 1) / 2) * 1.9;
@@ -350,7 +350,7 @@ function montecarlo() {
       s.scene.add(pared);
       s.etiqueta("€0 · a la izquierda se pierde", [xDe(0), 7.3, 0], "chica");
       [-200000, 0, 200000, 400000].forEach((v) => s.etiqueta(`€${v / 1000}k`, [xDe(v), -0.4, 4.4], "chica"));
-      const grid = new THREE.GridHelper(16, 16, 0x334155, 0x1e293b);
+      const grid = new THREE.GridHelper(16, 16, 0x94a3b8, 0xd5dbe3);
       grid.position.x = 2.3;
       s.scene.add(grid);
 
@@ -366,7 +366,7 @@ function montecarlo() {
         while ((u -= conteos[k][b]) > 0 && b < conteos[k].length - 1) b++;
         const x = xDe(bordes[b] + Math.random() * (bordes[1] - bordes[0]));
         caidas.push({ x, z: (fila - 1.5) * 2.2 + (Math.random() - 0.5), suelo: (conteos[k][b] / MAX) * 6, retraso: Math.random() * 2.5 });
-        const c = new THREE.Color(COLOR[k]).lerp(new THREE.Color(0xffffff), 0.4);
+        const c = new THREE.Color(COLOR[k]).lerp(new THREE.Color(0xffffff), 0.1);
         col.set([c.r, c.g, c.b], i * 3);
       }
       gotasGeo.setAttribute("color", new THREE.BufferAttribute(col, 3));
