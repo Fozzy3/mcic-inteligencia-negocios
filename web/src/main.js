@@ -234,35 +234,6 @@ function decorar() {
   parallax.appendChild(capa);
 }
 
-// ---------- glossary ----------
-const GLOSARIO = [
-  ["Inteligencia de negocios", "dato → decisión", "pregunta"],
-  ["OLTP vs OLAP", "registrar vs analizar", "grano"],
-  ["Grano", "qué es una fila", "grano"],
-  ["Calidad de datos", "15 reglas", "reglas"],
-  ["Linaje / auditoría", "el original no se toca", "c2"],
-  ["Medidas aditivas", "qué se puede sumar", "trampa2"],
-  ["Fuga de información", "datos del futuro", "trampa3"],
-  ["Esquema estrella", "hechos y dimensiones", "estrella"],
-  ["Dimensión basura", "dim_perfil", "estrella"],
-  ["Dimensión compartida", "fecha y canal", "estrella"],
-  ["ELT", "SQL dentro del motor", "flujo"],
-  ["KPI", "métrica con objetivo", "c3"],
-  ["Cubo OLAP", "slice · dice · drill", "cubo"],
-  ["Rendimientos decrecientes", "saturación de Ads", "saturacion"],
-  ["Regresión logística", "curva en S", "modelo"],
-  ["Razón de odds", "efecto de cada palanca", "modelo"],
-  ["Validación temporal", "probar con el futuro", "validacion"],
-  ["Lift / AUC", "¿ordena bien?", "validacion"],
-  ["Contrafactual", "¿y si hubiéramos…?", "montecarlo"],
-  ["Bootstrap", "200 re-entrenos", "montecarlo"],
-  ["Monte Carlo", "10.000 escenarios", "montecarlo"],
-  ["Sensibilidad", "umbral de €84 mil", "sensibilidad"],
-  ["Data lake / warehouse", "raw, curado, estrella", "c5"],
-  ["Orquestación", "Step Functions", "aws"],
-];
-document.querySelector("[data-glosario]").innerHTML = GLOSARIO.map(([t, s, id]) => `<button data-ir="${id}"><b>${t}</b><span>${s}</span></button>`).join("");
-
 // ---------- input ----------
 function porId(id) {
   return frames.findIndex((f) => f.id === id);
