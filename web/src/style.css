@@ -105,6 +105,16 @@ p b, li b, td b { color: var(--texto); }
 .cierre .frame-in { align-items: center; text-align: center; padding-left: 88px; }
 .escudo-cierre { height: 120px; mix-blend-mode: multiply; }
 
+/* Objetivo */
+#objetivo .mini-conceptos { font-size: 24px; gap: 12px; margin-top: 8px; }
+#objetivo .decisiones p { font-size: 22px; }
+#objetivo .sello { font-size: 15px; padding: 5px 12px; }
+
+/* Medallion layers (Limpieza) */
+.medallion .opcion { min-height: 200px; }
+.medallion .opcion h3 { font-size: 34px; }
+.medallion .opcion p { font-size: 21px; }
+
 /* Chapter frames */
 .capitulo .frame-in { justify-content: center; }
 .cap-num { font-family: var(--serif); font-size: 220px; line-height: 0.8; font-weight: 700; color: transparent; -webkit-text-stroke: 2px var(--ud-rojo); position: absolute; right: 90px; top: 70px; opacity: 0.8; }

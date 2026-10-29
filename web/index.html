@@ -64,6 +64,25 @@
         <aside class="nota">Contamos el proyecto en cuatro pasos, en el orden en que lo hicimos. Pulsa → para revelar cada paso. Al final hay un quinto: cómo llevarlo a la nube.</aside>
       </section>
 
+      <section class="frame" id="objetivo" data-x="0" data-y="2500" data-r="2" data-cap="0" data-titulo="Objetivo">
+        <div class="frame-in">
+          <p class="kicker">Objetivo</p>
+          <h2>Decidir en qué invertir a partir de los resultados</h2>
+          <p class="lead">Recomendar a la gerencia en qué invertir el próximo año según lo que muestran los datos: cuánta ganancia extra deja cada opción y con qué riesgo.</p>
+          <h3 class="sub">Preguntas analíticas</h3>
+          <ol class="mini-conceptos">
+            <li class="paso" data-paso="1">¿Los datos son confiables para decidir? <span class="muted">Paso 2</span></li>
+            <li class="paso" data-paso="2">¿Qué canales convierten más y cuáles dejan más contribución? <span class="muted">Paso 3</span></li>
+            <li class="paso" data-paso="3">¿Qué hace que una persona compre: el canal, su puntaje o las palancas comerciales? <span class="muted">Paso 4</span></li>
+            <li class="paso" data-paso="4">¿Qué opción deja más ganancia extra con menos riesgo? <span class="muted">Paso 4</span></li>
+          </ol>
+          <div class="decisiones paso" data-paso="5">
+            <p>Cada opción termina en una de tres decisiones: <span class="sello hacer">Hacer ahora</span> <span class="sello probar">Probar primero</span> <span class="sello no">No hacer</span></p>
+          </div>
+        </div>
+        <aside class="nota">El objetivo es salir con una decisión que se pueda defender con números. Todo lo que sigue está al servicio de esa recomendación.</aside>
+      </section>
+
       <!-- ============================== 1 · DATOS ============================== -->
       <section class="frame capitulo" id="c1" data-x="3000" data-y="0" data-r="-3" data-cap="1" data-titulo="Paso 1 · Los datos">
         <div class="frame-in">
@@ -130,26 +149,28 @@
         <aside class="nota">Usaremos esta misma fila para explicar la limpieza: aquí ya hay una trampa escondida (€22).</aside>
       </section>
 
-      <section class="frame" id="grano" data-x="4950" data-y="1250" data-r="-2" data-cap="1" data-titulo="Concepto: OLTP, OLAP y grano">
+      <section class="frame" id="grano" data-x="4950" data-y="1250" data-r="-2" data-cap="1" data-titulo="Registrar y analizar">
         <div class="frame-in">
           <p class="kicker">Concepto del curso</p>
-          <h2>De registrar a analizar</h2>
+          <h2>Los mismos datos, guardados de dos formas</h2>
           <div class="dos-col">
             <div class="tarjeta">
-              <h3>OLTP · el sistema que registra</h3>
-              <p>Guarda cada evento al momento: una persona llega, ve una página, compra. Muchas escrituras pequeñas. Nuestro CSV es una foto de ese sistema.</p>
+              <h3>Para registrar</h3>
+              <p>El sistema de la tienda anota cada cosa en el momento en que pasa: llega una persona, ve la página, compra. Nuestro CSV sale de ahí.</p>
+              <p class="pie">Modelo operacional (OLTP)</p>
             </div>
             <div class="tarjeta acento paso" data-paso="1">
-              <h3>OLAP · el sistema que analiza</h3>
-              <p>Reorganiza los datos para responder preguntas: ¿cuánto ganamos por canal y mes? Pocas escrituras, lecturas enormes. Es lo que construimos en el paso 2.</p>
+              <h3>Para analizar</h3>
+              <p>Ordenamos esos mismos datos para contestar preguntas como ¿cuánto vendimos por canal y por mes? Es el esquema estrella que armamos en el paso 2.</p>
+              <p class="pie">Esquema estrella (OLAP)</p>
             </div>
           </div>
           <div class="concepto paso" data-paso="2">
-            <span class="etq">Grano</span>
-            <p>Antes de sumar nada hay que decir qué es <b>una fila</b>. Aquí: <b>una oportunidad comercial</b> (una persona interesada). Por eso el gasto diario de campaña, que es de un <em>día</em>, no puede sumarse fila por fila. Ese error lo veremos en la trampa 2.</p>
+            <span class="etq">Granularidad</span>
+            <p>Antes de sumar hay que saber qué es <b>una fila</b>. En nuestro archivo, una fila es <b>una persona interesada en comprar</b>. El gasto en publicidad, en cambio, es un dato <em>por día</em>: si lo sumamos persona por persona, lo contamos varias veces. Lo vemos en la trampa 2.</p>
           </div>
         </div>
-        <aside class="nota">El grano es la pregunta más importante del modelado dimensional: si se equivoca, todos los totales salen mal.</aside>
+        <aside class="nota">La granularidad es lo primero que se define al modelar: si está mal, todos los totales salen mal. Los ítems 8 y 9 de la guía NovaRetail piden justamente esto.</aside>
       </section>
 
       <!-- ============================== 2 · LIMPIEZA ============================== -->
@@ -158,12 +179,14 @@
           <p class="cap-num">02</p>
           <h2 class="cap-titulo">Limpieza</h2>
           <p class="lead">¿Podemos confiar en los datos?</p>
-          <div class="tarjeta oro paso" data-paso="1">
-            <h3>Regla de oro</h3>
-            <p>El archivo original <b>nunca se modifica</b>. Toda la limpieza es una <b>vista SQL</b> encima, que cualquiera puede leer y volver a correr. Si una regla falla, el proceso se detiene.</p>
+          <p>Seguimos la <b>arquitectura medallion</b>: el dato pasa por tres capas. Plata y oro son vistas SQL sobre la capa anterior, así que el archivo original nunca se modifica.</p>
+          <div class="tres-col medallion">
+            <div class="opcion paso" data-paso="1" style="--c:#a0612b"><h3>Bronce</h3><p><b>Dato crudo.</b> El CSV tal como llegó, sin tocar.</p></div>
+            <div class="opcion paso" data-paso="2" style="--c:#8a939f"><h3>Plata</h3><p><b>Dato limpio.</b> Tipos corregidos y 15 reglas de validación. Si una regla falla, el proceso se detiene.</p></div>
+            <div class="opcion paso" data-paso="3" style="--c:var(--ud-oro)"><h3>Oro</h3><p><b>Dato listo para decidir.</b> Cubo de KPI y esquema estrella para los tableros y el análisis.</p></div>
           </div>
         </div>
-        <aside class="nota">Esta regla hace que el trabajo sea auditable: la profesora puede volver a correr make run y obtener los mismos números.</aside>
+        <aside class="nota">Como cada capa es SQL que se puede volver a correr, el trabajo es auditable: con make run salen los mismos números.</aside>
       </section>
 
       <section class="frame" id="reglas" data-x="4950" data-y="3200" data-cap="2" data-titulo="15 reglas, 0 errores" data-grafico="reglas">
