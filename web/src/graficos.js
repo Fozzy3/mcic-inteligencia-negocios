@@ -256,8 +256,8 @@ const flujo = {
       `M${der(por.s2)} L${izq(por.s3)}`,
       `M${por.s3.x + 148},${por.s3.y + 100} L${por.g2.x + 60},${por.g2.y}`,
       `M${izq(por.g2)} L${der(por.pbi)}`,
-      // The model reads the clean view `ventas`, not the star.
-      `M${por.g.x + 60},${por.g.y + 100} L${por.py.x + 140},${por.py.y}`,
+      // ponytail: presentation simplification, in code model.py reads the `ventas` view.
+      `M${izq(por.pbi)} L${der(por.py)}`,
       `M${izq(por.py)} L${der(por.out)}`,
       `M${izq(por.out)} L${der(por.ent)}`,
     ];
@@ -268,7 +268,6 @@ const flujo = {
     });
     const alto = (n, y1, y2, ty) => `<path d="M${n.x + 60},${y1} L${n.x + 60},${y2}" stroke="var(--ads)" stroke-width="2" stroke-dasharray="5 5" fill="none"/><text x="${n.x + 60}" y="${ty}" text-anchor="middle" font-size="16" style="fill:var(--ads)">si falla: se detiene</text>`;
     cuerpo += alto(por.g, por.g.y, 26, 18) + alto(por.g2, por.g2.y + 100, por.g2.y + 128, por.g2.y + 150);
-    cuerpo += `<text x="${por.g.x + 72}" y="${por.g.y + 160}" font-size="15">vista ventas</text>`;
     for (const n of nodos) {
       if (n.rombo) {
         const cx = n.x + n.w / 2, cy = n.y + 38;
