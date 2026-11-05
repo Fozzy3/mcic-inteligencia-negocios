@@ -90,11 +90,6 @@ kbd { font-family: var(--mono); font-size: 12px; border: 1px solid var(--line); 
 .preguntas summary { cursor: pointer; font-weight: 700; }
 .preguntas p { margin: 8px 0 0; line-height: 1.55; color: #cfd3da; }
 
-/* Panic veil: B or Esc blurs everything in case this window ends up on the projector. */
-.velo { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: rgba(15, 18, 22, 0.55); backdrop-filter: blur(28px) saturate(0.4); -webkit-backdrop-filter: blur(28px) saturate(0.4); cursor: pointer; }
-.velo p { margin: 0; font-family: var(--display); font-size: clamp(28px, 4vw, 52px); color: var(--text); text-align: center; }
-.velo small { display: block; font-family: var(--read); font-size: 15px; color: var(--dim); margin-top: 10px; }
-body.oculto .app { filter: blur(22px); }
 @media (max-width: 760px) {
   .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .rail { border-right: 0; border-bottom: 1px solid var(--line); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-height: 42vh; }
@@ -107,7 +102,6 @@ body.oculto .app { filter: blur(22px); }
 </head>
 <body>
 
-<div class="velo" id="velo" hidden><p>Inteligencia de Negocios<small>Pulsa B para volver</small></p></div>
 <div class="app">
   <aside class="rail">
     <div>
@@ -127,11 +121,10 @@ body.oculto .app { filter: blur(22px); }
       <button id="btn-mas" type="button" aria-label="Letra más grande">A+</button>
       <button id="btn-ant" type="button">← Atrás</button>
       <button id="btn-sig" type="button">Siguiente →</button>
-      <button id="btn-ocultar" type="button" title="Ocultar el guion (B o Esc)">Ocultar · B</button>
     </div>
     <ol class="marcos" id="marcos"></ol>
     <p class="sync" id="sync">○ Sin conexión con la presentación. Ábrela en otra ventana de este mismo navegador.</p>
-    <p class="ayuda">Cada bloque es <b>una pulsación de <kbd>→</kbd></b> en la presentación. Aquí: <kbd>→</kbd> o <kbd>espacio</kbd> avanza, <kbd>←</kbd> retrocede, clic en un bloque para saltar. <kbd>B</kbd> o <kbd>Esc</kbd> oculta todo al instante. <span style="color:var(--oro)">Lo dorado</span> es lo que haces, no lo que dices.</p>
+    <p class="ayuda">Cada bloque es <b>una pulsación de <kbd>→</kbd></b> en la presentación. Aquí: <kbd>→</kbd> o <kbd>espacio</kbd> avanza, <kbd>←</kbd> retrocede, clic en un bloque para saltar. <span style="color:var(--oro)">Lo dorado</span> es lo que haces, no lo que dices.</p>
   </aside>
 
   <main class="guion" id="guion">
@@ -456,15 +449,7 @@ bloques.forEach((b) => b.addEventListener("click", () => ir(+b.dataset.i)));
 document.querySelectorAll("#marcos button[data-m]").forEach((b) => b.addEventListener("click", () => ir(plano.findIndex((p) => p.mi === +b.dataset.m))));
 $("#btn-sig").addEventListener("click", () => ir(actual + 1));
 $("#btn-ant").addEventListener("click", () => ir(actual - 1));
-function velar(si = document.getElementById("velo").hidden) {
-  document.getElementById("velo").hidden = !si;
-  document.body.classList.toggle("oculto", si);
-}
-$("#btn-ocultar").addEventListener("click", () => velar(true));
-$("#velo").addEventListener("click", () => velar(false));
 addEventListener("keydown", (e) => {
-  if (e.key === "b" || e.key === "B" || e.key === "Escape") { e.preventDefault(); return velar(e.key === "Escape" ? true : undefined); }
-  if (document.body.classList.contains("oculto")) return;
   if (e.target.closest("summary, input")) return;
   if (["ArrowRight", "ArrowDown", " ", "PageDown"].includes(e.key)) { e.preventDefault(); ir(actual + 1); }
   if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); ir(actual - 1); }
