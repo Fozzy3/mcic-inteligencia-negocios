@@ -95,7 +95,6 @@
             <div><b data-cuenta="28">28</b><span>meses</span></div>
             <div><b data-cuenta="2096">2.096</b><span>ventas</span></div>
           </div>
-          <p class="pie">Archivo: <code>data/original/dataset_ventas_transaccional_sintetico_es.csv</code> · sha256 <code>b51f235e…ef12e5</code></p>
         </div>
         <aside class="nota">Primero entendemos qué hay en el archivo antes de calcular nada.</aside>
       </section>
@@ -292,7 +291,6 @@
           <p class="kicker">Paso 2 · Cómo está construido</p>
           <h2>Del archivo original a los resultados</h2>
           <div class="grafico ancho" data-svg></div>
-          <p class="pie">Si una de las 15 reglas o el control de la estrella falla, <code>pipeline.py</code> se detiene (<code>check_zero</code>). Las pruebas automáticas están en <code>tests/test_bi.py</code>.</p>
         </div>
         <aside class="nota">Esto es ELT: primero cargamos el dato tal cual (vista raw) y transformamos con SQL dentro del motor (DuckDB).</aside>
       </section>
@@ -404,71 +402,79 @@
         <div class="frame-in">
           <p class="cap-num">04</p>
           <h2 class="cap-titulo">Decisión</h2>
-          <p class="lead">La gerencia tiene cuatro opciones. ¿Cuál deja más ganancia con menos riesgo?</p>
+          <p class="lead">Cuatro opciones para el próximo año. Esto es lo que ya muestran los datos de cada una:</p>
           <div class="opciones">
-            <div class="opcion paso" data-paso="1" style="--c:var(--funnel)"><h3>Mejorar la página de compra</h3><p>Llevar a todos la versión nueva que hoy ve 1 de cada 4: página nueva, botón que explica el beneficio, regalo descargable y pago simplificado.</p></div>
-            <div class="opcion paso" data-paso="1" style="--c:var(--webinar)"><h3>Webinars</h3><p>Invitar a charlas en línea a quienes ya conocen la marca.</p></div>
-            <div class="opcion paso" data-paso="1" style="--c:var(--ads)"><h3>Duplicar publicidad</h3><p>Gastar el doble en Facebook y Google.</p></div>
-            <div class="opcion paso" data-paso="1" style="--c:var(--product)"><h3>Producto nuevo</h3><p>Ofrecer un producto premium, más caro.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--funnel)"><h3>Mejorar la página de compra</h3><p>Llevar a todos la página nueva completa, que en el último año vio 1 de cada 5.</p><p class="dato"><b>13,8 %</b> compra con ella, frente a 11,8 % sin ella.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--webinar)"><h3>Webinars</h3><p>Invitar a charlas en línea a quienes ya conocen la marca.</p><p class="dato"><b>21,0 %</b> compra quien asistió, frente a 9,7 % de quien no fue invitado.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--ads)"><h3>Duplicar publicidad</h3><p>Gastar el doble en Facebook y Google.</p><p class="dato"><b>2,6 %</b> compra con la publicidad al máximo, frente a 6,7 % con gasto medio.</p></div>
+            <div class="opcion paso" data-paso="1" style="--c:var(--product)"><h3>Producto nuevo</h3><p>Ofrecer un producto premium, más caro.</p><p class="dato"><b>€2.827</b> deja cada venta, frente a €1.064, pero solo hubo 55 ventas.</p></div>
           </div>
-          <p class="pie paso" data-paso="2">Para responder, primero un modelo aprende qué hace que alguien compre y después simulamos cada opción 10.000 veces.</p>
+          <p class="pie paso" data-paso="2">Comparar grupos no basta: quien fue al webinar ya tenía más interés (puntaje 62 frente a 56). Por eso un modelo separa el efecto de cada opción y después simulamos el próximo año.</p>
         </div>
-        <aside class="nota">Las cuatro opciones vienen del enunciado del caso.</aside>
+        <aside class="nota">Las cuatro opciones vienen del enunciado del caso. Las cifras salen de las 20.000 oportunidades; la de la página compara solo el último año, que es cuando existió la versión completa.</aside>
       </section>
 
-      <section class="frame" id="modelo" data-x="11850" data-y="1250" data-cap="4" data-titulo="¿Qué hace que alguien compre?" data-grafico="modelo">
+      <section class="frame" id="modelo" data-x="11850" data-y="1250" data-cap="4" data-titulo="Qué sube la compra" data-grafico="modelo">
         <div class="frame-in dividido">
           <div class="texto">
-            <p class="kicker">Paso 4 · Decisión · Un modelo aprende de los datos</p>
-            <h2>¿Qué hace que alguien compre?</h2>
-            <div class="concepto"><span class="etq">Regresión logística</span><p>Suma el efecto de cada característica en un puntaje <i>z</i> y lo convierte en probabilidad con la curva en S: <code>p = 1 / (1 + e<sup>−z</sup>)</code>. Cada efecto se lee como <b>razón de odds</b>: cuánto multiplica las chances de comprar.</p></div>
-            <div class="grafico sigmoide" data-svg="sigmoide"></div>
+            <p class="kicker">Paso 4 · El modelo</p>
+            <h2>Qué sube y qué baja la compra</h2>
+            <p>Un modelo de <b>regresión logística</b> compara personas parecidas que solo se diferencian en una cosa. Así mide el efecto de cada palanca por separado.</p>
+            <ul class="mini-conceptos">
+              <li>Asistir al webinar sube las chances de comprar un <b>43 %</b>.</li>
+              <li>El botón que explica el beneficio, un <b>24 %</b>; la página nueva, un <b>17 %</b>.</li>
+              <li>La publicidad al máximo las baja a <b>la mitad</b>.</li>
+              <li>La oferta del producto nuevo las baja un <b>38 %</b>, pero cada venta vale más.</li>
+            </ul>
+            <p class="pie">Datos: las 20.000 oportunidades, solo con lo que se sabe antes de la venta.</p>
           </div>
-          <div><h3 class="sub">Si la persona…</h3><div class="grafico" data-svg="drivers"></div><p class="pie">Efecto sobre las odds frente a la referencia (Email, página base, gasto medio…).</p></div>
+          <div><h3 class="sub">Cuánto cambian las chances de comprar si la persona…</h3><div class="grafico" data-svg="drivers"></div><p class="pie">Comparado con quien llega por Email, ve la página base y tiene gasto medio en publicidad.</p></div>
         </div>
-        <aside class="nota">El producto nuevo baja la conversión, pero cada venta vale más del doble. Por eso el modelo solo no alcanza y hay que simular.</aside>
+        <aside class="nota">El producto nuevo baja la conversión, pero cada venta vale más del doble. Por eso el modelo solo no alcanza y hay que simular la ganancia.</aside>
       </section>
 
       <section class="frame" id="validacion" data-x="13800" data-y="1250" data-r="-2" data-cap="4" data-titulo="¿Funciona el modelo?" data-grafico="lift">
         <div class="frame-in dividido">
           <div class="texto">
-            <p class="kicker">Paso 4 · Validación temporal</p>
-            <h2>¿Funciona con datos que nunca vio?</h2>
+            <p class="kicker">Paso 4 · Prueba del modelo</p>
+            <h2>Acierta en 2026, un año que no vio</h2>
             <div class="linea-entreno">
-              <div class="le-train">Aprende: 2024 – 2025</div>
+              <div class="le-train">Aprende: 2024 – 2025 · 16.368 personas</div>
               <div class="le-test">Prueba: 2026 · 3.632 personas</div>
             </div>
             <div class="cifras pequeñas">
-              <div><b data-valor="0.745" data-fmt="dec3">0,745</b><span>AUC</span></div>
-              <div><b data-valor="43" data-fmt="pct0">43 %</b><span>de las compras en el 20 % mejor puntuado</span></div>
+              <div><b data-valor="43" data-fmt="pct0">43 %</b><span>de las compras de 2026 estaba en el 20 % con mejor puntaje</span></div>
+              <div><b>3 de 4</b><span>veces le da más puntaje a quien compra que a quien no (AUC 0,745)</span></div>
             </div>
-            <div class="concepto"><span class="etq">Concepto</span><p>El modelo aprende con 2024 y 2025 y se prueba con 2026. Si lo probáramos con filas al azar, ya habría "visto" el período que debe predecir. El <b>lift</b> ordena a las personas por puntaje y mide cuánto compra cada décimo.</p></div>
+            <p>Para qué sirve: llamar primero a quien tiene mejor puntaje.</p>
+            <p class="pie">Datos: las 3.632 oportunidades de 2026, que el modelo no usó para aprender.</p>
           </div>
-          <div><h3 class="sub">Conversión real en 2026 por décimo de puntaje</h3><div class="grafico" data-svg></div></div>
+          <div><h3 class="sub">Cuánto compró en 2026 cada grupo, ordenados de mejor a peor puntaje</h3><div class="grafico" data-svg></div></div>
         </div>
-        <aside class="nota">El primer décimo convierte 33,5 %, el último 1,4 %: el puntaje sirve para decidir a quién llamar primero.</aside>
+        <aside class="nota">El primer grupo convierte 33,5 %, el último 1,4 %. Probar con un año futuro y no con filas al azar evita que el modelo "vea" lo que debe predecir.</aside>
       </section>
 
       <section class="frame" id="montecarlo" data-x="13800" data-y="0" data-cap="4" data-titulo="10.000 escenarios" data-tres="montecarlo">
         <div class="frame-in dividido">
           <div class="texto">
-            <p class="kicker">Paso 4 · Simular cada opción</p>
-            <h2>10.000 futuros posibles por opción</h2>
-            <p>Aplicamos cada opción a las personas del último año y el modelo calcula cuánta ganancia extra dejaría.</p>
-            <div class="concepto"><span class="etq">Monte Carlo + bootstrap</span><p>No sabemos cuánto costará cada opción ni a cuántas personas llegará, así que en cada escenario sorteamos esos valores dentro de un rango (mínimo, probable, máximo). Para incluir la incertidumbre del propio modelo, lo volvemos a entrenar 200 veces con datos remuestreados.</p></div>
+            <p class="kicker">Paso 4 · Simulación</p>
+            <h2>10.000 simulaciones del próximo año</h2>
+            <p>Aplicamos cada opción a las 10.073 personas del último año y el modelo calcula cuánta ganancia extra dejaría frente a no hacer nada.</p>
+            <div class="concepto"><span class="etq">Monte Carlo</span><p>Lo que no sabemos (cuánto costará cada opción y a cuántas personas llegará) se sortea en cada escenario entre un mínimo y un máximo. El modelo se reentrena 200 veces para no depender de una sola muestra.</p></div>
             <div class="tabla-mc" data-tabla-mc></div>
+            <p class="pie">Datos: el último año de oportunidades. Los costos y el alcance son supuestos del equipo, no vienen en el archivo.</p>
           </div>
           <div class="lienzo"><canvas data-canvas></canvas><div class="etiquetas-3d"></div></div>
         </div>
-        <aside class="nota">Cada partícula que cae es un escenario. La montaña de cada opción es su distribución de ganancia extra en 12 meses.</aside>
+        <aside class="nota">Cada partícula que cae es un escenario. La montaña de cada opción muestra cuántos escenarios dan cada ganancia extra en 12 meses.</aside>
       </section>
 
       <section class="frame" id="comparador" data-x="11850" data-y="0" data-r="2" data-cap="4" data-titulo="Comparador de opciones" data-grafico="comparador">
         <div class="frame-in dividido">
           <div class="texto">
             <p class="kicker">Paso 4 · Una figura para recordarlo</p>
-            <h2>Medir contra un patrón</h2>
-            <p>En un taller, el <b>reloj comparador</b> mide cuánto se aparta una pieza de un bloque patrón. La simulación hace lo mismo: el patrón es <b>no hacer nada</b> y cada opción se mide contra él.</p>
+            <h2>Cada opción se mide contra no hacer nada</h2>
+            <p>Como un <b>reloj comparador</b> de taller, que mide cuánto se aparta una pieza de un bloque patrón. Aquí el patrón es seguir igual; el bloque más bajo que el patrón pierde dinero.</p>
             <div class="botones verticales" data-comparador-botones>
               <button data-i="0">Patrón: no hacer nada</button>
               <button data-i="1" style="--c:var(--product)">Producto nuevo</button>
@@ -476,7 +482,6 @@
               <button data-i="3" style="--c:var(--webinar)">Webinars</button>
               <button data-i="4" style="--c:var(--ads)">Duplicar publicidad</button>
             </div>
-            <p class="pie">Figura isométrica construida con la skill <a href="https://github.com/wheresryan22/anatomy" target="_blank" rel="noopener">Anatomy</a>.</p>
           </div>
           <iframe class="figura-anatomy" data-src="anatomy/comparador.html" title="Comparador de opciones" loading="lazy"></iframe>
         </div>
@@ -488,14 +493,15 @@
           <div><div class="grafico" data-svg></div></div>
           <div class="texto">
             <p class="kicker">Paso 4 · Resultado</p>
-            <h2>Ganancia contra riesgo</h2>
-            <p>Cada punto es la ganancia extra esperada en 12 meses y cada barra va del escenario malo (p10) al bueno (p90). A la derecha está la probabilidad de perder dinero.</p>
+            <h2>La página mejorada es la apuesta más segura</h2>
+            <p>Punto: ganancia extra esperada en 12 meses. Barra: del escenario malo (p10) al bueno (p90). A la derecha: probabilidad de perder dinero.</p>
             <div class="decisiones">
               <p class="paso" data-paso="1"><span class="sello hacer">Hacer ahora</span> Página mejorada: €120 mil y ningún escenario con pérdida.</p>
-              <p class="paso" data-paso="2"><span class="sello probar">Probar primero</span> Producto nuevo: €175 mil, aunque la cifra se apoya en solo 55 ventas.</p>
+              <p class="paso" data-paso="2"><span class="sello probar">Probar primero</span> Producto nuevo: €175 mil, pero se apoya en solo 55 ventas.</p>
               <p class="paso" data-paso="3"><span class="sello probar">Probar primero</span> Webinars: €32 mil, siempre que cuesten menos de €48 mil al año.</p>
               <p class="paso" data-paso="4"><span class="sello no">No hacer</span> Duplicar publicidad: pierde €101 mil en promedio y pierde dinero en el 99,5 % de los escenarios.</p>
             </div>
+            <p class="pie">Datos: los 10.000 escenarios de cada opción.</p>
           </div>
         </div>
         <aside class="nota">La página y el producto no compiten: la página sube cuántos compran y el producto sube cuánto vale cada venta.</aside>
@@ -504,27 +510,28 @@
       <section class="frame" id="sensibilidad" data-x="9900" data-y="-1250" data-r="-2" data-cap="4" data-titulo="¿Y si cuesta más?" data-grafico="sensibilidad">
         <div class="frame-in dividido">
           <div class="texto">
-            <p class="kicker">Paso 4 · Análisis de sensibilidad</p>
-            <h2>¿Y si lanzar el producto cuesta más?</h2>
-            <p>Mueve el costo de lanzamiento. Antes de pagarlo, el producto deja <b>€204 mil</b> esperados. La página mejorada deja <b>€120 mil</b> ya descontado su propio costo.</p>
+            <p class="kicker">Paso 4 · ¿Y si nos equivocamos en el costo?</p>
+            <h2>Si el producto cuesta más de €84 mil, gana la página</h2>
+            <p>Antes de pagar su lanzamiento, el producto deja <b>€204 mil</b> esperados. La página mejorada deja <b>€120 mil</b> ya pagada. Mueve el costo y mira cuál gana.</p>
             <label class="deslizador">Costo de lanzar el producto: <b data-costo>€28 mil</b>
               <input type="range" min="10" max="150" value="28" step="1" data-rango />
             </label>
             <div class="tarjeta oro" data-veredicto></div>
+            <p class="pie">Datos: la ganancia esperada de la simulación; el costo de lanzamiento es un supuesto.</p>
           </div>
           <div class="grafico" data-svg></div>
         </div>
-        <aside class="nota">Umbral: si lanzar el producto cuesta más de €84 mil, la página mejorada pasa a ser la mejor opción.</aside>
+        <aside class="nota">El costo de lanzamiento es el supuesto más incierto. Por eso recomendamos probar el producto antes de lanzarlo a todos.</aside>
       </section>
 
       <section class="frame" id="recomendacion" data-x="11850" data-y="-1250" data-cap="4" data-titulo="Recomendación">
         <div class="frame-in">
           <p class="kicker">Lo que le decimos a la gerencia</p>
           <h2>Recomendación</h2>
-          <div class="tres-col">
-            <div class="tarjeta azul paso" data-paso="1"><h3>Hacer ahora</h3><ol><li>Llevar la página de compra mejorada a todos, salvo a un grupo de comparación.</li><li>Usar el puntaje del modelo para decidir a quién llamar primero.</li></ol></div>
-            <div class="tarjeta oro paso" data-paso="2"><h3>Probar primero</h3><ol><li>Producto nuevo: un trimestre de piloto con pocos clientes.</li><li>Webinars: solo si cuestan menos de €48 mil al año.</li></ol></div>
-            <div class="tarjeta rojo paso" data-paso="3"><h3>No hacer</h3><p>Duplicar la publicidad.</p></div>
+          <div class="tres-col recomendacion">
+            <div class="tarjeta azul paso" data-paso="1"><h3>Hacer ahora</h3><ol><li>Llevar la página mejorada a todos, salvo a un grupo de comparación. <span class="porque">+€120 mil, 0 % de riesgo.</span></li><li>Llamar primero a quien tiene mejor puntaje. <span class="porque">El 20 % mejor puntuado hizo el 43 % de las compras.</span></li></ol></div>
+            <div class="tarjeta oro paso" data-paso="2"><h3>Probar primero</h3><ol><li>Producto nuevo: un trimestre de piloto con pocos clientes. <span class="porque">+€175 mil, pero solo 55 ventas de evidencia.</span></li><li>Webinars, si cuestan menos de €48 mil al año. <span class="porque">+€32 mil esperados.</span></li></ol></div>
+            <div class="tarjeta rojo paso" data-paso="3"><h3>No hacer</h3><p>Duplicar la publicidad. <span class="porque">Pierde €101 mil; con la publicidad al máximo solo compra el 2,6 %.</span></p></div>
           </div>
         </div>
         <aside class="nota">Con el grupo de comparación, dentro de un año sabremos cuánto aportó de verdad la página.</aside>
@@ -535,9 +542,9 @@
           <p class="kicker">Lo que podría cambiar la conclusión</p>
           <h2>¿Qué tan firmes son estos números?</h2>
           <div class="dos-col">
-            <div class="tarjeta"><h3>Poca evidencia del producto</h3><p>Se vendió solo 55 veces, así que sus €175 mil pueden ser optimistas.</p></div>
-            <div class="tarjeta"><h3>No fueron experimentos</h3><p>Al webinar va quien quiere, así que su efecto real puede ser menor.</p></div>
-            <div class="tarjeta oro"><h3>Umbral</h3><p>Si lanzar el producto cuesta más de €84 mil, la página mejorada pasa a ser la mejor opción.</p></div>
+            <div class="tarjeta"><h3>Poca evidencia del producto</h3><p>Se ofreció a 554 personas y se vendió 55 veces, así que sus €175 mil pueden ser optimistas.</p></div>
+            <div class="tarjeta"><h3>No fueron experimentos</h3><p>Al webinar va quien quiere, y esa gente ya tenía más puntaje (62 frente a 56). Su efecto real puede ser menor.</p></div>
+            <div class="tarjeta oro"><h3>Costos supuestos</h3><p>El costo y el alcance de cada opción los estimamos nosotros. Si el producto cuesta más de €84 mil, gana la página.</p></div>
             <div class="tarjeta"><h3>Datos sintéticos</h3><p>El método sirve para datos reales; las cifras no describen una empresa real.</p></div>
           </div>
         </div>
@@ -565,7 +572,6 @@
             <div class="aws-paso" data-aws-texto><b>Pulsa → para recorrer el flujo</b><span>Cada paso enciende los servicios que intervienen.</span></div>
           </div>
           <div class="aws-diagrama" data-aws></div>
-          <p class="pie">Diagrama editable: <a href="arquitectura-bi-aws.drawio" download>arquitectura-bi-aws.drawio</a> · íconos oficiales de AWS · generado con la skill <a href="https://github.com/vidanov/aws-architecture-diagram-skill" target="_blank" rel="noopener">aws-architecture-diagram</a>.</p>
         </div>
         <aside class="nota">Los números ①–⑥ del diagrama siguen el recorrido del dato. Las líneas punteadas son de control (quién ordena qué), la roja es la alerta.</aside>
       </section>
@@ -607,7 +613,7 @@
 
   <div id="ayuda" hidden>
     <div class="ayuda-caja">
-      <h3>Cómo navegar</h3>
+      <h2>Cómo navegar</h2>
       <ul>
         <li><kbd>→</kbd> <kbd>espacio</kbd> <kbd>rueda ↓</kbd> siguiente (primero revela los pasos del marco)</li>
         <li><kbd>←</kbd> <kbd>rueda ↑</kbd> anterior</li>

@@ -398,12 +398,6 @@ const DRIVERS = [
 ];
 const modelo = {
   montar(el) {
-    // Sigmoid.
-    const w = 640, h = 230, x = escala(-6, 6, 40, w - 10), y = escala(0, 1, h - 30, 10);
-    let d = "";
-    for (let z = -6; z <= 6.01; z += 0.1) d += `${d ? "L" : "M"}${x(z)},${y(1 / (1 + Math.exp(-z)))}`;
-    lienzo(el, '[data-svg="sigmoide"]').innerHTML = svg(w, h, `<line class="eje-linea" x1="40" x2="${w}" y1="${y(0)}" y2="${y(0)}"/><line class="rejilla" x1="40" x2="${w}" y1="${y(0.5)}" y2="${y(0.5)}"/><text x="32" y="${y(1) + 5}" text-anchor="end" font-size="14">1</text><text x="32" y="${y(0.5) + 5}" text-anchor="end" font-size="14">0,5</text><text x="32" y="${y(0) + 5}" text-anchor="end" font-size="14">0</text><path class="sig" d="${d}" fill="none" stroke="var(--product)" stroke-width="3"/><circle class="bola" r="8" fill="var(--ud-rojo)"/><text x="${w - 10}" y="${h - 6}" text-anchor="end" font-size="14">puntaje z →</text><text class="lectura t-mono" x="60" y="30" font-size="16"></text>`);
-    this.sig = { x, y };
     // Odds ratios, diverging around 0 %.
     const filas = DRIVERS.map(([v, n, t]) => {
       const r = datos.drivers.find((d) => d.variable === v && String(d.nivel) === n);
@@ -422,20 +416,7 @@ const modelo = {
   },
   entrar(el) {
     gsap.fromTo(el.querySelectorAll(".d"), { scaleX: 0 }, { scaleX: 1, stagger: D(0.1), duration: D(0.8), ease: "power3.out", delay: D(0.3) });
-    const bola = el.querySelector(".bola"), lectura = el.querySelector(".lectura"), { x, y } = this.sig;
-    const o = { z: -5 };
-    this.tw?.kill();
-    this.tw = gsap.to(o, {
-      z: 5, duration: 4, ease: "sine.inOut", yoyo: true, repeat: reducido ? 0 : -1,
-      onUpdate: () => {
-        const p = 1 / (1 + Math.exp(-o.z));
-        bola.setAttribute("cx", x(o.z));
-        bola.setAttribute("cy", y(p));
-        lectura.textContent = `z = ${o.z.toFixed(1).replace(".", ",")}  →  p = ${pct(p, 0)}`;
-      },
-    });
   },
-  salir() { this.tw?.pause(); },
 };
 
 // ---------------- Lift by decile ----------------

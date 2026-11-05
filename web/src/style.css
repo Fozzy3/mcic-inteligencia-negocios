@@ -63,7 +63,7 @@ body.vista-general .frame:hover { border-color: rgba(237, 50, 55, 0.8); }
 
 h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.01em; }
 h2 { font-family: var(--serif); font-size: 58px; line-height: 1.05; }
-h3 { font-size: 24px; line-height: 1.2; }
+h3 { font-size: 28px; line-height: 1.2; }
 h3.sub { font-size: 20px; color: var(--texto-2); font-weight: 500; margin-bottom: 8px; }
 p { margin: 0; font-size: 22px; line-height: 1.5; color: var(--texto-2); }
 p b, li b, td b { color: var(--texto); }
@@ -229,6 +229,9 @@ svg .rejilla { stroke: rgba(148, 163, 184, 0.1); stroke-width: 1; }
 .opcion { border-radius: 18px; padding: 22px; border: 1px solid var(--borde); border-top: 6px solid var(--c); background: rgba(15, 23, 42, 0.025); min-height: 300px; }
 .opcion h3 { font-family: var(--serif); font-size: 28px; margin-bottom: 10px; }
 .opcion p { font-size: 18px; }
+.opcion .dato { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--borde); font-size: 17px; }
+.opcion .dato b { display: block; font-family: var(--serif); font-size: 44px; line-height: 1.05; color: var(--c); }
+.recomendacion .porque { display: block; margin-top: 4px; font-size: 16px; color: var(--muted); }
 .linea-entreno { display: grid; grid-template-columns: 2fr 1fr; border-radius: 12px; overflow: hidden; font-size: 17px; font-weight: 600; }
 .linea-entreno div { padding: 14px; }
 .le-train { background: rgba(59, 143, 217, 0.25); }
@@ -291,6 +294,7 @@ svg .rejilla { stroke: rgba(148, 163, 184, 0.1); stroke-width: 1; }
 #ayuda { position: fixed; inset: 0; z-index: 20; background: rgba(15, 23, 42, 0.35); display: grid; place-items: center; }
 #ayuda[hidden], #notas[hidden] { display: none; }
 .ayuda-caja { background: var(--panel-solid); border: 1px solid var(--borde-fuerte); border-radius: 20px; padding: 28px 32px; max-width: 560px; margin: 16px; }
+.ayuda-caja h2 { font-family: var(--sans); font-size: 28px; }
 .ayuda-caja ul { padding-left: 18px; line-height: 2; color: var(--texto-2); }
 .ayuda-caja > button { border: 1px solid var(--ud-rojo); background: rgba(237, 50, 55, 0.15); border-radius: 999px; padding: 8px 18px; }
 
