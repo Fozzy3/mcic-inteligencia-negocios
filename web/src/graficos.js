@@ -234,15 +234,18 @@ const trampa3 = {
 const flujo = {
   montar(el) {
     const w = 1420, h = 470;
+    // Colors = medallion layer: bronce (raw CSV), plata (clean view), oro (KPI and star).
     const nodos = [
-      { id: "csv", x: 10, y: 40, w: 200, t: "CSV original", s: "20.000 × 28 · solo lectura", c: "#5b6678" },
-      { id: "s1", x: 290, y: 40, w: 250, t: "01_preparacion.sql", s: "vista ventas + 15 reglas", c: "var(--ud-rojo)" },
-      { id: "g", x: 610, y: 52, w: 120, t: "¿0 fallas?", s: "check_zero", c: "var(--product)", rombo: true },
-      { id: "s2", x: 800, y: 40, w: 270, t: "02_indicadores.sql", s: "cubo de KPI · crecimiento · Ads", c: "var(--ud-rojo)" },
-      { id: "s3", x: 1120, y: 40, w: 296, t: "03_modelo_dimensional.sql", s: "2 hechos · 5 dimensiones", c: "var(--ud-rojo)" },
-      { id: "py", x: 800, y: 290, w: 270, t: "model.py", s: "logística · bootstrap · Monte Carlo", c: "var(--funnel)" },
-      { id: "out", x: 470, y: 290, w: 240, t: "salidas/*.csv", s: "tablas citadas en el informe", c: "var(--bien)" },
-      { id: "ent", x: 10, y: 260, w: 380, t: "Informe · presentación · Power BI · sitio", s: "", c: "var(--webinar)", alto: 140 },
+      { id: "csv", x: 10, y: 40, w: 200, t: "CSV original", s: "bronce · 20.000 × 28", c: "#a0612b" },
+      { id: "s1", x: 290, y: 40, w: 250, t: "01_preparacion.sql", s: "plata · vista ventas + 15 reglas", c: "#8a939f" },
+      { id: "g", x: 610, y: 52, w: 120, t: "¿0 fallas?", c: "var(--product)", rombo: true },
+      { id: "s2", x: 800, y: 40, w: 270, t: "02_indicadores.sql", s: "oro · KPI · crecimiento · Ads", c: "var(--ud-oro)" },
+      { id: "s3", x: 1120, y: 40, w: 296, t: "03_modelo_dimensional.sql", s: "oro · 2 hechos · 5 dimensiones", c: "var(--ud-oro)" },
+      { id: "g2", x: 1208, y: 290, w: 120, t: "¿0 fallas?", c: "var(--product)", rombo: true },
+      { id: "pbi", x: 860, y: 290, w: 290, t: "modelo_dimensional/", s: "CSV de la estrella → Power BI", c: "var(--webinar)" },
+      { id: "py", x: 530, y: 290, w: 280, t: "model.py", s: "logística · bootstrap · Monte Carlo", c: "var(--funnel)" },
+      { id: "out", x: 270, y: 290, w: 220, t: "salidas/*.csv", s: "tablas del informe", c: "var(--bien)" },
+      { id: "ent", x: 10, y: 290, w: 220, t: "Informe · sitio", s: "las cifras salen de aquí", c: "var(--webinar)" },
     ];
     const por = Object.fromEntries(nodos.map((n) => [n.id, n]));
     const der = (n) => [n.x + n.w, n.y + 50], izq = (n) => [n.x, n.y + 50];
@@ -251,7 +254,10 @@ const flujo = {
       `M${der(por.s1)} L${izq(por.g)}`,
       `M${der(por.g)} L${izq(por.s2)}`,
       `M${der(por.s2)} L${izq(por.s3)}`,
-      `M${por.s3.x + 135},${por.s3.y + 100} L${por.s3.x + 135},${por.py.y + 50} L${der(por.py)}`,
+      `M${por.s3.x + 148},${por.s3.y + 100} L${por.g2.x + 60},${por.g2.y}`,
+      `M${izq(por.g2)} L${der(por.pbi)}`,
+      // The model reads the clean view `ventas`, not the star.
+      `M${por.g.x + 60},${por.g.y + 100} L${por.py.x + 140},${por.py.y}`,
       `M${izq(por.py)} L${der(por.out)}`,
       `M${izq(por.out)} L${der(por.ent)}`,
     ];
@@ -260,17 +266,17 @@ const flujo = {
       cuerpo += `<path class="ruta" d="${d}" fill="none" stroke="rgba(237,50,55,.7)" stroke-width="2.5" marker-end="url(#pf)"/>`;
       cuerpo += `<circle r="6" fill="#d19a12"><animateMotion dur="${2 + (i % 3) * 0.4}s" repeatCount="indefinite" path="${d}" begin="${i * 0.3}s"/></circle>`;
     });
-    cuerpo += `<path d="M${por.g.x + 60},${por.g.y + 88} L${por.g.x + 60},${por.g.y + 160}" stroke="var(--ads)" stroke-width="2" stroke-dasharray="5 5" fill="none"/><text x="${por.g.x + 60}" y="${por.g.y + 182}" text-anchor="middle" font-size="16" style="fill:var(--ads)">si falla: se detiene</text>`;
+    const alto = (n, y1, y2, ty) => `<path d="M${n.x + 60},${y1} L${n.x + 60},${y2}" stroke="var(--ads)" stroke-width="2" stroke-dasharray="5 5" fill="none"/><text x="${n.x + 60}" y="${ty}" text-anchor="middle" font-size="16" style="fill:var(--ads)">si falla: se detiene</text>`;
+    cuerpo += alto(por.g, por.g.y, 26, 18) + alto(por.g2, por.g2.y + 100, por.g2.y + 128, por.g2.y + 150);
+    cuerpo += `<text x="${por.g.x + 72}" y="${por.g.y + 160}" font-size="15">vista ventas</text>`;
     for (const n of nodos) {
-      const alto = n.alto ?? 100;
       if (n.rombo) {
         const cx = n.x + n.w / 2, cy = n.y + 38;
         cuerpo += `<g class="nodo"><path d="M${cx},${cy - 50} L${cx + 60},${cy + 0} L${cx},${cy + 50} L${cx - 60},${cy} Z" transform="translate(0,12)" fill="rgba(184,138,34,.15)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte" x="${cx}" y="${cy + 18}" text-anchor="middle" font-size="16">${n.t}</text></g>`;
         continue;
       }
-      cuerpo += `<g class="nodo"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${alto}" rx="14" fill="var(--panel-solid)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte ${n.t.includes(".") ? "t-mono" : ""}" x="${n.x + n.w / 2}" y="${n.y + (n.s ? 44 : alto / 2 + 6)}" text-anchor="middle" font-size="18">${n.t}</text>${n.s ? `<text x="${n.x + n.w / 2}" y="${n.y + 72}" text-anchor="middle" font-size="15">${n.s}</text>` : ""}</g>`;
+      cuerpo += `<g class="nodo"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="100" rx="14" fill="var(--panel-solid)" stroke="${n.c}" stroke-width="2"/><text class="t-fuerte ${/[._/]/.test(n.t) ? "t-mono" : ""}" x="${n.x + n.w / 2}" y="${n.y + 44}" text-anchor="middle" font-size="18">${n.t}</text><text x="${n.x + n.w / 2}" y="${n.y + 72}" text-anchor="middle" font-size="15">${n.s}</text></g>`;
     }
-    cuerpo += `<text x="${por.ent.x + 190}" y="${por.ent.y + 95}" text-anchor="middle" font-size="15">las figuras y estas cifras salen de aquí</text>`;
     lienzo(el).innerHTML = svg(w, h, cuerpo);
   },
   entrar(el) {
