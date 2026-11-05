@@ -9,3 +9,4 @@ fuentes/
 *.nav
 *.snm
 *.synctex.gz
+data/bi.duckdb

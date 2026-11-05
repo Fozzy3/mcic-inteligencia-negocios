@@ -1,4 +1,4 @@
-.PHONY: install test run fuentes informe presentacion pdf web web-build clean
+.PHONY: install test run db fuentes informe presentacion pdf web web-build clean
 
 # Carpeta del manual de marca UD (Times New Roman y Cambria). Las fuentes no se versionan.
 MARCA ?= $(HOME)/repos/ud/maestria/mcic/.UniversidadDistrital-manual-marca
@@ -35,3 +35,6 @@ web-build:
 clean:
 	rm -f informe/*.aux informe/*.log informe/*.toc informe/*.out presentacion/*.aux presentacion/*.log \
 	      presentacion/*.nav presentacion/*.snm presentacion/*.toc presentacion/*.out
+
+db:
+	uv run python -m bi.db
