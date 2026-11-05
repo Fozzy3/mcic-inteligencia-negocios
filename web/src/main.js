@@ -168,7 +168,16 @@ pista.addEventListener("click", (e) => {
   if (seg) ir(frames.indexOf(porCap[+seg.dataset.cap][0]));
 });
 
+// Tells other windows of this site (the presenter's script, web/guion.html) where we are.
+const canal = "BroadcastChannel" in window ? new BroadcastChannel("presentacion") : null;
+canal?.addEventListener("message", (e) => { if (e.data?.pedir) avisar(); });
+function avisar() {
+  const f = frames[actual];
+  if (f) canal?.postMessage({ id: f.id, paso, general });
+}
+
 function actualizarHud() {
+  avisar();
   const f = frames[actual];
   document.querySelector("[data-hud-cap]").textContent = general ? "Vista general" : f.cap > 0 && f.cap < 6 ? `Paso ${f.cap} · ${CAPITULOS[f.cap]}` : CAPITULOS[f.cap];
   document.querySelector("[data-hud-titulo]").textContent = general ? "Haz clic en un marco" : f.titulo + (f.pasos ? `  ·  ${paso}/${f.pasos}` : "");

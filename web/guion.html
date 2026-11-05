@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guion de Juan Felipe: Inicio y Datos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a teleprompter. Left rail = the frames of the presentation in order; right = one block per keypress, the current one large. */
+:root {
+  --ink: #0f1216;        /* room-dark background */
+  --panel: #161a20;
+  --line: #262c35;
+  --text: #ebe8e2;       /* warm off-white, easy on the eyes */
+  --dim: #7d8592;
+  --rojo: #ed3237;       /* UD red: the keypress cue */
+  --oro: #c9a646;        /* stage directions */
+  --verde: #3fbf7f;
+  --display: "Fraunces", Georgia, serif;
+  --read: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --tam: 30px;           /* reading size, changed with A− / A+ */
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--read); }
+.app { display: grid; grid-template-columns: 280px minmax(0, 1fr); height: 100%; }
+
+/* ---------- rail ---------- */
+.rail { border-right: 1px solid var(--line); padding-block: 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+.rail h1 { font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.rail .sub { color: var(--dim); font-size: 14px; margin: 4px 0 0; }
+.reloj { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.reloj .t { font-family: var(--mono); font-size: 34px; font-variant-numeric: tabular-nums; line-height: 1; }
+.reloj .meta { font-size: 13px; color: var(--dim); }
+.reloj .meta b { color: var(--text); font-weight: 400; font-family: var(--mono); }
+.reloj .meta.tarde b { color: var(--rojo); }
+.fila-botones { display: flex; gap: 6px; flex-wrap: wrap; }
+button { font: inherit; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; cursor: pointer; font-size: 14px; }
+button:hover { border-color: var(--dim); }
+button:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+button.primario { border-color: var(--rojo); }
+.marcos { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.marcos li button { width: 100%; text-align: left; border: 0; border-radius: 6px; padding: 7px 10px; display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: baseline; color: var(--dim); }
+.marcos li button .n { font-family: var(--mono); font-size: 12px; }
+.marcos li button .d { font-family: var(--mono); font-size: 12px; }
+.marcos li button.hecho { color: #a9b0bb; }
+.marcos li button.actual { background: var(--panel); color: var(--text); }
+.marcos li button.actual .n { color: var(--rojo); }
+.marcos li.entrega button { color: var(--oro); }
+.sync { font-size: 13px; margin: 0; color: var(--dim); }
+.sync.ok { color: var(--verde); }
+.ayuda { font-size: 13px; color: var(--dim); line-height: 1.5; margin: 0; }
+kbd { font-family: var(--mono); font-size: 12px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; }
+
+/* ---------- script ---------- */
+.guion { overflow-y: auto; scroll-behavior: smooth; padding-block: 28px 40vh; padding-left: 40px; padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+.guion-in { max-width: 34em; display: grid; gap: 14px; font-size: var(--tam); }
+.marco-titulo { font-family: var(--mono); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-top: 1.4em; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.marco-titulo:first-child { margin-top: 0; }
+.marco-titulo b { color: var(--text); font-weight: 600; letter-spacing: .06em; }
+.marco-titulo .pantalla { text-transform: none; letter-spacing: 0; color: var(--oro); font-family: var(--read); font-size: 14px; }
+.bloque { border-left: 3px solid transparent; padding: 10px 0 10px 18px; cursor: pointer; opacity: .38; transition: opacity .25s, border-color .25s; }
+.bloque:hover { opacity: .6; }
+.bloque.actual { opacity: 1; border-left-color: var(--rojo); }
+.bloque.siguiente { opacity: .6; }
+.bloque p { margin: 0; line-height: 1.5; font-size: 1em; }
+.bloque p + p { margin-top: .5em; }
+.bloque b { color: #fff; }
+.bloque .haz { display: block; font-style: italic; color: var(--oro); font-size: .62em; margin-top: .5em; }
+.pulsa { margin-top: .55em; display: inline-flex; gap: 8px; align-items: center; font-family: var(--mono); font-size: 13px; color: var(--dim); }
+.pulsa i { font-style: normal; color: var(--rojo); font-size: 16px; }
+.bloque.actual .pulsa { color: #c3c8d0; }
+.bloque.entrega { border-left-style: dashed; }
+.bloque.entrega .pulsa { color: var(--oro); }
+
+/* ---------- reference ---------- */
+.referencia { margin-top: 3em; display: grid; gap: 20px; font-size: 17px; }
+.referencia h2 { font-family: var(--display); font-weight: 600; font-size: 24px; margin: 0; }
+.cifras { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.cifras div { background: var(--panel); padding: 12px 14px; }
+.cifras b { display: block; font-family: var(--mono); font-size: 20px; font-variant-numeric: tabular-nums; }
+.cifras span { color: var(--dim); font-size: 14px; }
+.preguntas { display: grid; gap: 10px; }
+.preguntas details { border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; background: var(--panel); }
+.preguntas summary { cursor: pointer; font-weight: 700; }
+.preguntas p { margin: 8px 0 0; line-height: 1.55; color: #cfd3da; }
+
+/* Panic veil: B or Esc blurs everything in case this window ends up on the projector. */
+.velo { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: rgba(15, 18, 22, 0.55); backdrop-filter: blur(28px) saturate(0.4); -webkit-backdrop-filter: blur(28px) saturate(0.4); cursor: pointer; }
+.velo p { margin: 0; font-family: var(--display); font-size: clamp(28px, 4vw, 52px); color: var(--text); text-align: center; }
+.velo small { display: block; font-family: var(--read); font-size: 15px; color: var(--dim); margin-top: 10px; }
+body.oculto .app { filter: blur(22px); }
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .rail { border-right: 0; border-bottom: 1px solid var(--line); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-height: 42vh; }
+  .marcos { display: none; }
+  .guion { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  :root { --tam: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { .guion { scroll-behavior: auto; } .bloque { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="velo" id="velo" hidden><p>Inteligencia de Negocios<small>Pulsa B para volver</small></p></div>
+<div class="app">
+  <aside class="rail">
+    <div>
+      <h1>Inicio y Los datos</h1>
+      <p class="sub">Juan Felipe · luego sigue Carlos con Limpieza</p>
+    </div>
+    <div class="reloj">
+      <div class="t" id="tiempo">0:00</div>
+      <div class="meta" id="meta">Meta total: <b>6:25</b></div>
+      <div class="fila-botones">
+        <button class="primario" id="btn-reloj" type="button">Iniciar</button>
+        <button id="btn-cero" type="button">Reiniciar</button>
+      </div>
+    </div>
+    <div class="fila-botones" aria-label="Tamaño de letra">
+      <button id="btn-menos" type="button" aria-label="Letra más pequeña">A−</button>
+      <button id="btn-mas" type="button" aria-label="Letra más grande">A+</button>
+      <button id="btn-ant" type="button">← Atrás</button>
+      <button id="btn-sig" type="button">Siguiente →</button>
+      <button id="btn-ocultar" type="button" title="Ocultar el guion (B o Esc)">Ocultar · B</button>
+    </div>
+    <ol class="marcos" id="marcos"></ol>
+    <p class="sync" id="sync">○ Sin conexión con la presentación. Ábrela en otra ventana de este mismo navegador.</p>
+    <p class="ayuda">Cada bloque es <b>una pulsación de <kbd>→</kbd></b> en la presentación. Aquí: <kbd>→</kbd> o <kbd>espacio</kbd> avanza, <kbd>←</kbd> retrocede, clic en un bloque para saltar. <kbd>B</kbd> o <kbd>Esc</kbd> oculta todo al instante. <span style="color:var(--oro)">Lo dorado</span> es lo que haces, no lo que dices.</p>
+  </aside>
+
+  <main class="guion" id="guion">
+    <div class="guion-in" id="guion-in"></div>
+    <section class="referencia guion-in" aria-label="Referencia rápida">
+      <h2>Cifras a la mano</h2>
+      <div class="cifras">
+        <div><b>20.000</b><span>personas interesadas (filas)</span></div>
+        <div><b>28</b><span>columnas</span></div>
+        <div><b>ene 2024 – abr 2026</b><span>28 meses de historia</span></div>
+        <div><b>2.096</b><span>ventas · 10,5 % compra</span></div>
+        <div><b>7</b><span>canales de llegada</span></div>
+        <div><b>€1.554,86</b><span>venta de TX-000104</span></div>
+        <div><b>−€447,80</b><span>costo del producto</span></div>
+        <div><b>−€9,05 · −€22</b><span>publicidad · costo fijo</span></div>
+        <div><b>€1.076,01</b><span>ganancia (contribución)</span></div>
+      </div>
+      <h2>Si la profe pregunta…</h2>
+      <div class="preguntas">
+        <details><summary>¿De dónde salen los datos?</summary><p>De CredCorp Capital: 20.000 oportunidades comerciales registradas entre enero de 2024 y abril de 2026, en euros. Trabajamos sobre el archivo tal como llegó, sin modificarlo: toda la limpieza son vistas SQL encima.</p></details>
+        <details><summary>¿Qué es el lead_score y de dónde sale?</summary><p>Un puntaje de interés de 1 a 99 que el sistema comercial le asigna a cada persona antes de que compre. Como se conoce antes de la venta, sí puede entrar al modelo, a diferencia de las columnas del reloj.</p></details>
+        <details><summary>¿Cómo saben que no modificaron el archivo original?</summary><p>Guardamos su huella sha256: si alguien cambia un solo carácter, la huella cambia. Y toda la limpieza son vistas SQL encima del archivo, que nunca se toca.</p></details>
+        <details><summary>¿Por qué la ganancia y no las ventas o los ingresos?</summary><p>Porque junta en un número si la persona compra, cuánto paga y cuánto costó traerla. Una opción puede subir las ventas y aun así perder plata si la publicidad cuesta más de lo que deja; con la ganancia eso se ve.</p></details>
+        <details><summary>En las diapositivas eran 5 preguntas y aquí son 6, ¿por qué?</summary><p>En la web separamos "¿cuándo?" para el identificador y las fechas (id, fecha, mes, trimestre). Son las mismas 28 columnas.</p></details>
+        <details><summary>9 de cada 10 no compran, ¿eso no es un problema?</summary><p>No es un error, es el negocio: la mayoría de interesados no compra. Lo que sí cambia es cómo se calculan los promedios: el valor de una venta se promedia solo sobre las ventas. Carlos lo muestra en la trampa 3.</p></details>
+        <details><summary>¿Qué diferencia hay entre OLTP y OLAP?</summary><p>OLTP registra cada evento al momento, con muchas escrituras pequeñas (el sistema de ventas). OLAP reorganiza los datos para analizarlos, con pocas escrituras y consultas grandes (nuestro esquema estrella). El CSV es una foto del primero; en el paso 2 construimos el segundo.</p></details>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Each block = what to say while that step is on screen; `pulsa` = what the next → shows.
+const GUION = [
+  { id: "portada", marco: "Portada", pantalla: "título y autores", meta: 30, bloques: [
+    { t: ["Buenas tardes, profesora y compañeros. Soy <b>Juan Felipe Rodríguez</b> y con <b>Carlos Mora</b> les vamos a presentar nuestro proyecto integrador de Inteligencia de Negocios.",
+          "La pregunta que guía todo el trabajo es la que ven en pantalla: <b>¿en qué debería invertir una empresa para crecer el próximo año?</b>",
+          "Yo les cuento el inicio y los datos, y Carlos sigue con la limpieza."],
+      pulsa: "va a «La pregunta»" },
+  ]},
+  { id: "pregunta", marco: "La pregunta", pantalla: "el caso y los 4 pasos", meta: 70, bloques: [
+    { t: ["El caso es una empresa que vende en línea. Entre <b>enero de 2024 y abril de 2026</b> registró a <b>20.000 personas</b> interesadas en comprar.",
+          "Con eso, la gerencia nos hace una sola pregunta: ¿en qué conviene invertir el próximo año?"], pulsa: "aparece el paso 1" },
+    { t: ["Para responderla seguimos cuatro pasos. Primero, <b>los datos</b>: ¿qué tenemos?"], pulsa: "aparece el paso 2" },
+    { t: ["Segundo, <b>la limpieza</b>: ¿podemos confiar en esos datos?"], pulsa: "aparece el paso 3" },
+    { t: ["Tercero, <b>los KPI</b>: ¿cómo va el negocio?"], pulsa: "aparece el paso 4" },
+    { t: ["Y cuarto, <b>la decisión</b>: ¿en qué invertir?"], pulsa: "aparece el concepto del curso" },
+    { t: ["Ese orden es el <b>ciclo de inteligencia de negocios</b> que vimos en clase: los datos se vuelven <b>información</b> cuando están limpios y organizados, la información se vuelve <b>conocimiento</b> con indicadores y modelos, y el conocimiento termina en una <b>decisión</b> que se puede defender.",
+          "Los datos vienen de <b>CredCorp Capital</b>, de enero de 2024 a abril de 2026, y están en euros."], pulsa: "va a «Objetivo»" },
+  ]},
+  { id: "objetivo", marco: "Objetivo", pantalla: "objetivo y 4 preguntas analíticas", meta: 60, bloques: [
+    { t: ["Nuestro objetivo es <b>decidir en qué invertir a partir de los resultados</b>: recomendarle a la gerencia en qué invertir el próximo año según lo que muestran los datos, es decir, <b>cuánta ganancia extra deja cada opción y con qué riesgo</b>.",
+          "Para llegar ahí nos hicimos cuatro preguntas analíticas."], pulsa: "aparece la pregunta 1" },
+    { t: ["Primera: <b>¿los datos son confiables para decidir?</b> La respondemos en el paso 2, la limpieza."], pulsa: "aparece la pregunta 2" },
+    { t: ["Segunda: <b>¿qué canales convierten más y cuáles dejan más contribución?</b> Paso 3, los KPI."], pulsa: "aparece la pregunta 3" },
+    { t: ["Tercera: <b>¿qué hace que una persona compre?</b> ¿El canal, su puntaje o las palancas comerciales? Paso 4."], pulsa: "aparece la pregunta 4" },
+    { t: ["Y cuarta: <b>¿qué opción deja más ganancia extra con menos riesgo?</b> También en el paso 4."], pulsa: "aparecen las tres decisiones" },
+    { t: ["Cada opción termina en una de tres decisiones: <b>hacer ahora</b>, <b>probar primero</b> o <b>no hacer</b>. Con eso en mente, empecemos por los datos."], pulsa: "vuela al capítulo «Los datos»" },
+  ]},
+  { id: "c1", marco: "Paso 1 · Los datos", pantalla: "20.000 · 28 · 28 · 2.096", meta: 25, bloques: [
+    { t: ["Paso uno: ¿qué tenemos? Antes de calcular cualquier cosa, quisimos entender qué hay en el archivo.",
+          "Son <b>20.000 filas</b>, <b>28 columnas</b>, <b>28 meses</b> de historia y <b>2.096 ventas</b>."],
+      haz: "Espera a que terminen de contar los números antes de leerlos.", pulsa: "va a la nube de puntos 3D" },
+  ]},
+  { id: "nube", marco: "20.000 puntos", pantalla: "nube 3D", meta: 45, bloques: [
+    { t: ["Aquí están las 20.000 filas dibujadas en 3D. <b>Cada punto es una persona.</b>",
+          "De izquierda a derecha, la fecha en que llegó; hacia arriba, su puntaje de interés, de 1 a 99; y en profundidad, el canal por el que llegó, que son siete. Los puntos <b>dorados</b> son las 2.096 personas que compraron.",
+          "Se ven dos cosas de inmediato: casi todo es azul, porque <b>nueve de cada diez personas no compran</b>; y los dorados se concentran arriba: <b>quien tiene mejor puntaje compra más</b>."],
+      haz: "Arrastra la nube con el mouse para girarla mientras hablas.", pulsa: "va a «28 columnas»" },
+  ]},
+  { id: "columnas", marco: "28 columnas, 6 preguntas", pantalla: "columnas del CSV", meta: 45, bloques: [
+    { t: ["¿Y qué sabemos de cada persona? El archivo trae 28 columnas, y así llegan en el CSV: desordenadas y con nombres técnicos."], pulsa: "las columnas se agrupan" },
+    { t: ["No hace falta memorizarlas: <b>cada columna contesta una pregunta sobre la persona</b>. Cuándo llegó, quién es, por dónde llegó, qué vio en la web, si compró y cuánto dejó."], pulsa: "se marcan las columnas con reloj" },
+    { t: ["Las columnas con el <b>reloj</b> solo se conocen <b>después de la venta</b>, como el valor de la compra o los días que tardó en cerrar. Las volvemos a ver en la trampa 3: usarlas para predecir quién compra sería hacer trampa."], pulsa: "va a «Así se ve una fila»" },
+  ]},
+  { id: "fila", marco: "Así se ve una fila", pantalla: "TX-000104 y su cascada", meta: 50, bloques: [
+    { t: ["Para aterrizarlo, miremos una sola fila: la <b>TX-000104</b>. El 6 de enero de 2024 llegó por <b>Google Ads</b> un cliente <b>Enterprise</b> de <b>España</b>, y compró dos días después por <b>1.554 euros con 86</b>.",
+          "A la derecha está la cuenta: a la venta le restamos el costo del producto, <b>447,80</b>; la publicidad, <b>9,05</b>; y el envío, <b>22 euros</b>. Quedan <b>1.076 euros</b>."],
+      haz: "Señala las barras de izquierda a derecha.", pulsa: "aparece «la medida que usamos para todo»" },
+    { t: ["Lo que queda después de pagar producto, publicidad y envío es la <b>ganancia</b> de la venta; en el informe, contribución. Es la medida que usamos para todo, porque <b>vender más no sirve si cada venta cuesta más de lo que deja</b>.",
+          "Y ojo con esos 22 euros: no aparecen en ninguna columna. Esta misma fila la usamos para explicar la limpieza."], pulsa: "va a «Registrar y analizar»" },
+  ]},
+  { id: "grano", marco: "Registrar y analizar", pantalla: "los mismos datos, guardados de dos formas", meta: 60, bloques: [
+    { t: ["Cierro con un concepto del curso: <b>los mismos datos, guardados de dos formas</b>.",
+          "<b>Para registrar</b>: el sistema de la tienda anota cada cosa en el momento en que pasa. Llega una persona, ve la página, compra. Nuestro CSV sale de ahí; es el <b>modelo operacional, OLTP</b>."], pulsa: "aparece «Para analizar»" },
+    { t: ["<b>Para analizar</b>: ordenamos esos mismos datos para contestar preguntas como <b>¿cuánto vendimos por canal y por mes?</b> Es el <b>esquema estrella, OLAP</b>, que armamos en el paso 2."], pulsa: "aparece «Granularidad»" },
+    { t: ["Y la <b>granularidad</b>: antes de sumar hay que saber <b>qué es una fila</b>. En nuestro archivo, <b>una fila es una persona interesada en comprar</b>.",
+          "El gasto en publicidad, en cambio, es un <b>dato por día</b>: si lo sumamos persona por persona, lo contamos varias veces. Lo vemos en la trampa 2."], pulsa: "nada todavía: primero la entrega" },
+    { t: ["Con esto ya sabemos qué tenemos. La siguiente pregunta es si podemos confiar en estos datos. <b>Carlos, te dejo con la limpieza.</b>"],
+      haz: "Pulsa → y cede la palabra.", pulsa: "vuela a «Limpieza»: habla Carlos", entrega: true },
+  ]},
+];
+
+const $ = (s) => document.querySelector(s);
+const plano = [];
+GUION.forEach((m, mi) => m.bloques.forEach((b, bi) => plano.push({ ...b, mi, bi })));
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const metaTotal = GUION.reduce((a, m) => a + m.meta, 0);
+$("#meta").innerHTML = `Meta total: <b>${fmt(metaTotal)}</b> · este marco: <b>—</b>`;
+
+// Render
+let html = "", i = -1;
+GUION.forEach((m, mi) => {
+  html += `<h2 class="marco-titulo" id="m${mi}"><span>${String(mi + 1).padStart(2, "0")}</span><b>${m.marco}</b><span class="pantalla">en pantalla: ${m.pantalla}</span></h2>`;
+  m.bloques.forEach((b) => {
+    i += 1;
+    html += `<div class="bloque${b.entrega ? " entrega" : ""}" data-i="${i}" tabindex="-1">${b.t.map((x) => `<p>${x}</p>`).join("")}${b.haz ? `<span class="haz">Haz: ${b.haz}</span>` : ""}<span class="pulsa"><i>→</i> ${b.pulsa}</span></div>`;
+  });
+});
+$("#guion-in").innerHTML = html;
+$("#marcos").innerHTML = GUION.map((m, mi) => `<li${mi === GUION.length - 1 ? "" : ""}><button type="button" data-m="${mi}"><span class="n">${String(mi + 1).padStart(2, "0")}</span><span>${m.marco}</span><span class="d">${fmt(m.meta)}</span></button></li>`).join("") + `<li class="entrega"><button type="button" disabled><span class="n">→</span><span>Limpieza · Carlos</span><span class="d"></span></button></li>`;
+
+const bloques = [...document.querySelectorAll(".bloque")];
+const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const leer = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+
+let actual = Math.min(+(leer("guion-actual") || 0), plano.length - 1);
+function ir(i, desplazar = true) {
+  actual = Math.max(0, Math.min(plano.length - 1, i));
+  bloques.forEach((b, j) => { b.classList.toggle("actual", j === actual); b.classList.toggle("siguiente", j === actual + 1); });
+  const mi = plano[actual].mi;
+  document.querySelectorAll("#marcos button[data-m]").forEach((b) => { b.classList.toggle("actual", +b.dataset.m === mi); b.classList.toggle("hecho", +b.dataset.m < mi); });
+  if (desplazar) bloques[actual].scrollIntoView({ block: "center" });
+  guardar("guion-actual", actual);
+  pintarMeta();
+}
+bloques.forEach((b) => b.addEventListener("click", () => ir(+b.dataset.i)));
+document.querySelectorAll("#marcos button[data-m]").forEach((b) => b.addEventListener("click", () => ir(plano.findIndex((p) => p.mi === +b.dataset.m))));
+$("#btn-sig").addEventListener("click", () => ir(actual + 1));
+$("#btn-ant").addEventListener("click", () => ir(actual - 1));
+function velar(si = document.getElementById("velo").hidden) {
+  document.getElementById("velo").hidden = !si;
+  document.body.classList.toggle("oculto", si);
+}
+$("#btn-ocultar").addEventListener("click", () => velar(true));
+$("#velo").addEventListener("click", () => velar(false));
+addEventListener("keydown", (e) => {
+  if (e.key === "b" || e.key === "B" || e.key === "Escape") { e.preventDefault(); return velar(e.key === "Escape" ? true : undefined); }
+  if (document.body.classList.contains("oculto")) return;
+  if (e.target.closest("summary, input")) return;
+  if (["ArrowRight", "ArrowDown", " ", "PageDown"].includes(e.key)) { e.preventDefault(); ir(actual + 1); }
+  if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); ir(actual - 1); }
+});
+
+// Font size
+let tam = +(leer("guion-tam") || 0) || null;
+function aplicarTam() { if (tam) document.documentElement.style.setProperty("--tam", tam + "px"); }
+$("#btn-mas").addEventListener("click", () => { tam = Math.min(48, (tam || parseInt(getComputedStyle(document.documentElement).getPropertyValue("--tam"))) + 2); aplicarTam(); guardar("guion-tam", tam); });
+$("#btn-menos").addEventListener("click", () => { tam = Math.max(16, (tam || parseInt(getComputedStyle(document.documentElement).getPropertyValue("--tam"))) - 2); aplicarTam(); guardar("guion-tam", tam); });
+aplicarTam();
+
+// Timer: total elapsed against the target, and the target of the current frame.
+let inicio = 0, acumulado = 0, corriendo = false, wake = null;
+function transcurrido() { return acumulado + (corriendo ? (performance.now() - inicio) / 1000 : 0); }
+function pintarMeta() {
+  const t = transcurrido();
+  $("#tiempo").textContent = fmt(t);
+  const mi = plano[actual].mi;
+  const hasta = GUION.slice(0, mi + 1).reduce((a, m) => a + m.meta, 0);
+  const meta = $("#meta");
+  meta.classList.toggle("tarde", corriendo && t > hasta + 10);
+  meta.innerHTML = `Meta total: <b>${fmt(metaTotal)}</b> · terminar este marco hacia <b>${fmt(hasta)}</b>`;
+}
+setInterval(() => { if (corriendo) pintarMeta(); }, 500);
+$("#btn-reloj").addEventListener("click", async () => {
+  if (corriendo) { acumulado = transcurrido(); corriendo = false; $("#btn-reloj").textContent = "Seguir"; wake?.release?.(); wake = null; }
+  else {
+    inicio = performance.now(); corriendo = true; $("#btn-reloj").textContent = "Pausar";
+    try { wake = await navigator.wakeLock?.request("screen"); } catch (e) { wake = null; }
+  }
+  pintarMeta();
+});
+$("#btn-cero").addEventListener("click", () => { acumulado = 0; inicio = performance.now(); pintarMeta(); });
+
+// Follow the presentation: it broadcasts {id, paso} on every move (same browser, same site).
+const canal = "BroadcastChannel" in window ? new BroadcastChannel("presentacion") : null;
+canal?.addEventListener("message", (e) => {
+  const { id, paso } = e.data || {};
+  if (!id) return;
+  const sync = $("#sync");
+  sync.classList.add("ok");
+  let i = plano.findIndex((p) => GUION[p.mi].id === id && p.bi === paso && !p.entrega);
+  if (id === "c2") { i = plano.length - 1; sync.textContent = "● Sincronizado · ahora habla Carlos"; }
+  else sync.textContent = i < 0 ? "● Sincronizado · este marco no es de tu parte" : "● Sincronizado con la presentación";
+  if (i >= 0 && i !== actual) ir(i);
+});
+canal?.postMessage({ pedir: true });
+
+ir(actual);
+</script>
+
+</body>
+</html>
