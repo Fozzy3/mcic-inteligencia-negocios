@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guion de Juan Felipe: Inicio y Datos</title>
+<title>Guion completo · BI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -50,7 +50,8 @@ button.primario { border-color: var(--rojo); }
 .marcos li button.hecho { color: #a9b0bb; }
 .marcos li button.actual { background: var(--panel); color: var(--text); }
 .marcos li button.actual .n { color: var(--rojo); }
-.marcos li.entrega button { color: var(--oro); }
+.marcos li.cap { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--oro); padding: 12px 10px 4px; }
+.marco-titulo .quien { text-transform: none; letter-spacing: 0; font-family: var(--read); font-size: 14px; color: var(--rojo); }
 .sync { font-size: 13px; margin: 0; color: var(--dim); }
 .sync.ok { color: var(--verde); }
 .ayuda { font-size: 13px; color: var(--dim); line-height: 1.5; margin: 0; }
@@ -110,12 +111,12 @@ body.oculto .app { filter: blur(22px); }
 <div class="app">
   <aside class="rail">
     <div>
-      <h1>Inicio y Los datos</h1>
-      <p class="sub">Juan Felipe · luego sigue Carlos con Limpieza</p>
+      <h1>Guion completo</h1>
+      <p class="sub">Inicio y Datos: Juan Felipe · Limpieza a Nube: Carlos</p>
     </div>
     <div class="reloj">
       <div class="t" id="tiempo">0:00</div>
-      <div class="meta" id="meta">Meta total: <b>6:25</b></div>
+      <div class="meta" id="meta">Meta total: <b>—</b></div>
       <div class="fila-botones">
         <button class="primario" id="btn-reloj" type="button">Iniciar</button>
         <button id="btn-cero" type="button">Reiniciar</button>
@@ -147,6 +148,19 @@ body.oculto .app { filter: blur(22px); }
         <div><b>−€447,80</b><span>costo del producto</span></div>
         <div><b>−€9,05 · −€22</b><span>publicidad · costo fijo</span></div>
         <div><b>€1.076,01</b><span>ganancia (contribución)</span></div>
+        <div><b>15 reglas · 0 fallas</b><span>validación en plata</span></div>
+        <div><b>€22</b><span>costo fijo por venta (regla 13)</span></div>
+        <div><b>€15.071 → €328</b><span>gasto sumado mal vs. real (23 jun 2025)</span></div>
+        <div><b>12,2 %</b><span>conversión último año (antes 9,0 %)</span></div>
+        <div><b>€1.142 · €66 · €93</b><span>venta media · costo por venta · ganancia por interesado</span></div>
+        <div><b>+31 % · +76 %</b><span>interesados · ventas</span></div>
+        <div><b>39 % → 13 %</b><span>Facebook y Google: gente vs. ganancia</span></div>
+        <div><b>AUC 0,745</b><span>top 20 % = 43 % de compras de 2026</span></div>
+        <div><b>+€120 mil · 0 %</b><span>página mejorada · riesgo</span></div>
+        <div><b>+€175 mil</b><span>producto nuevo (55 ventas)</span></div>
+        <div><b>+€32 mil</b><span>webinars (si cuestan &lt; €48 mil)</span></div>
+        <div><b>−€101 mil · 99,5 %</b><span>duplicar publicidad · prob. de pérdida</span></div>
+        <div><b>€84 mil</b><span>costo del producto a partir del cual gana la página</span></div>
       </div>
       <h2>Si la profe pregunta…</h2>
       <div class="preguntas">
@@ -157,6 +171,14 @@ body.oculto .app { filter: blur(22px); }
         <details><summary>En las diapositivas eran 5 preguntas y aquí son 6, ¿por qué?</summary><p>En la web separamos "¿cuándo?" para el identificador y las fechas (id, fecha, mes, trimestre). Son las mismas 28 columnas.</p></details>
         <details><summary>9 de cada 10 no compran, ¿eso no es un problema?</summary><p>No es un error, es el negocio: la mayoría de interesados no compra. Lo que sí cambia es cómo se calculan los promedios: el valor de una venta se promedia solo sobre las ventas. Carlos lo muestra en la trampa 3.</p></details>
         <details><summary>¿Qué diferencia hay entre OLTP y OLAP?</summary><p>OLTP registra cada evento al momento, con muchas escrituras pequeñas (el sistema de ventas). OLAP reorganiza los datos para analizarlos, con pocas escrituras y consultas grandes (nuestro esquema estrella). El CSV es una foto del primero; en el paso 2 construimos el segundo.</p></details>
+        <details><summary>¿Por qué medallion y no limpiar el archivo directamente?</summary><p>Porque así el original queda intacto y cada capa se puede volver a generar. Si una regla cambia, se corre de nuevo y sale todo igual: es auditable.</p></details>
+        <details><summary>¿Por qué DuckDB?</summary><p>Es un motor analítico en un solo archivo: corre SQL columnar sobre el CSV sin montar servidor. Para 20.000 filas es más que suficiente, y el mismo SQL se lleva a Athena o Redshift.</p></details>
+        <details><summary>¿Por qué regresión logística y no algo más potente?</summary><p>Porque la pregunta es de decisión, no solo de predicción: necesitamos saber cuánto mueve cada palanca, y la logística da efectos interpretables. Con AUC 0,745 en un año que no vio, predice suficientemente bien para ordenar a quién llamar.</p></details>
+        <details><summary>¿Qué es el AUC?</summary><p>La probabilidad de que, tomando al azar una persona que compró y una que no, el modelo le dé más puntaje a la que compró. 0,5 es azar, 1 es perfecto; 0,745 es “3 de cada 4 veces”.</p></details>
+        <details><summary>¿Por qué validar con 2026 y no con una muestra al azar?</summary><p>Porque en la vida real el modelo predice el futuro. Si mezclamos meses, aprende patrones del mismo período que debe predecir y el resultado sale inflado.</p></details>
+        <details><summary>¿Por qué Monte Carlo?</summary><p>Porque los costos y el alcance de cada opción no se conocen: en vez de un solo número, sorteamos 10.000 escenarios y vemos el rango y la probabilidad de perder dinero. Reentrenar 200 veces (bootstrap) incluye además la incertidumbre del modelo.</p></details>
+        <details><summary>Si el producto deja más, ¿por qué no es “hacer ahora”?</summary><p>Porque se apoya en solo 55 ventas y su costo de lanzamiento es el supuesto más incierto: por encima de €84 mil, gana la página. Por eso un piloto de un trimestre primero.</p></details>
+        <details><summary>¿Implementaron la arquitectura en AWS?</summary><p>No, es una propuesta. Muestra que cada pieza local tiene un equivalente administrado: S3 por el CSV, Athena por DuckDB, SageMaker por model.py, Redshift por el esquema estrella, QuickSight por los tableros.</p></details>
       </div>
     </section>
   </main>
@@ -165,7 +187,7 @@ body.oculto .app { filter: blur(22px); }
 <script>
 // Each block = what to say while that step is on screen; `pulsa` = what the next → shows.
 const GUION = [
-  { id: "portada", marco: "Portada", pantalla: "título y autores", meta: 30, bloques: [
+  { id: "portada", cap: "Inicio", quien: "Juan Felipe", marco: "Portada", pantalla: "título y autores", meta: 30, bloques: [
     { t: ["Buenas tardes, profesora y compañeros. Soy <b>Juan Felipe Rodríguez</b> y con <b>Carlos Mora</b> les vamos a presentar nuestro proyecto integrador de Inteligencia de Negocios.",
           "La pregunta que guía todo el trabajo es la que ven en pantalla: <b>¿en qué debería invertir una empresa para crecer el próximo año?</b>",
           "Yo les cuento el inicio y los datos, y Carlos sigue con la limpieza."],
@@ -190,7 +212,7 @@ const GUION = [
     { t: ["Y cuarta: <b>¿qué opción deja más ganancia extra con menos riesgo?</b> También en el paso 4."], pulsa: "aparecen las tres decisiones" },
     { t: ["Cada opción termina en una de tres decisiones: <b>hacer ahora</b>, <b>probar primero</b> o <b>no hacer</b>. Con eso en mente, empecemos por los datos."], pulsa: "vuela al capítulo «Los datos»" },
   ]},
-  { id: "c1", marco: "Paso 1 · Los datos", pantalla: "20.000 · 28 · 28 · 2.096", meta: 25, bloques: [
+  { id: "c1", cap: "Paso 1 · Los datos", quien: "Juan Felipe", marco: "Paso 1 · Los datos", pantalla: "20.000 · 28 · 28 · 2.096", meta: 25, bloques: [
     { t: ["Paso uno: ¿qué tenemos? Antes de calcular cualquier cosa, quisimos entender qué hay en el archivo.",
           "Son <b>20.000 filas</b>, <b>28 columnas</b>, <b>28 meses</b> de historia y <b>2.096 ventas</b>."],
       haz: "Espera a que terminen de contar los números antes de leerlos.", pulsa: "va a la nube de puntos 3D" },
@@ -218,9 +240,182 @@ const GUION = [
           "<b>Para registrar</b>: el sistema de la tienda anota cada cosa en el momento en que pasa. Llega una persona, ve la página, compra. Nuestro CSV sale de ahí; es el <b>modelo operacional, OLTP</b>."], pulsa: "aparece «Para analizar»" },
     { t: ["<b>Para analizar</b>: ordenamos esos mismos datos para contestar preguntas como <b>¿cuánto vendimos por canal y por mes?</b> Es el <b>esquema estrella, OLAP</b>, que armamos en el paso 2."], pulsa: "aparece «Granularidad»" },
     { t: ["Y la <b>granularidad</b>: antes de sumar hay que saber <b>qué es una fila</b>. En nuestro archivo, <b>una fila es una persona interesada en comprar</b>.",
-          "El gasto en publicidad, en cambio, es un <b>dato por día</b>: si lo sumamos persona por persona, lo contamos varias veces. Lo vemos en la trampa 2."], pulsa: "nada todavía: primero la entrega" },
-    { t: ["Con esto ya sabemos qué tenemos. La siguiente pregunta es si podemos confiar en estos datos. <b>Carlos, te dejo con la limpieza.</b>"],
-      haz: "Pulsa → y cede la palabra.", pulsa: "vuela a «Limpieza»: habla Carlos", entrega: true },
+          "El gasto en publicidad, en cambio, es un <b>dato por día</b>: si lo sumamos persona por persona, lo contamos varias veces. Lo vemos en la trampa 2.",
+          "Con esto ya sabemos qué tenemos. La siguiente pregunta es si podemos confiar en estos datos. <b>Carlos, te dejo con la limpieza.</b>"],
+      haz: "Pulsa → y cede la palabra.", pulsa: "vuela a «Limpieza»: habla Carlos" },
+  ]},
+
+  // ---------------- 2 · LIMPIEZA ----------------
+  { id: "c2", cap: "Paso 2 · Limpieza", quien: "Carlos", marco: "Paso 2 · Limpieza", pantalla: "bronce · plata · oro", meta: 50, bloques: [
+    { t: ["Gracias, Juan Felipe. Paso dos: <b>¿podemos confiar en los datos?</b>",
+          "Seguimos la <b>arquitectura medallion</b>: el dato pasa por tres capas. Plata y oro son <b>vistas SQL</b> sobre la capa anterior, así que el archivo original <b>nunca se modifica</b>."], pulsa: "aparece Bronce" },
+    { t: ["<b>Bronce</b> es el dato crudo: el CSV tal como llegó, sin tocar."], pulsa: "aparece Plata" },
+    { t: ["<b>Plata</b> es el dato limpio: corregimos los tipos y pasamos <b>15 reglas de validación</b>. Si una regla falla, el proceso se detiene."], pulsa: "aparece Oro" },
+    { t: ["Y <b>oro</b> es el dato listo para decidir: el cubo de KPI y el esquema estrella que alimentan los tableros y el análisis.",
+          "Como cada capa es SQL que se vuelve a correr, el trabajo es <b>auditable</b>: con <code>make run</code> salen exactamente los mismos números."], pulsa: "va a «15 reglas»" },
+  ]},
+  { id: "reglas", quien: "Carlos", marco: "15 reglas, 0 errores", pantalla: "SQL y lista de reglas", meta: 50, bloques: [
+    { t: ["Cada regla es una consulta que <b>cuenta las filas que la rompen</b>. Las 15 tienen que dar <b>cero</b> antes de analizar.",
+          "Hay tres tipos. <b>Valores imposibles</b>, como un puntaje de 150 en una escala de 1 a 99. <b>Datos que se contradicen</b>, como la del código en pantalla: alguien que asistió a un webinar sin haber sido invitado. Y <b>cuentas que no cuadran</b>: la venta menos los costos tiene que dar la ganancia."],
+      haz: "Deja que la lista termine de marcar los ceros.", pulsa: "aparece la tarjeta roja" },
+    { t: ["Las 15 dieron cero. Pero <b>cero errores no significa que los datos estén listos</b>: al revisarlos a mano encontramos <b>tres trampas</b>."], pulsa: "va a «Trampa 1»" },
+  ]},
+  { id: "trampa1", quien: "Carlos", marco: "Trampa 1: €22", pantalla: "la cuenta de TX-000104", meta: 55, bloques: [
+    { t: ["Volvemos a la fila <b>TX-000104</b> y hacemos la cuenta a mano. Venta menos costo del producto: <b>1.107,06</b>. Menos publicidad, <b>9,05</b>. Debería quedar <b>1.098,01</b>.",
+          "Pero el archivo dice <b>1.076,01</b>."], pulsa: "aparece «Faltan»" },
+    { t: ["Faltan exactamente <b>22 euros</b>."], pulsa: "aparece la explicación" },
+    { t: ["Y faltan en <b>todas</b> las 2.096 ventas y en <b>ninguna</b> fila sin venta. No es un error: es un <b>costo fijo por venta</b>, como el envío, que no viene en ninguna columna."], pulsa: "aparece el tratamiento" },
+    { t: ["<b>Tratamiento:</b> lo convertimos en la <b>regla 13</b>, contribución igual a ganancia bruta menos costo menos 22 por venta, y lo descontamos en todos los cálculos.",
+          "Este hallazgo salió de <b>perfilar los datos</b>, no de una regla escrita de antemano."], pulsa: "va a «Trampa 2»" },
+  ]},
+  { id: "trampa2", quien: "Carlos", marco: "Trampa 2: lo que no se suma", pantalla: "14 barras de un solo día", meta: 60, bloques: [
+    { t: ["Segunda trampa. El <b>23 de junio de 2025</b> llegaron <b>14 personas</b> por Facebook. Cada fila trae un \"gasto diario de campaña\" distinto, entre <b>993 y 1.164 euros</b>."], pulsa: "las barras se apilan" },
+    { t: ["Si los sumamos, salen <b>15.071 euros en un solo día</b>. No tiene sentido: esa columna dice <b>qué tan fuerte era la publicidad</b> ese día, no cuánto se pagó."], pulsa: "las barras se colapsan" },
+    { t: ["<b>Tratamiento:</b> esa columna <b>nunca se suma, solo se promedia</b>, y vive en una tabla aparte, <code>fact_gasto_campana_dia</code>. Para costos usamos el costo atribuido a cada persona: ese día fueron <b>328 euros</b>."], pulsa: "aparece el concepto del curso" },
+    { t: ["Es el concepto de clase de <b>aditividad</b>. Medidas <b>aditivas</b> se suman por todo, como ventas o costo. <b>Semiaditivas</b> no se suman en el tiempo, como un saldo. Y <b>no aditivas</b> nunca se suman, como una tasa o este gasto de referencia.",
+          "Si hubiéramos sumado esa columna en todo el archivo, la publicidad habría salido en <b>4,55 millones de euros</b>."], pulsa: "va a «Trampa 3»" },
+  ]},
+  { id: "trampa3", quien: "Carlos", marco: "Trampa 3: ceros y futuro", pantalla: "barras de ceros y línea de tiempo", meta: 55, bloques: [
+    { t: ["Tercera trampa, en dos partes. <b>Ceros que no son errores</b>: el 90 % no compró y en esas filas la venta vale cero. Si promediamos con todas las filas, una venta parece valer <b>116 euros</b>; solo con las ventas, vale <b>1.110</b>.",
+          "Y <b>datos del futuro</b>: el valor de la venta y los días que tardó solo se conocen <b>después</b> de que alguien compra. Usarlos para predecir quién compra sería hacer trampa; se llama <b>fuga de información</b>."], pulsa: "aparece el tratamiento" },
+    { t: ["<b>Tratamiento:</b> los promedios de venta se calculan solo sobre ventas, y las columnas del reloj <b>no entran al modelo</b>: están en una lista explícita en <code>model.py</code>.",
+          "Un modelo con fuga parece excelente en el laboratorio y falla en producción."], pulsa: "va al esquema estrella 3D" },
+  ]},
+  { id: "estrella", quien: "Carlos", marco: "Esquema estrella 3D", pantalla: "estrella 3D", meta: 55, bloques: [
+    { t: ["Con los datos limpios, los organizamos en un <b>esquema estrella</b>. En el centro, <b>lo que se mide</b>: los hechos. Alrededor, <b>por dónde se puede cortar</b>: las dimensiones.",
+          "Tenemos <b>dos hechos con granos distintos</b>: uno por oportunidad y otro por día de campaña, que es la solución de la trampa 2. Las dimensiones <b>fecha y canal</b> son compartidas y unen los dos hechos. El <b>perfil</b> es una dimensión basura: junta atributos pequeños.",
+          "Y el control: al volver a unir las tablas, <b>salen los mismos totales</b> que en el archivo original. Es el formato que usa Power BI o una tabla dinámica."],
+      haz: "Pasa el cursor por las tablas para mostrar qué guarda cada una.", pulsa: "va a «El flujo completo»" },
+  ]},
+  { id: "flujo", quien: "Carlos", marco: "El flujo completo", pantalla: "diagrama del flujo", meta: 40, bloques: [
+    { t: ["Este es el flujo completo, del archivo original a los resultados.",
+          "Es <b>ELT</b>: primero cargamos el dato tal cual, como una vista cruda, y transformamos con SQL <b>dentro del motor</b>, DuckDB. De ahí salen las capas plata y oro, el modelo dimensional alimenta el modelo en Python, y todo termina en los CSV de resultados que usa esta presentación."], pulsa: "vuela al capítulo «KPI»" },
+  ]},
+
+  // ---------------- 3 · KPI ----------------
+  { id: "c3", cap: "Paso 3 · KPI", quien: "Carlos", marco: "Paso 3 · KPI", pantalla: "¿cómo va el negocio?", meta: 35, bloques: [
+    { t: ["Paso tres: <b>¿cómo va el negocio?</b> Comparamos el <b>último año</b>, de mayo de 2025 a abril de 2026, con los doce meses anteriores."], pulsa: "aparece el concepto del curso" },
+    { t: ["Un concepto de clase: una <b>métrica</b> es cualquier número. Un <b>KPI</b> es una métrica atada a un objetivo y a una decisión: <b>si cambia, alguien hace algo distinto</b>."], pulsa: "va a «Cómo se calcula cada KPI»" },
+  ]},
+  { id: "formulas", quien: "Carlos", marco: "Cómo se calcula cada KPI", pantalla: "4 tarjetas de KPI", meta: 60, bloques: [
+    { t: ["Estos son los cuatro KPI que usamos, cada uno con su fórmula."], pulsa: "aparece Conversión" },
+    { t: ["<b>¿Cuántos compran?</b> La conversión: 1.224 ventas entre 10.073 interesados, <b>12,2 %</b>."], pulsa: "aparece Venta promedio" },
+    { t: ["<b>¿Cuánto vale una venta?</b> 1,4 millones de euros entre 1.224 ventas: <b>1.142 euros</b>."], pulsa: "aparece Costo por venta" },
+    { t: ["<b>¿Cuánta publicidad cuesta?</b> 81.156 euros entre 1.224 ventas: <b>66 euros por venta</b>."], pulsa: "aparece Ganancia por interesado" },
+    { t: ["<b>¿Cuánto vale cada interesado?</b> 934 mil euros de ganancia entre 10.073 interesados: <b>93 euros</b>."], pulsa: "aparece la conclusión" },
+    { t: ["El más útil es la <b>ganancia por interesado</b>, porque junta en un solo número si compran, cuánto pagan y cuánto costó atraerlos.",
+          "Los mismos KPI los calculamos por canal, mes, país y tipo de cliente: es un cubo en formato largo."], pulsa: "va a «El negocio crece»" },
+  ]},
+  { id: "crecimiento", quien: "Carlos", marco: "KPI 1: el negocio crece", pantalla: "barras año contra año", meta: 45, bloques: [
+    { t: ["Primer hallazgo: <b>el negocio crece</b>. Último año contra el anterior."], pulsa: "aparece la lectura" },
+    { t: ["Los interesados suben un <b>31 %</b>, pero las ventas un <b>76 %</b>. O sea, el negocio crece porque <b>convence mejor</b> a quien llega, no porque llegue más gente.",
+          "La conversión pasa de <b>9,0 a 12,2 %</b> y el costo por venta baja un <b>18 %</b>."], pulsa: "va a los canales en 3D" },
+  ]},
+  { id: "canales", quien: "Carlos", marco: "KPI 2: canales en 3D", pantalla: "barras 3D por canal", meta: 45, bloques: [
+    { t: ["Segundo hallazgo: <b>la publicidad pagada trae gente, no ganancia</b>. Para cada canal, la barra gris es su parte de los interesados y la de color, su parte de la ganancia.",
+          "<b>Facebook y Google</b> traen el <b>39 %</b> de los interesados, pero solo el <b>13 %</b> de la ganancia. En cambio <b>Email y Webinar</b> son pequeños en volumen y concentran la ganancia."],
+      haz: "Gira el gráfico para que se vean las dos barras de Facebook y Google.", pulsa: "va a «Saturación de Ads»" },
+  ]},
+  { id: "saturacion", quien: "Carlos", marco: "KPI 2: saturación de Ads", pantalla: "dos gráficos por nivel de gasto", meta: 45, bloques: [
+    { t: ["Y si miramos por <b>nivel de gasto</b> en publicidad: más gasto trae más gente, pero de peor calidad.",
+          "Con el gasto al máximo, lo que el archivo llama <i>saturated</i>, cada venta cuesta <b>853 euros</b> en vez de 178, y cada interesado <b>pierde 3 euros</b>.",
+          "Los pusimos en dos gráficos y no en uno con dos ejes, porque son medidas distintas y mezclarlas engaña."], pulsa: "va a «La conversión subió»" },
+  ]},
+  { id: "tendencia", quien: "Carlos", marco: "KPI 3: la conversión subió", pantalla: "línea mensual", meta: 45, bloques: [
+    { t: ["Tercer hallazgo, mes a mes: <b>la conversión subió en julio de 2025</b>, de <b>9 a 13 %</b>.",
+          "Coincide con dos cosas: se empezó a usar una <b>página de compra mejorada</b> y bajó el gasto excesivo en publicidad.",
+          "Con estos datos <b>no podemos separar del todo una causa de la otra</b>, porque no fue un experimento. Eso lo resolvemos con el modelo del paso 4."],
+      haz: "Pasa el cursor por la línea en julio de 2025.", pulsa: "va al cubo" },
+  ]},
+  { id: "cubo", quien: "Carlos", marco: "Concepto: el cubo", pantalla: "cubo 3D país × cliente", meta: 50, bloques: [
+    { t: ["Concepto del curso: <b>el cubo</b>. Aquí están los ingresos por país y tipo de cliente, como una tabla dinámica en 3D.",
+          "<b>Slice</b> es fijar un valor: por ejemplo, solo España. <b>Dice</b> es quedarse con un sub-bloque: España y México, B2B y Enterprise. <b>Drill-down</b> es bajar de nivel, de trimestre a mes a día, y <b>roll-up</b> es lo contrario.",
+          "Se ve de inmediato que <b>España concentra casi la mitad de los ingresos</b>."],
+      haz: "Pulsa «Slice: España» y luego «Dice».", pulsa: "vuela al capítulo «Decisión»" },
+  ]},
+
+  // ---------------- 4 · DECISIÓN ----------------
+  { id: "c4", cap: "Paso 4 · Decisión", quien: "Carlos", marco: "Paso 4 · Decisión", pantalla: "las 4 opciones", meta: 60, bloques: [
+    { t: ["Paso cuatro: <b>la decisión</b>. El caso plantea cuatro opciones para el próximo año."], pulsa: "aparecen las 4 opciones" },
+    { t: ["<b>Mejorar la página de compra</b>: con ella compra el <b>13,8 %</b>, frente al 11,8 % sin ella.",
+          "<b>Webinars</b>: compra el <b>21 %</b> de quien asistió, frente al 9,7 % de quien no fue invitado.",
+          "<b>Duplicar la publicidad</b>: con la publicidad al máximo compra solo el <b>2,6 %</b>, frente al 6,7 % con gasto medio.",
+          "Y el <b>producto nuevo</b>: cada venta deja <b>2.827 euros</b> frente a 1.064, pero solo hubo <b>55 ventas</b>."], pulsa: "aparece la advertencia" },
+    { t: ["Pero <b>comparar grupos no basta</b>: quien fue al webinar ya tenía más interés, con un puntaje de 62 frente a 56.",
+          "Por eso usamos un <b>modelo</b> que separa el efecto de cada opción, y después <b>simulamos</b> el próximo año."], pulsa: "va a «Qué sube la compra»" },
+  ]},
+  { id: "modelo", quien: "Carlos", marco: "Qué sube la compra", pantalla: "curva logística y barras de efecto", meta: 60, bloques: [
+    { t: ["Usamos una <b>regresión logística</b>: compara personas parecidas que solo se diferencian en una cosa, y así mide el efecto de cada palanca por separado. Solo usa lo que se sabe <b>antes</b> de la venta.",
+          "Asistir al webinar sube las chances de comprar un <b>43 %</b>. El botón que explica el beneficio, un <b>24 %</b>, y la página nueva, un <b>17 %</b>. La publicidad al máximo las baja a <b>la mitad</b>.",
+          "Y la oferta del producto nuevo las baja un <b>38 %</b>, pero cada venta vale más del doble. Por eso el modelo solo no alcanza y hay que <b>simular la ganancia</b>."], pulsa: "va a «¿Funciona el modelo?»" },
+  ]},
+  { id: "validacion", quien: "Carlos", marco: "¿Funciona el modelo?", pantalla: "lift por grupos de 2026", meta: 50, bloques: [
+    { t: ["¿Funciona? Lo entrenamos con <b>2024 y 2025</b>, 16.368 personas, y lo probamos con <b>2026</b>, 3.632 personas que nunca vio.",
+          "El <b>43 %</b> de las compras de 2026 estaba en el 20 % con mejor puntaje. Y <b>3 de cada 4 veces</b> le da más puntaje a quien compra que a quien no: es un AUC de 0,745.",
+          "El primer grupo convierte <b>33,5 %</b> y el último <b>1,4 %</b>. Para qué sirve: <b>llamar primero a quien tiene mejor puntaje</b>.",
+          "Probamos con un año futuro y no con filas al azar para que el modelo no \"vea\" lo que tiene que predecir."], pulsa: "va a «10.000 escenarios»" },
+  ]},
+  { id: "montecarlo", quien: "Carlos", marco: "10.000 escenarios", pantalla: "Monte Carlo 3D", meta: 60, bloques: [
+    { t: ["Ahora sí, <b>simulamos el próximo año</b>. Aplicamos cada opción a las 10.073 personas del último año y el modelo calcula cuánta ganancia extra dejaría frente a no hacer nada.",
+          "Lo que no sabemos, cuánto cuesta cada opción y a cuántas personas llega, se sortea en cada escenario entre un mínimo y un máximo: eso es <b>Monte Carlo</b>. Y el modelo se reentrena 200 veces para no depender de una sola muestra.",
+          "Cada partícula que cae es un escenario. En promedio: producto nuevo, <b>175 mil euros</b>; página mejorada, <b>120 mil</b>; webinars, <b>32 mil</b>; y duplicar publicidad, <b>pierde 101 mil</b>.",
+          "Los costos y el alcance son supuestos nuestros, no vienen en el archivo."], pulsa: "va al comparador" },
+  ]},
+  { id: "comparador", quien: "Carlos", marco: "Comparador de opciones", pantalla: "reloj comparador isométrico", meta: 40, bloques: [
+    { t: ["Para recordarlo, una figura: un <b>reloj comparador</b> de taller, que mide cuánto se aparta una pieza de un bloque patrón.",
+          "Aquí el patrón es <b>no hacer nada</b>. Cada opción es un bloque, y el de publicidad queda <b>por debajo del patrón</b>: duplicar la publicidad pierde dinero."],
+      haz: "Pulsa los botones de cada opción, terminando en «Duplicar publicidad».", pulsa: "va a «De los números a la decisión»" },
+  ]},
+  { id: "matriz", quien: "Carlos", marco: "De los números a la decisión", pantalla: "forest plot con riesgo", meta: 65, bloques: [
+    { t: ["Este es el resultado. El punto es la ganancia extra esperada en 12 meses; la barra va del escenario malo, p10, al bueno, p90; y a la derecha, la <b>probabilidad de perder dinero</b>."], pulsa: "aparece la página" },
+    { t: ["<b>Hacer ahora: la página mejorada.</b> 120 mil euros y <b>ningún escenario con pérdida</b>. Es la apuesta más segura."], pulsa: "aparece el producto" },
+    { t: ["<b>Probar primero: el producto nuevo.</b> Deja más, 175 mil, pero se apoya en solo 55 ventas."], pulsa: "aparecen los webinars" },
+    { t: ["<b>Probar primero: los webinars.</b> 32 mil euros, siempre que cuesten menos de 48 mil al año."], pulsa: "aparece la publicidad" },
+    { t: ["Y <b>no hacer: duplicar la publicidad.</b> Pierde 101 mil en promedio y pierde dinero en el <b>99,5 %</b> de los escenarios.",
+          "Ojo: la página y el producto no compiten. La página sube cuántos compran y el producto sube cuánto vale cada venta."], pulsa: "va a «¿Y si cuesta más?»" },
+  ]},
+  { id: "sensibilidad", quien: "Carlos", marco: "¿Y si cuesta más?", pantalla: "deslizador del costo del producto", meta: 45, bloques: [
+    { t: ["¿Y si nos equivocamos en el costo? Antes de pagar su lanzamiento, el producto deja <b>204 mil euros</b> esperados; la página deja <b>120 mil</b> ya pagada.",
+          "Si lanzar el producto cuesta <b>más de 84 mil euros</b>, gana la página. Como ese costo es el supuesto más incierto, recomendamos <b>probar el producto antes</b> de lanzarlo a todos."],
+      haz: "Mueve el deslizador por encima de €84 mil para que cambie el veredicto.", pulsa: "va a «Recomendación»" },
+  ]},
+  { id: "recomendacion", quien: "Carlos", marco: "Recomendación", pantalla: "hacer · probar · no hacer", meta: 60, bloques: [
+    { t: ["Entonces, lo que le decimos a la gerencia."], pulsa: "aparece «Hacer ahora»" },
+    { t: ["<b>Hacer ahora</b>: llevar la página mejorada a todos, salvo a un <b>grupo de comparación</b>: más 120 mil euros con cero riesgo. Y llamar primero a quien tiene mejor puntaje: el 20 % mejor puntuado hizo el 43 % de las compras."], pulsa: "aparece «Probar primero»" },
+    { t: ["<b>Probar primero</b>: el producto nuevo, con un trimestre de piloto y pocos clientes, porque solo hay 55 ventas de evidencia. Y los webinars, si cuestan menos de 48 mil al año."], pulsa: "aparece «No hacer»" },
+    { t: ["Y <b>no hacer</b>: duplicar la publicidad. Pierde 101 mil euros; con la publicidad al máximo solo compra el 2,6 %.",
+          "Con el grupo de comparación, dentro de un año sabremos cuánto aportó de verdad la página."], pulsa: "va a «¿Qué tan firmes son?»" },
+  ]},
+  { id: "limites", quien: "Carlos", marco: "¿Qué tan firmes son?", pantalla: "4 tarjetas de límites", meta: 50, bloques: [
+    { t: ["Y lo que podría cambiar la conclusión. Primero, <b>poca evidencia del producto</b>: se ofreció a 554 personas y se vendió 55 veces, así que sus 175 mil pueden ser optimistas.",
+          "Segundo, <b>no fueron experimentos</b>: al webinar va quien quiere, y esa gente ya tenía más puntaje. Su efecto real puede ser menor.",
+          "Tercero, los <b>costos son supuestos</b> nuestros: si el producto cuesta más de 84 mil, gana la página.",
+          "Y cuarto, <b>un solo período</b>: los datos de CredCorp Capital cubren de enero de 2024 a abril de 2026. Hay que revisar las conclusiones cuando lleguen datos nuevos. Una recomendación que no dice cuándo deja de valer no se puede defender."], pulsa: "vuela al capítulo «A la nube»" },
+  ]},
+
+  // ---------------- 5 · NUBE ----------------
+  { id: "c5", cap: "Paso 5 · A la nube", quien: "Carlos", marco: "Paso 5 · A la nube", pantalla: "data lake, warehouse, orquestador", meta: 40, bloques: [
+    { t: ["Un último paso: <b>llevarlo a la nube</b>. Hoy todo corre en un portátil con <code>make run</code>. ¿Cómo se vería en producción, cada mes, sin que nadie lo ejecute a mano?",
+          "Tres piezas: un <b>data lake</b> guarda el dato crudo y sus versiones limpias; un <b>data warehouse</b> sirve el esquema estrella a los tableros; y un <b>orquestador</b> encadena los pasos y se detiene si algo falla.",
+          "Es una propuesta, no está implementada: muestra que cada pieza del proyecto tiene un equivalente administrado en AWS."], pulsa: "va al diagrama de AWS" },
+  ]},
+  { id: "aws", quien: "Carlos", marco: "Arquitectura en AWS", pantalla: "diagrama AWS, 8 pasos", meta: 110, bloques: [
+    { t: ["Este es el mismo flujo, en AWS. Lo recorremos en orden: cada paso enciende los servicios que intervienen."], pulsa: "① Ingesta" },
+    { t: ["<b>Ingesta</b>: el CSV del sistema de ventas llega a la zona <i>raw</i> de <b>S3</b>, con versionado y Object Lock. Así la regla de oro, que el original nunca se modifica, la garantiza el almacenamiento."], pulsa: "② Validación" },
+    { t: ["<b>Validación</b>: <b>Glue</b> cataloga el archivo y <b>Athena</b> corre las mismas 15 reglas SQL, sin servidores."], pulsa: "③ Zona curada" },
+    { t: ["<b>Zona curada</b>: solo si las reglas dan cero fallas se escriben las vistas limpias en Parquet."], pulsa: "④ Modelo" },
+    { t: ["<b>Modelo</b>: <b>SageMaker</b> corre el mismo código en Python: la regresión logística, los 200 reentrenos y los 10.000 escenarios."], pulsa: "⑤ Esquema estrella" },
+    { t: ["<b>Esquema estrella</b>: <b>Redshift Serverless</b> carga los dos hechos y las cinco dimensiones, junto con el puntaje de cada persona."], pulsa: "⑥ Consumo" },
+    { t: ["<b>Consumo</b>: <b>QuickSight</b>, o Power BI conectado a Redshift, muestra los KPI a la gerencia y se actualiza solo."], pulsa: "Orquestación y alertas" },
+    { t: ["<b>Orquestación</b>: <b>EventBridge</b> lanza el flujo cada mes y <b>Step Functions</b> encadena los pasos. Si una regla falla, se detiene y <b>SNS</b> avisa al equipo: es la línea roja."], pulsa: "Gobierno" },
+    { t: ["Y <b>gobierno</b>: <b>Lake Formation</b> da permisos por columna, por ejemplo para ocultar ingresos a quien no los necesita; <b>KMS</b> cifra los datos y <b>CloudWatch</b> registra cada corrida."], pulsa: "va a «Gracias»" },
+  ]},
+
+  // ---------------- CIERRE ----------------
+  { id: "cierre", cap: "Cierre", quien: "Los dos", marco: "Gracias", pantalla: "gracias y preguntas", meta: 20, bloques: [
+    { t: ["En resumen: de 20.000 personas interesadas llegamos a una decisión que se puede defender. <b>Mejorar la página ahora, probar el producto y los webinars, y no duplicar la publicidad.</b>",
+          "Muchas gracias. Quedamos atentos a sus preguntas."],
+      haz: "Si preguntan por una parte, pulsa O y haz clic en el marco.", pulsa: "fin" },
   ]},
 ];
 
@@ -234,14 +429,14 @@ $("#meta").innerHTML = `Meta total: <b>${fmt(metaTotal)}</b> · este marco: <b>�
 // Render
 let html = "", i = -1;
 GUION.forEach((m, mi) => {
-  html += `<h2 class="marco-titulo" id="m${mi}"><span>${String(mi + 1).padStart(2, "0")}</span><b>${m.marco}</b><span class="pantalla">en pantalla: ${m.pantalla}</span></h2>`;
+  html += `<h2 class="marco-titulo" id="m${mi}"><span>${String(mi + 1).padStart(2, "0")}</span><b>${m.marco}</b><span class="quien">${m.quien}</span><span class="pantalla">en pantalla: ${m.pantalla}</span></h2>`;
   m.bloques.forEach((b) => {
     i += 1;
     html += `<div class="bloque${b.entrega ? " entrega" : ""}" data-i="${i}" tabindex="-1">${b.t.map((x) => `<p>${x}</p>`).join("")}${b.haz ? `<span class="haz">Haz: ${b.haz}</span>` : ""}<span class="pulsa"><i>→</i> ${b.pulsa}</span></div>`;
   });
 });
 $("#guion-in").innerHTML = html;
-$("#marcos").innerHTML = GUION.map((m, mi) => `<li${mi === GUION.length - 1 ? "" : ""}><button type="button" data-m="${mi}"><span class="n">${String(mi + 1).padStart(2, "0")}</span><span>${m.marco}</span><span class="d">${fmt(m.meta)}</span></button></li>`).join("") + `<li class="entrega"><button type="button" disabled><span class="n">→</span><span>Limpieza · Carlos</span><span class="d"></span></button></li>`;
+$("#marcos").innerHTML = GUION.map((m, mi) => `${m.cap ? `<li class="cap">${m.cap} · ${m.quien}</li>` : ""}<li><button type="button" data-m="${mi}"><span class="n">${String(mi + 1).padStart(2, "0")}</span><span>${m.marco}</span><span class="d">${fmt(m.meta)}</span></button></li>`).join("");
 
 const bloques = [...document.querySelectorAll(".bloque")];
 const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
@@ -312,9 +507,8 @@ canal?.addEventListener("message", (e) => {
   if (!id) return;
   const sync = $("#sync");
   sync.classList.add("ok");
-  let i = plano.findIndex((p) => GUION[p.mi].id === id && p.bi === paso && !p.entrega);
-  if (id === "c2") { i = plano.length - 1; sync.textContent = "● Sincronizado · ahora habla Carlos"; }
-  else sync.textContent = i < 0 ? "● Sincronizado · este marco no es de tu parte" : "● Sincronizado con la presentación";
+  const i = plano.findIndex((p) => GUION[p.mi].id === id && p.bi === paso);
+  sync.textContent = i < 0 ? "● Sincronizado · este marco no está en el guion" : `● Sincronizado · habla ${GUION[plano[i].mi].quien}`;
   if (i >= 0 && i !== actual) ir(i);
 });
 canal?.postMessage({ pedir: true });
