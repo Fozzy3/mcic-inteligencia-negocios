@@ -75,6 +75,11 @@ export function iniciarFondo(canvas) {
   });
 
   return {
+    tema(oscuro) {
+      const c = oscuro ? 0x0b0e13 : 0xf4f3ef;
+      renderer.setClearColor(c);
+      scene.fog.color.setHex(c);
+    },
     camara({ x, y, z, r }) {
       // Zooming out moves the background camera back; rotation rolls it a little.
       objetivo.set(x * ESCALA, -y * ESCALA, 12 + 28 / Math.max(z, 0.05) ** 0.5);

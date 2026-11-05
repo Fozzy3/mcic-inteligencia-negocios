@@ -6,6 +6,7 @@ import { graficos } from "./graficos.js";
 import { escenas } from "./tres.js";
 
 const W = 1600, H = 900;
+const COLOR_CAP = [null, "var(--ud-azul)", "var(--bien)", "var(--product)", "var(--ud-rojo)", "var(--webinar)"];
 const CAPITULOS = ["Inicio", "Los datos", "Limpieza", "KPI", "Decisión", "A la nube", "Cierre"];
 const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -211,8 +212,9 @@ function decorar() {
     const x1 = Math.max(...fs.map((f) => f.x + (W * f.s) / 2)) + pad;
     const y0 = Math.min(...fs.map((f) => f.y - (H * f.s) / 2)) - pad - 200;
     const y1 = Math.max(...fs.map((f) => f.y + (H * f.s) / 2)) + pad;
-    html += `<rect class="isla" x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="120"/>`;
-    html += `<text class="isla-nombre" x="${x0 + 120}" y="${y0 + 260}">${c} · ${CAPITULOS[c]}</text>`;
+    const color = COLOR_CAP[c];
+    html += `<g style="--c:${color}"><rect class="isla" x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="120"/>`;
+    html += `<text class="isla-nombre" x="${x0 + 120}" y="${y0 + 320}"><tspan class="isla-num">${c}</tspan> · ${CAPITULOS[c]}</text></g>`;
     numerales.push({ c, x: (x0 + x1) / 2, y: (y0 + y1) / 2 });
   });
   // Smooth route through frame centres (Catmull-Rom as cubic Béziers).
@@ -249,6 +251,7 @@ document.addEventListener("click", (e) => {
     if (a === "siguiente") siguiente();
     if (a === "anterior") anterior();
     if (a === "notas") document.getElementById("notas").hidden ^= true;
+    if (a === "tema") alternarTema();
     if (a === "ayuda") document.getElementById("ayuda").hidden ^= true;
     if (a === "pantalla") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
     return;
@@ -267,6 +270,7 @@ document.addEventListener("keydown", (e) => {
   else if (k === "o" || k === "O" || k === "Escape") general ? salirGeneral() : k !== "Escape" && entrarGeneral();
   else if (k === "n" || k === "N") document.getElementById("notas").hidden ^= true;
   else if (k === "f" || k === "F") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+  else if (k === "t" || k === "T") alternarTema();
   else if (k === "?") document.getElementById("ayuda").hidden ^= true;
   else if (k === "Home") ir(0);
   else if (k === "End") ir(frames.length - 1);
@@ -305,6 +309,19 @@ addEventListener("resize", () => {
   } else Object.assign(cam, encuadre(frames[actual]));
   aplicar();
 });
+
+// ---------- theme ----------
+function aplicarTema(t) {
+  document.documentElement.dataset.theme = t;
+  fondo.tema(t === "dark");
+  try { localStorage.setItem("tema", t); } catch (e) {}
+}
+function alternarTema() {
+  aplicarTema(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+}
+let temaGuardado = null;
+try { temaGuardado = localStorage.getItem("tema"); } catch (e) {}
+aplicarTema(temaGuardado || "light");
 
 // ---------- boot ----------
 decorar();
