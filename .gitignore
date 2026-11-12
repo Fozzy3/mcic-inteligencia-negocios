@@ -10,3 +10,4 @@ fuentes/
 *.snm
 *.synctex.gz
 data/bi.duckdb
+.DS_Store

@@ -1,0 +1,207 @@
+% Documentación de los datos -- Proyecto integrador. Compilar:
+% tectonic -Z search-path=$HOME/repos/ud/maestria/mcic/.UniversidadDistrital-manual-marca/plantillas-latex documentacion_datos.tex
+\documentclass[11pt,letterpaper]{article}
+\usepackage{ud-informe}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+% Colores del logo MCIC: cian de acento y azul profundo para títulos
+\definecolor{mcicCian}{HTML}{00ADEF}
+\definecolor{mcicAzul}{HTML}{005A86}
+\colorlet{udrojo}{mcicCian}
+\colorlet{udrojoosc}{mcicAzul}
+\titleformat{\section}{\cambria\Large\bfseries\color{mcicAzul}}{\color{mcicCian}\thesection.}{0.5em}{}
+\titleformat{\subsection}{\cambria\large\bfseries\color{mcicAzul}}{\color{mcicCian}\thesubsection.}{0.5em}{}
+\newcommand{\encabezado}{\rowcolor{mcicCian!15}}
+
+\renewcommand{\UDtitulo}{Conociendo los datos}
+\renewcommand{\UDsubtitulo}{De dónde salen los datos, cómo están armados y qué tan confiables son}
+\renewcommand{\UDtipo}{Ficha técnica del dataset -- Proyecto integrador}
+\renewcommand{\UDasignatura}{Inteligencia de Negocios}
+\renewcommand{\UDdocente}{Nancy Yaneth Gélvez García}
+\renewcommand{\UDestudiantes}{Juan Felipe Rodríguez Galindo -- 20261595004 \\ & Carlos Stiven Mora Hoyos -- 20261595003}
+\renewcommand{\UDencabezado}{Proyecto integrador -- Conociendo los datos}
+
+\begin{document}
+\UDportada
+
+\section{Origen de los datos}
+
+Los datos vienen del material del caso entregado para el proyecto: un archivo CSV con el histórico
+transaccional de una empresa que vende en línea en España y Latinoamérica. Es un dataset \textbf{sintético},
+construido para reproducir el comportamiento de un embudo comercial real, y viene acompañado de una evaluación
+del caso y de unos parámetros de referencia.
+
+Cada fila es una \textbf{oportunidad comercial}: una persona que llegó por algún canal y que pudo terminar o no
+en una compra. El archivo original se conservó sin modificaciones; todo el trabajo se hizo sobre copias y vistas.
+
+\begin{table}[H]
+\centering
+\caption{Ficha general del dataset.}
+\begin{tabular}{ll}
+\toprule
+\encabezado Característica & Valor \\
+\midrule
+Formato & CSV, separado por comas \\
+Registros & 20.000 oportunidades \\
+Columnas & 28 \\
+Periodo & 1 de enero de 2024 a 30 de abril de 2026 (28 meses) \\
+Ventas & 2.096 (conversión del 10,5\,\%) \\
+Ingreso total & €2,33 millones \\
+Contribución total & €1,54 millones \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Estructura}
+
+Las 28 columnas se agrupan en siete bloques:
+
+\begin{table}[H]
+\centering\small
+\caption{Grupos de variables.}
+\begin{tabularx}{\linewidth}{l L}
+\toprule
+\encabezado Grupo & Variables \\
+\midrule
+Identificación y tiempo & Identificador, fecha, mes y trimestre \\
+Perfil del cliente & Segmento, etapa del ciclo de vida, país y dispositivo \\
+Origen & Canal, objetivo de la campaña y nivel de gasto en publicidad \\
+Palancas comerciales & Variante de página y de botón, material descargable, pago simplificado, invitación y
+asistencia a webinar, oferta del producto nuevo \\
+Calificación & Puntaje previo del interesado (1 a 99) \\
+Resultado & Compra (sí/no) y días hasta el cierre \\
+Valor & Ticket, ingreso, margen, utilidad bruta, costo atribuido y contribución \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Diccionario de variables.}
+\begin{tabularx}{\linewidth}{>{\ttfamily}l l L}
+\toprule
+\encabezado \normalfont Variable & Tipo & Descripción \\
+\midrule
+transaction\_id & Identificador & Código único de la oportunidad \\
+date, month, quarter & Fecha & Día, mes y trimestre \\
+channel & Categórica & Canal de llegada (7 valores) \\
+campaign\_objective & Categórica & Objetivo de la campaña (5 valores) \\
+customer\_segment & Categórica & Tipo de cliente (5 valores) \\
+lifecycle\_stage & Categórica & Visitante nuevo, contacto conocido o cliente recurrente \\
+device, geo\_region & Categórica & Dispositivo y país \\
+ad\_budget\_level & Ordinal & Nivel de gasto en publicidad (bajo a saturado) \\
+campaign\_daily\_spend\_eur & Numérica & Gasto diario de la campaña \\
+cost\_attributed\_eur & Numérica & Costo de publicidad atribuido a la oportunidad \\
+landing\_variant, cta\_variant & Categórica & Versión de la página y del botón \\
+lead\_magnet, checkout\_simplified & Binaria & Material descargable y pago simplificado \\
+webinar\_invited, webinar\_attended & Binaria & Invitación y asistencia al webinar \\
+new\_product\_offer & Binaria & Se le ofreció el producto nuevo \\
+lead\_score & Numérica & Puntaje del interesado (1 a 99) \\
+converted\_to\_sale & Binaria & Compró (variable objetivo) \\
+days\_to\_close & Numérica & Días hasta la compra \\
+aov\_eur, revenue\_eur & Numérica & Ticket e ingreso \\
+gross\_margin\_pct, gross\_profit\_eur & Numérica & Margen y utilidad bruta \\
+contribution\_profit\_eur & Numérica & Contribución (utilidad después de costos) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Perfilamiento}
+
+\subsection{Distribución de las variables principales}
+
+\begin{table}[H]
+\centering\small
+\caption{Distribución de las categorías principales.}
+\begin{tabularx}{\linewidth}{l L}
+\toprule
+\encabezado Variable & Distribución (registros) \\
+\midrule
+Canal & Facebook Ads 4.599 · Google Ads 3.269 · Email 3.254 · SEO/Blog 3.083 · YouTube orgánico 2.391 ·
+Afiliados 1.745 · Webinar 1.659 \\
+Segmento & B2B Services 4.899 · Ecommerce 4.724 · SMB 4.377 · Creator 4.008 · Enterprise 1.992 \\
+País & España 9.228 · México 3.564 · Colombia 1.996 · Argentina 1.978 · Chile 1.652 · EE.\,UU. hispano 1.582 \\
+Dispositivo & Escritorio 11.590 · Móvil 7.116 · Tableta 1.294 \\
+Ciclo de vida & Visitante nuevo 10.711 · Contacto conocido 6.846 · Cliente recurrente 2.443 \\
+Gasto en publicidad & Orgánico 12.132 · Medio 3.290 · Alto 2.029 · Saturado 1.762 · Bajo 787 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El puntaje del interesado va de 1 a 99 con promedio de 56,9. Solo el 10,5\,\% de las oportunidades termina en
+compra, así que la variable objetivo está desbalanceada.
+
+\subsection{Conversión por canal}
+
+\begin{table}[H]
+\centering\small
+\caption{Resumen por canal.}
+\begin{tabular}{lrrrr}
+\toprule
+\encabezado Canal & Registros & Conversión & Ingreso (€) & Contribución (€) \\
+\midrule
+Email & 3.254 & 19,1\,\% & 680.292 & 505.200 \\
+Webinar & 1.659 & 17,5\,\% & 355.556 & 253.968 \\
+SEO / Blog & 3.083 & 12,2\,\% & 420.311 & 300.375 \\
+YouTube orgánico & 2.391 & 10,8\,\% & 284.802 & 207.307 \\
+Afiliados & 1.745 & 7,3\,\% & 136.072 & 78.113 \\
+Google Ads & 3.269 & 6,1\,\% & 221.094 & 111.850 \\
+Facebook Ads & 4.599 & 4,8\,\% & 228.624 & 84.433 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los canales pagados traen más volumen pero convierten menos; los propios (email, webinar, contenido) convierten
+más y dejan más contribución.
+
+\section{Calidad de los datos}
+
+\subsection{Validaciones}
+
+Se revisaron cuatro frentes y \textbf{ninguna regla presentó fallas}:
+
+\begin{itemize}
+  \item \textbf{Unicidad y completitud}: no hay identificadores repetidos ni nulos en los campos clave.
+  \item \textbf{Coherencia temporal}: el mes y el trimestre coinciden con la fecha.
+  \item \textbf{Dominios}: las binarias solo toman 0 y 1, el puntaje está entre 1 y 99 y el margen entre 0 y 1.
+  \item \textbf{Coherencia entre columnas}: nadie asiste a un webinar sin invitación, los días de cierre solo
+        existen si hubo venta, el ingreso cuadra con el ticket y el margen, y solo los canales pagados tienen
+        nivel de gasto en publicidad.
+\end{itemize}
+
+\subsection{Hallazgos}
+
+Aunque el dato está limpio, el perfilamiento mostró particularidades que había que tener en cuenta:
+
+\begin{table}[H]
+\centering\small
+\caption{Hallazgos del perfilamiento y tratamiento.}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.3cm} L L}
+\toprule
+\encabezado Hallazgo & Descripción & Tratamiento \\
+\midrule
+Costo fijo oculto & En las 2.096 ventas la contribución es €22 menor de lo esperado & Se documentó como
+costo fijo por venta \\
+Gasto diario no sumable & El gasto diario de campaña cambia en cada fila; sumarlo da una cifra sin sentido &
+Solo se promedia; para sumar se usa el costo atribuido \\
+Ceros estructurales & Sin venta, el ticket vale 0 y los días de cierre quedan vacíos (17.904 filas) & El
+ticket se calcula solo sobre ventas y los vacíos no se imputan \\
+Variables posteriores a la venta & Ingreso, margen, contribución y días de cierre solo se conocen después &
+No se usan para predecir la compra \\
+Producto nuevo limitado & Solo se ofreció en tres segmentos (B2B Services, Ecommerce y Enterprise) & Se compara
+dentro de cada segmento \\
+Último trimestre incompleto & 2026T2 solo tiene abril & Se marca como parcial en las comparaciones \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Conclusión}
+
+El dataset es completo y consistente: 20.000 oportunidades en 28 meses, sin nulos ni duplicados en los campos
+clave y sin fallas en las reglas de validación. Las particularidades encontradas (costo fijo, gasto no sumable,
+ceros estructurales y variables posteriores a la venta) no son errores, sino características que se deben
+respetar al calcular indicadores y al construir modelos.
+
+\end{document}
